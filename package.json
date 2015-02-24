@@ -1,0 +1,16 @@
+{
+  "name": "react-if-transform",
+  "version": "0.0.0",
+  "description": "react-if-transform",
+  "main": "index.js",
+  "author": {
+    "name": "alex",
+    "email": ""
+  },
+  "dependencies": {
+    "jstransform": "^9.1.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.2.1"
+  }
+}
