@@ -4,13 +4,17 @@
   "description": "react-if-transform",
   "main": "index.js",
   "author": {
-    "name": "alex",
-    "email": ""
+    "name": "Alex Gilleran",
+    "email": "alex.gilleran@valtech.com"
   },
   "dependencies": {
-    "jstransform": "^9.1.0"
+    "jstransform": "^9.1.0",
+    "lodash": "^3.3.0"
   },
   "devDependencies": {
-    "jasmine": "^2.2.1"
+    "chai": "^2.1.0",
+    "mocha": "^2.1.0",
+    "node-jsx": "^0.12.4",
+    "react": "^0.12.2"
   }
 }
