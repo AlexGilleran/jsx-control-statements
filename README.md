@@ -93,7 +93,7 @@ Note that a `<For>` *cannot* be at the root of a `render()` function in a React 
 React Control Statements use [JSTransform](https://github.com/facebook/jstransform) to transform JSX files immediately before they're fed into the general JSX transpiler. How to use it depends on how you use JSX normally.
 
 ### Webpack
-For webpack you'll want to `npm install` the existing [JSTranform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX Loader, setting it to use the control statements visitors like so:
+For webpack you'll want to `npm install` the existing [JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX Loader, setting it to use the control statements visitors like so:
 
 ```
 {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements'}
