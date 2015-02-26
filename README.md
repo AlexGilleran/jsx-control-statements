@@ -18,9 +18,9 @@ visitors that run just before JSX transpilation and perform desugaring from `<If
 Excellent question! You could easily just create actual React components that have _most_ of the same functionality (e.g. [React If](https://github.com/romac/react-if), which inspired this project). The problem is that because of the way JSX works, everything inside an actual React component gets executed, whether it's actually used or not. So if you have:
 
 ```
-<If condition={obj}>
-  <div>{obj.name}<div>
-</If>
+  <If condition={obj}>
+    <div>{obj.name}<div>
+  </If>
 ```
 
 `obj.name` is going to be executed (and fail) even though you just guarded against it, which is both annoying and _incredibly_ unintuitive for new developers.
@@ -90,13 +90,19 @@ The `<For>` tag expects an `each` attribute as a string (with `""` around it) - 
 Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
 ## How To Use
+First up, obviously:
+
+```
+  npm install jsx-control-statements
+```
+
 React Control Statements use [JSTransform](https://github.com/facebook/jstransform) to transform JSX files immediately before they're fed into the general JSX transpiler. How to use it depends on how you use JSX normally.
 
 ### Webpack
 For webpack you'll want to `npm install` the existing [JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX Loader, setting it to use the control statements visitors like so:
 
 ```
-{..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements'}
+  {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements'}
 ```
 
 ### Node-JSX
