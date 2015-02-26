@@ -1,8 +1,24 @@
 {
   "name": "jsx-control-statements",
-  "version": "0.0.1",
-  "description": "JSTransforms to bring neater control statements (if/for) into jsx",
+  "version": "1.0.0",
+  "description": "Neater control statements (if/for) for jsx",
+  "author": "Alex Gilleran <alex.gilleran@valtech.com>",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valtech-au/jsx-control-statements"
+  },
+  "bugs": {
+    "url": "https://github.com/valtech-au/jsx-control-statements/issues"
+  },
+  "keywords": [
+    "react",
+    "jsx",
+    "if",
+    "for",
+    "loop"
+  ],
+  "license": "MIT",
   "author": {
     "name": "Alex Gilleran",
     "email": "alex.gilleran@valtech.com"
