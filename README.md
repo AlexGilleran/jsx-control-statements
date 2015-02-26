@@ -51,6 +51,26 @@ or
   ) : ''
 ```
 
-As a result all the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single tag, for instance. `<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within `{}`.
+`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within `{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single tag, for instance.
 
+## For Tag
 
+Define `<For>` like so:
+
+```
+  <For each="blah" of={this.props.blahs}>
+    <span key={blah}>{blah + this.somethingElse}</span>
+  </For>
+```
+
+and this will desugar into:
+
+```
+  this.props.blahs.map(function(blah) { return (
+    <span key={blah}>{blah + this.somethingElse}</span>
+  )}, this)
+```
+
+The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each item in the array - and a `of` attribute which is an expression (with `{}` around it) that refers to the array that you'll loop through.
+
+Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
