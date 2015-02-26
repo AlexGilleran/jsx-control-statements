@@ -1,7 +1,7 @@
 {
-  "name": "react-if-transform",
-  "version": "0.0.0",
-  "description": "react-if-transform",
+  "name": "jsx-control-statements",
+  "version": "0.0.1",
+  "description": "JSTransforms to bring neater control statements (if/for) into jsx",
   "main": "index.js",
   "author": {
     "name": "Alex Gilleran",
