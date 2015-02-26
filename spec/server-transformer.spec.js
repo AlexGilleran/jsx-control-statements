@@ -11,6 +11,7 @@ nodeJsx.install({
 var IfWithElse = require('./fixtures/if-with-else.jsx');
 var IfWithoutElse = require('./fixtures/if-without-else.jsx');
 var ForView = require('./fixtures/for.jsx');
+var ForViewRevAttrs = require('./fixtures/for-backwards-attributes.jsx');
 
 describe('requiring in component with if/else', function () {
   it('should render if block when condition true', function () {
@@ -48,15 +49,20 @@ describe('requiring in component with if but no else', function () {
 });
 
 describe('requiring in component with for', function () {
-  it('should render list of items', function () {
-    var forAsRoot = React.createElement(ForView, {blahs: ['blah1', 'blah2', 'blah3']});
-    var rendered = React.renderToString(forAsRoot);
-    expect(rendered).to.match(/.*span.*blah1test..*span.*span.*blah2test.*span.*blah3test.*span.*/);
-  });
+  describe('when attributes in normal order', runForTests.bind(this, ForView));
+  describe('when attributes in reverse order', runForTests.bind(this, ForViewRevAttrs));
 
-  it('should render empty list of items as blank', function () {
-    var forAsRoot = React.createElement(ForView, {blahs: []});
-    var rendered = React.renderToString(forAsRoot);
-    expect(rendered).to.match(/<div.*><\/div>/);
-  });
+  function runForTests(ComponentDefinition) {
+    it('should render list of items', function () {
+      var forAsRoot = React.createElement(ComponentDefinition, {blahs: ['blah1', 'blah2', 'blah3']});
+      var rendered = React.renderToString(forAsRoot);
+      expect(rendered).to.match(/.*span.*blah1test..*span.*span.*blah2test.*span.*blah3test.*span.*/);
+    });
+
+    it('should render empty list of items as blank', function () {
+      var forAsRoot = React.createElement(ComponentDefinition, {blahs: []});
+      var rendered = React.renderToString(forAsRoot);
+      expect(rendered).to.match(/<div.*><\/div>/);
+    });
+  }
 });
