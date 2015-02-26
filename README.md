@@ -7,7 +7,7 @@ through ugly use of ternary ifs and `Array.map`, or by doing this logic in javas
 actual view, which in my mind turns it into spaghetti.
 
 Wouldn't it be easier if we could just have some syntactical sugar that turned neat `<If>`/`<Else />`/`</If>` and
-<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
+`<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
 
 So that's what this does. Basically it's a set of JSTransform (the same technology that underpins JSX->JS transpilation)
 visitors that run just before JSX transpilation and perform desugaring from `<If>` -> ` ? : ` and `<For>` ->
@@ -15,7 +15,7 @@ visitors that run just before JSX transpilation and perform desugaring from `<If
 
 ## Why Transform?!
 
-Excellent question! You could easily just create actual React components that have _most_ of the same functionality (e.g. [React If](https://github.com/romac/react-if), which inspired this project. The problem is that because of the way JSX works, everything inside a React component gets executed, whether it's actually used or not. So if you have:
+Excellent question! You could easily just create actual React components that have _most_ of the same functionality (e.g. [React If](https://github.com/romac/react-if), which inspired this project). The problem is that because of the way JSX works, everything inside an actual React component gets executed, whether it's actually used or not. So if you have:
 
 ```
 <If condition={obj}>
@@ -23,7 +23,9 @@ Excellent question! You could easily just create actual React components that ha
 </If>
 ```
 
-`obj.name` is going to be executed (and fail) even though you just guarded against it. Which is rubbish. This isn't quite as much of a problem with loops except in the case of an empty list - with JSX control statements, if you have an empty list then nothing inside the loop will be executed.
+`obj.name` is going to be executed (and fail) even though you just guarded against it, which is both annoying and _incredibly_ unintuitive for new developers.
+
+By transforming it into a ternary if instead, only code that's supposed to be executed will be executed, which is much easier to read, even though it requires an extra build step. I'm sure there are some who would argue that you're better off using ternary ifs and not complicating your build chain, but I feel this is a good trade-off.
 
 ## If Tag
 
