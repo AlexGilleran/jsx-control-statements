@@ -13,6 +13,18 @@ So that's what this does. Basically it's a set of JSTransform (the same technolo
 visitors that run just before JSX transpilation and perform desugaring from `<If>` -> ` ? : ` and `<For>` ->
 `Array.map`.
 
+## Why Transform?!
+
+Excellent question! You could easily just create actual React components that have _most_ of the same functionality (e.g. [React If](https://github.com/romac/react-if), which inspired this project. The problem is that because of the way JSX works, everything inside a React component gets executed, whether it's actually used or not. So if you have:
+
+```
+<If condition={obj}>
+  <div>{obj.name}<div>
+</If>
+```
+
+`obj.name` is going to be executed (and fail) even though you just guarded against it. Which is rubbish. This isn't quite as much of a problem with loops except in the case of an empty list - with JSX control statements, if you have an empty list then nothing inside the loop will be executed.
+
 ## If Tag
 
 Define an `<If>` tag like so:
@@ -74,3 +86,29 @@ and this will desugar into:
 The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each item in the array - and a `of` attribute which is an expression (with `{}` around it) that refers to the array that you'll loop through.
 
 Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
+
+## How To Use
+React Control Statements use [JSTransform](https://github.com/facebook/jstransform) to transform JSX files immediately before they're fed into the general JSX transpiler. How to use it depends on how you use JSX normally.
+
+### Webpack
+For webpack you'll want to `npm install` the existing [JSTranform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX Loader, setting it to use the control statements visitors like so:
+
+```
+{..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements'}
+```
+
+### Node-JSX
+If you're using [Node-JSX](https://github.com/petehunt/node-jsx) to transpile inside node, you can just use the included server transformer as an additional transform, which you pass in during the install of Node JSX.
+
+```
+var nodeJsx = require('node-jsx');
+var serverTransformer = require('jsx-control-statements/server-transformer');
+
+nodeJsx.install({
+  extension: '.jsx',
+  additionalTransform: serverTransformer
+});
+```
+
+### Others
+These are the only ways I've tried, but any other method that involves using JSTransform should be applicable to jsx control statements.
