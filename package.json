@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "jstransform": "^9.1.0",
-    "lodash": "^3.3.0"
+    "lodash": "^3.3.0",
+    "through": "^2.3.6"
   },
   "devDependencies": {
     "chai": "^2.1.0",
