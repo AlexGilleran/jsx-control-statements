@@ -8,12 +8,9 @@ nodeJsx.install({
   additionalTransform: serverTransformer
 });
 
-var IfWithElse = require('./fixtures/if-with-else.jsx');
-var IfWithoutElse = require('./fixtures/if-without-else.jsx');
-var ForView = require('./fixtures/for.jsx');
-var ForViewRevAttrs = require('./fixtures/for-backwards-attributes.jsx');
-
 describe('requiring in component with if/else', function () {
+  var IfWithElse = require('./fixtures/if-with-else.jsx');
+
   it('should render if block when condition true', function () {
     var ifWithElse = React.createElement(IfWithElse, {condition: 'blah'});
     var rendered = React.renderToString(ifWithElse);
@@ -32,6 +29,8 @@ describe('requiring in component with if/else', function () {
 });
 
 describe('requiring in component with if but no else', function () {
+  var IfWithoutElse = require('./fixtures/if-without-else.jsx');
+
   it('should render if block when condition true', function () {
     var ifWithoutElse = React.createElement(IfWithoutElse, {condition: 'blah'});
     var rendered = React.renderToString(ifWithoutElse);
@@ -48,7 +47,39 @@ describe('requiring in component with if but no else', function () {
   });
 });
 
+describe('requiring in component with nested if/else', function () {
+  var NestedIf = require('./fixtures/nested-if.jsx');
+
+  it('should render if-if block when both conditions true', function () {
+    var nestedIf = React.createElement(NestedIf, {condition: 'blah', otherCondition: 'other'});
+    var rendered = React.renderToString(nestedIf);
+    expect(rendered).to.contain('If-If');
+    expect(rendered).not.to.contain('Else');
+  });
+
+  it('should render if-else block when outer condition true, inner false', function () {
+    var nestedIf = React.createElement(NestedIf, {condition: 'blah'});
+    var rendered = React.renderToString(nestedIf);
+    expect(rendered).to.contain('If-Else');
+  });
+
+  it('should render else-if block when outer condition false, inner true', function () {
+    var nestedIf = React.createElement(NestedIf, {otherCondition: 'other'});
+    var rendered = React.renderToString(nestedIf);
+    expect(rendered).to.contain('Else-If');
+  });
+
+  it('should render else-else block when both conditions false', function () {
+    var nestedIf = React.createElement(NestedIf);
+    var rendered = React.renderToString(nestedIf);
+    expect(rendered).to.contain('Else-Else');
+  });
+});
+
 describe('requiring in component with for', function () {
+  var ForView = require('./fixtures/for.jsx');
+  var ForViewRevAttrs = require('./fixtures/for-backwards-attributes.jsx');
+
   describe('when attributes in normal order', runForTests.bind(this, ForView));
   describe('when attributes in reverse order', runForTests.bind(this, ForViewRevAttrs));
 
