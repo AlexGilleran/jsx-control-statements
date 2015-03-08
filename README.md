@@ -89,6 +89,9 @@ The `<For>` tag expects an `each` attribute as a string (with `""` around it) - 
 
 Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
+## Nested Control Statements
+Didn't use to work but are supported as of 1.0.2 :).
+
 ## How To Use
 First up, obviously:
 
