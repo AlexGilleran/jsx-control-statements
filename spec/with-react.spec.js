@@ -138,3 +138,25 @@ describe('nesting for within if', function () {
     expect(rendered).not.to.contain('blah');
   });
 });
+
+describe('nesting for within for', function () {
+  var ForInsideFor = require('./fixtures/nested-for.jsx');
+
+  it('should render only the first loop when if condition is true', function () {
+    var forInsideFor = React.createElement(ForInsideFor, {
+      blahs: ['blah1', 'blah2', 'blah3'],
+      otherBlahs: ['1hlab', '2hlab', '3hlab'],
+      test: true
+    });
+    var rendered = React.renderToString(forInsideFor);
+    expect(rendered).to.contain('1hlabblah1');
+    expect(rendered).to.contain('1hlabblah2');
+    expect(rendered).to.contain('1hlabblah3');
+    expect(rendered).to.contain('2hlabblah1');
+    expect(rendered).to.contain('2hlabblah2');
+    expect(rendered).to.contain('2hlabblah3');
+    expect(rendered).to.contain('3hlabblah1');
+    expect(rendered).to.contain('3hlabblah2');
+    expect(rendered).to.contain('3hlabblah3');
+  });
+});
