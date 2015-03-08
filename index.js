@@ -1,41 +1,53 @@
-﻿var jstransform = require('jstransform');
-var utils = require('jstransform/src/utils');
+﻿var utils = require('jstransform/src/utils');
 var _ = require('lodash');
-var Syntax = jstransform.Syntax;
-var hasElse;
-var xjsElementDepth = 0;
 
-function trackXjsElementDepth() {}
-trackXjsElementDepth.test = function (object, path, state) {
-  if (object.name && (object.name.name === 'If' || object.name.name === 'For')) {
-    return;
-  }
+var IN_XJS_ELEMENT = 1;
+var IN_CONTROL_STATEMENT = 2;
 
+// TODO: This immensely stateful approach works, but is there a nicer way to do it?
+var hasElse = false;
+var contextStack = [];
+
+function trackXjsElementDepthEntering() {}
+trackXjsElementDepthEntering.test = function (object, path, state) {
   if (object.type === 'XJSOpeningElement' && !object.selfClosing) {
-    xjsElementDepth++;
-  } else if (object.type === 'XJSClosingElement') {
-    xjsElementDepth--
+    if (object.name && (object.name.name === 'If' || object.name.name === 'For')) {
+      contextStack.push(IN_CONTROL_STATEMENT);
+    } else {
+      contextStack.push(IN_XJS_ELEMENT);
+    }
   }
+
+  return false;
+}
+
+function trackXjsElementDepthLeaving() {}
+trackXjsElementDepthLeaving.test = function (object, path, state) {
+  if (object.type === 'XJSClosingElement') {
+    contextStack.pop();
+  }
+
+  return false;
 }
 
 function visitStartIfTag(traverse, object, path, state) {
   hasElse = false
 
   var attributes = object.attributes;
-  
+
   if (!attributes || !attributes.length) {
     throwNoConditionAttr();
   }
-  
+
   var condition = _.find(attributes, function (attr) {
     return attr.name.name === 'condition'
   });
-  
+
   if (!condition) {
     throwNoConditionAttr();
   }
 
-  if (insideXjsElement()) {
+  if (shouldWrapCurlyBrackets()) {
     utils.append('{ ', state);
   }
 
@@ -43,6 +55,8 @@ function visitStartIfTag(traverse, object, path, state) {
   utils.catchup(condition.value.expression.range[1], state);
   utils.append(' ? (', state);
   utils.move(object.range[1], state);
+
+  inControlStatement = true;
 }
 
 visitStartIfTag.test = function (object, path, state) {
@@ -63,26 +77,20 @@ visitElseTag.test = function (object, path, state) {
 function visitEndIfTag(traverse, object, path, state) {
   utils.catchup(object.range[0], state);
   utils.append(hasElse ? ')' : ') : \'\'', state);
-  if (insideXjsElement()) {
+  if (shouldWrapCurlyBrackets()) {
     utils.append(' }', state);
   }
   utils.move(object.range[1], state);
+
+  contextStack.pop();
 }
 
 visitEndIfTag.test = function (object, path, state) {
   return object.type === 'XJSClosingElement' && object.name.name === 'If';
 };
 
-function throwNoConditionAttr() {
-  throw new Error("<If> tag with no condition attribute")
-}
-
-function insideXjsElement() {
-  return xjsElementDepth > 0;
-}
-
-function visitForTag(traverse, object, path, state) {
-  var attributes = object.openingElement.attributes;
+function visitStartForTag(traverse, object, path, state) {
+  var attributes = object.attributes;
 
   if (!attributes || !attributes.length) {
     throwNoEachAttr();
@@ -101,7 +109,7 @@ function visitForTag(traverse, object, path, state) {
     throwNoEachAttr();
   }
 
-  if (insideXjsElement()) {
+  if (shouldWrapCurlyBrackets()) {
     utils.append('{ ', state);
   }
   utils.move(of.value.expression.range[0], state);
@@ -111,24 +119,40 @@ function visitForTag(traverse, object, path, state) {
   utils.catchup(each.value.range[1] - 1, state);
   utils.append(') { return (', state);
 
-  utils.move(object.openingElement.range[1], state);
-  utils.catchup(object.closingElement.range[0], state);
-
-  utils.append(')}, this)', state);
-  if (insideXjsElement()) {
-    utils.append('}', state);
-  }
-  utils.move(object.closingElement.range[1], state);
+  utils.move(object.range[1], state)
+  inControlStatement = true;
 }
 
-visitForTag.test = function (object, path, state) {
-  return object.type === 'XJSElement' && object.openingElement.name.name === 'For';
+visitStartForTag.test = function (object, path, state) {
+  return object.type === 'XJSOpeningElement' && object.name.name === 'For';
 };
+
+function visitEndForTag(traverse, object, path, state) {
+  utils.append(')}, this)', state);
+  if (shouldWrapCurlyBrackets()) {
+    utils.append('}', state);
+  }
+  utils.move(object.range[1], state);
+
+  contextStack.pop();
+}
+
+visitEndForTag.test = function (object, path, state) {
+  return object.type === 'XJSClosingElement' && object.name.name === 'For';
+};
+
+function throwNoConditionAttr() {
+  throw new Error('<If> tag with no condition attribute');
+}
+
+function shouldWrapCurlyBrackets() {
+  return  contextStack.length > 0 && contextStack[contextStack.length - 2] === IN_XJS_ELEMENT;
+}
 
 function throwNoEachAttr() {
   throw new Error('<For> tag with no \'each\' or \'of\' attribute')
 }
 
 module.exports = {
-  visitorList: [trackXjsElementDepth, visitStartIfTag, visitElseTag, visitEndIfTag, visitForTag]
+  visitorList: [trackXjsElementDepthEntering, visitStartIfTag, visitElseTag, visitEndIfTag, visitStartForTag, visitEndForTag, trackXjsElementDepthLeaving]
 };
