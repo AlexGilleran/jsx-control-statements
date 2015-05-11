@@ -1,8 +1,11 @@
 {
   "name": "jsx-control-statements",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Neater control statements (if/for) for jsx",
-  "author": "Alex Gilleran <alex.gilleran@valtech.com>",
+  "author": {
+    "name": "Alex Gilleran",
+    "email": "alex.gilleran@valtech.com"
+  },
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -16,14 +19,13 @@
     "jsx",
     "if",
     "for",
-    "loop"
+    "loop",
+    "jstransform",
+    "babel"
   ],
   "license": "MIT",
-  "author": {
-    "name": "Alex Gilleran",
-    "email": "alex.gilleran@valtech.com"
-  },
   "dependencies": {
+    "babel": "^5.2.17",
     "jstransform": "^9.1.0",
     "lodash": "^3.3.0"
   },
