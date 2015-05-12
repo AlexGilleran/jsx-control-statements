@@ -9,13 +9,16 @@ actual view, which in my mind turns it into spaghetti.
 Wouldn't it be easier if we could just have some syntactical sugar that turned neat `<If>`/`<Else />`/`</If>` and
 `<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
 
-So that's what this does. Basically it's a set of JSTransform (the same technology that underpins JSX->JS transpilation)
-visitors that run just before JSX transpilation and perform desugaring from `<If>` -> ` ? : ` and `<For>` ->
-`Array.map`.
+So that's what this does. Depending on how you use it, it's either a Babel plugin (recommended) or a set of 
+JSTransform visitors that run just before JSX transpilation (less recommended) and perform desugaring from
+`<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
 ## Why Transform?!
 
-Excellent question! You could easily just create actual React components that have _most_ of the same functionality (e.g. [React If](https://github.com/romac/react-if), which inspired this project). The problem is that because of the way JSX works, everything inside an actual React component gets executed, whether it's actually used or not. So if you have:
+Excellent question! You could easily just create actual React components that have _most_ of the same functionality 
+(e.g. [React If](https://github.com/romac/react-if), which inspired this project). The problem is that because of the
+way JSX works, everything inside an actual React component gets executed, whether it's actually used or not. So if you
+have:
 
 ```
   <If condition={obj}>
@@ -23,9 +26,11 @@ Excellent question! You could easily just create actual React components that ha
   </If>
 ```
 
-`obj.name` is going to be executed (and fail) even though you just guarded against it, which is both annoying and _incredibly_ unintuitive for new developers.
+`obj.name` is going to be executed (and fail) even though you just guarded against it, which is both annoying and 
+_incredibly_ unintuitive for new developers.
 
-By transforming it into a ternary if instead, only code that's supposed to be executed will be executed, which is much easier to read, even though it requires an extra build step. I'm sure there are some who would argue that you're better off using ternary ifs and not complicating your build chain, but I feel this is a good trade-off.
+By transforming it into a ternary if instead, only code that's supposed to be executed will be executed, which is much
+easier to read, even though it can require an extra build step if you use the JSTransform method.
 
 ## If Tag
 
@@ -65,7 +70,9 @@ or
   ) : ''
 ```
 
-`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within `{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single tag, for instance.
+`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within 
+`{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
+tag, for instance.
 
 ## For Tag
 
@@ -85,12 +92,16 @@ and this will desugar into:
   )}, this)
 ```
 
-The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each item in the array - and a `of` attribute which is an expression (with `{}` around it) that refers to the array that you'll loop through.
+The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each 
+item in the array - and a `of` attribute which is an expression (with `{}` around it) that refers to the array that 
+you'll loop through.
 
-Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
+Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd 
+potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
+as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
 ## Nested Control Statements
-Didn't use to work but are supported as of 1.0.2 :).
+Didn't work in <= 1.0.1 but are supported as of 1.0.2 :).
 
 ## How To Use
 First up, obviously:
@@ -99,17 +110,43 @@ First up, obviously:
   npm install jsx-control-statements
 ```
 
-React Control Statements use [JSTransform](https://github.com/facebook/jstransform) to transform JSX files immediately before they're fed into the general JSX transpiler. How to use it depends on how you use JSX normally.
+### Babel Plugin
+This is much easier to use than the other methods, and the code that it runs is better too, so I'd definitely recommend
+this if you're running Babel.
 
-### Webpack
-For webpack you'll want to `npm install` the existing [JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX Loader, setting it to use the control statements visitors like so:
+How to use the plugin depends on how you configure Babel:
+
+#### Node Require Hook
+```
+require("babel/register")({
+  plugins: ["jsx-control-statements/babel"]
+});
+```
+
+#### CLI
+```
+babel --plugins jsx-control-statements/babel script.js
+```
+
+#### .babelrc
+```
+{
+  "plugins": ["jsx-control-statements/babel"]
+}
+```
+
+### Webpack (without Babel)
+For webpack you'll want to `npm install` the existing
+[JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX
+Loader, setting it to use the control statements visitors like so:
 
 ```
-  {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements'}
+  {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements/jstransform'}
 ```
 
 ### Node-JSX
-If you're using [Node-JSX](https://github.com/petehunt/node-jsx) to transpile inside node, you can just use the included server transformer as an additional transform, which you pass in during the install of Node JSX.
+If you're using [Node-JSX](https://github.com/petehunt/node-jsx) to transpile inside node, you can just use the included
+server transformer as an additional transform, which you pass in during the install of Node JSX.
 
 ```
 var nodeJsx = require('node-jsx');
@@ -122,4 +159,6 @@ nodeJsx.install({
 ```
 
 ### Others
-These are the only ways I've tried, but any other method that involves using JSTransform should be applicable to jsx control statements.
+These are the only ways I've tried, but any other method that involves using JSTransform should be applicable to 
+jsx control statements. Basically you've just got to get some kind of JSTransform loader (they're available for other
+build systems like Browserify) and run your JSX files through it before you pass them into the JSX transpiler itself.
