@@ -158,6 +158,34 @@ nodeJsx.install({
 });
 ```
 
+### Browserify (without Babel)
+As with Webpack, use the Babel plugin if you're using Babel, otherwise you need to use [JSTransformify](https://github.com/andreypopp/jstransformify) to run the JSTransform visitors - doing this depends on how you use Browserify.
+
+#### Command Line
+```
+browserify -t [ jstransformify -v jsx-control-statements/jstransform ] app.js > bundle.js
+```
+
+#### Gulp
+This is a bit more involved given than I can't find a nice way to pass options to gulp-browserify. Unfortunately you have to do something a bit like this:
+```
+var jstransformify = require('jstransformify');
+var jsxControlStatements = require('jsx-control-statements/jstransform');
+var reactify = require('reactify'); 
+
+function jsxControlStatementsify(filename) {
+  return jstransformify(filename, {visitors: jsxControlStatements});
+}
+
+...
+// (in your task)
+  gulp.src('src/entry.js')
+    .pipe(browserify({
+      transform: [jsxControlStatementsify, reactify]
+    }))
+    .pipe(gulp.dest('./dist'));
+```
+
 ### Others
 These are the only ways I've tried, but any other method that involves using JSTransform should be applicable to 
 jsx control statements. Basically you've just got to get some kind of JSTransform loader (they're available for other
