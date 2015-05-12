@@ -144,6 +144,9 @@ Loader, setting it to use the control statements visitors like so:
   {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements/jstransform'}
 ```
 
+### Browserify
+Include 'jsx-control-statements/browserify'
+
 ### Node-JSX
 If you're using [Node-JSX](https://github.com/petehunt/node-jsx) to transpile inside node, you can just use the included
 server transformer as an additional transform, which you pass in during the install of Node JSX.
