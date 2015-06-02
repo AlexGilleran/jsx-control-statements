@@ -141,8 +141,8 @@ browserify({
   // etc etc
   transform: [
     babelify.configure({
-      "plugins": ["jsx-control-statements/babel"]
-    }),
+      plugins: ["jsx-control-statements/babel"]
+    })
   ]
 });
 ```
