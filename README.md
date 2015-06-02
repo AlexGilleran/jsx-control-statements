@@ -135,6 +135,18 @@ babel --plugins jsx-control-statements/babel script.js
 }
 ```
 
+#### Babelify
+```
+browserify({
+  // etc etc
+  transform: [
+    babelify.configure({
+      "plugins": ["jsx-control-statements/babel"]
+    }),
+  ]
+});
+```
+
 ### Webpack (without Babel)
 For webpack you'll want to `npm install` the existing
 [JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX
