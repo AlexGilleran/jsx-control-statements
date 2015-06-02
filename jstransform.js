@@ -130,7 +130,7 @@ visitStartForTag.test = function (object, path, state) {
 };
 
 function visitEndForTag(traverse, object, path, state) {
-  utils.append(')}, this)', state);
+  utils.append('); }, this)', state);
   if (shouldWrapCurlyBrackets()) {
     utils.append('}', state);
   }
