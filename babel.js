@@ -97,7 +97,10 @@ module.exports = function (babel) {
         [
           t.functionExpression(
             null,
-            [t.identifier(each.value.value)],
+            [
+              t.identifier(each.value.value), 
+              t.identifier('$index')
+            ],
             t.blockStatement([
               t.returnStatement(child)
             ])
