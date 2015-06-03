@@ -119,7 +119,7 @@ function visitStartForTag(traverse, object, path, state) {
   utils.append('.map(function(', state);
   utils.move(each.value.range[0] + 1, state);
   utils.catchup(each.value.range[1] - 1, state);
-  utils.append(') { return (', state);
+  utils.append(', $index) { return (', state);
 
   utils.move(object.range[1], state)
   inControlStatement = true;
