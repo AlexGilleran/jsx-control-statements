@@ -98,12 +98,14 @@ function visitStartForTag(traverse, object, path, state) {
     throw new Error(errors.FOR_WITH_NO_ATTRIBUTES);
   }
 
-  var each, of;
+  var each, of, index;
   attributes.forEach(function (attr) {
     if (attr.name.name === 'each') {
       each = attr;
     } else if (attr.name.name === 'of') {
       of = attr;
+    } else if (attr.name.name === 'index') {
+      index = attr;
     }
   });
 
@@ -119,6 +121,10 @@ function visitStartForTag(traverse, object, path, state) {
   utils.append('.map(function(', state);
   utils.move(each.value.range[0] + 1, state);
   utils.catchup(each.value.range[1] - 1, state);
+
+  if (index) {
+    utils.append(', ' + index.value.value, state);
+  }
   utils.append(') { return (', state);
 
   utils.move(object.range[1], state)

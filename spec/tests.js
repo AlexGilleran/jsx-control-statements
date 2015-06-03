@@ -183,15 +183,15 @@ describe('requiring in component with for with index', function () {
         test: true
       });
       var rendered = React.renderToString(forInsideFor);
-      expect(rendered).to.contain('1hlabblah111');
-      expect(rendered).to.contain('1hlabblah212');
-      expect(rendered).to.contain('1hlabblah313');
-      expect(rendered).to.contain('2hlabblah121');
-      expect(rendered).to.contain('2hlabblah222');
-      expect(rendered).to.contain('2hlabblah323');
-      expect(rendered).to.contain('3hlabblah131');
-      expect(rendered).to.contain('3hlabblah232');
-      expect(rendered).to.contain('3hlabblah333');
+      expect(rendered).to.contain('1hlabblah100');
+      expect(rendered).to.contain('1hlabblah210');
+      expect(rendered).to.contain('1hlabblah320');
+      expect(rendered).to.contain('2hlabblah101');
+      expect(rendered).to.contain('2hlabblah211');
+      expect(rendered).to.contain('2hlabblah321');
+      expect(rendered).to.contain('3hlabblah102');
+      expect(rendered).to.contain('3hlabblah212');
+      expect(rendered).to.contain('3hlabblah322');
     });
   });
 
