@@ -93,6 +93,23 @@ module.exports = function () {
     }
   });
 
+describe('requiring in component with for with index', function () {
+  var ForWithIndex = require('./fixtures/for-with-index.jsx');
+ 
+  it('should render list of items', function () {
+    var forAsRoot = React.createElement(ForWithIndex, {blahs: ['blah1', 'blah2', 'blah3']});
+    var rendered = React.renderToString(forAsRoot);
+    expect(rendered).to.match(/.*span.*blah1test0..*span.*span.*blah2test1.*span.*blah3test2.*span.*/);
+  });
+
+  it('should render empty list of items as blank', function () {
+    var forAsRoot = React.createElement(ForWithIndex, {blahs: []});
+    var rendered = React.renderToString(forAsRoot);
+    expect(rendered).to.match(/<div.*><\/div>/);
+  });
+  
+});
+
   describe('nesting if within for', function () {
     var IfInsideFor = require('./fixtures/if-inside-for.jsx');
 
@@ -153,6 +170,28 @@ module.exports = function () {
       expect(rendered).to.contain('3hlabblah1');
       expect(rendered).to.contain('3hlabblah2');
       expect(rendered).to.contain('3hlabblah3');
+    });
+  });
+
+  describe('nesting for within for with indexes', function () {
+    var ForInsideFor = require('./fixtures/nested-for-with-indexes.jsx');
+
+    it('should render a list of items using indexes from both Fors', function () {
+      var forInsideFor = React.createElement(ForInsideFor, {
+        blahs: ['blah1', 'blah2', 'blah3'],
+        otherBlahs: ['1hlab', '2hlab', '3hlab'],
+        test: true
+      });
+      var rendered = React.renderToString(forInsideFor);
+      expect(rendered).to.contain('1hlabblah111');
+      expect(rendered).to.contain('1hlabblah212');
+      expect(rendered).to.contain('1hlabblah313');
+      expect(rendered).to.contain('2hlabblah121');
+      expect(rendered).to.contain('2hlabblah222');
+      expect(rendered).to.contain('2hlabblah323');
+      expect(rendered).to.contain('3hlabblah131');
+      expect(rendered).to.contain('3hlabblah232');
+      expect(rendered).to.contain('3hlabblah333');
     });
   });
 
