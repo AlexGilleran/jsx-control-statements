@@ -2,7 +2,7 @@ var utils = require('jstransform/src/utils');
 var _ = require('lodash');
 var errors = require('./error-messages');
 
-var IN_XJS_ELEMENT = 1;
+var IN_JSX_ELEMENT = 1;
 var IN_CONTROL_STATEMENT = 2;
 
 // TODO: This immensely stateful approach works, but is there a nicer way to do it?
@@ -12,11 +12,11 @@ var contextStack = [];
 
 function trackXjsElementDepthEntering() {}
 trackXjsElementDepthEntering.test = function (object, path, state) {
-  if (object.type === 'XJSOpeningElement' && !object.selfClosing) {
+  if ((object.type === 'JSXOpeningElement' || object.type === 'XJSOpeningElement') && !object.selfClosing) {
     if (object.name && (object.name.name === 'If' || object.name.name === 'For')) {
       contextStack.push(IN_CONTROL_STATEMENT);
     } else {
-      contextStack.push(IN_XJS_ELEMENT);
+      contextStack.push(IN_JSX_ELEMENT);
     }
   }
 
@@ -25,7 +25,7 @@ trackXjsElementDepthEntering.test = function (object, path, state) {
 
 function trackXjsElementDepthLeaving() {}
 trackXjsElementDepthLeaving.test = function (object, path, state) {
-  if (object.type === 'XJSClosingElement') {
+  if (object.type === 'JSXClosingElement' || object.type === 'XJSClosingElement') {
     contextStack.pop();
   }
 
@@ -62,7 +62,7 @@ function visitStartIfTag(traverse, object, path, state) {
 }
 
 visitStartIfTag.test = function (object, path, state) {
-  return object.type === 'XJSOpeningElement' && object.name.name === 'If';
+  return ((object.type === 'JSXOpeningElement' || object.type === 'XJSOpeningElement') && object.name.name === 'If');
 }
 
 function visitElseTag(traverse, object, path, state) {
@@ -73,7 +73,7 @@ function visitElseTag(traverse, object, path, state) {
 }
 
 visitElseTag.test = function (object, path, state) {
-  return object.type === 'XJSElement' && object.openingElement.name.name === 'Else';
+  return ((object.type === 'JSXElement' || object.type === 'XJSElement') && object.openingElement.name.name === 'Else');
 };
 
 function visitEndIfTag(traverse, object, path, state) {
@@ -88,7 +88,7 @@ function visitEndIfTag(traverse, object, path, state) {
 }
 
 visitEndIfTag.test = function (object, path, state) {
-  return object.type === 'XJSClosingElement' && object.name.name === 'If';
+  return ((object.type === 'JSXClosingElement' || object.type === 'XJSClosingElement') && object.name.name === 'If');
 };
 
 function visitStartForTag(traverse, object, path, state) {
@@ -126,11 +126,11 @@ function visitStartForTag(traverse, object, path, state) {
 }
 
 visitStartForTag.test = function (object, path, state) {
-  return object.type === 'XJSOpeningElement' && object.name.name === 'For';
+  return ((object.type === 'JSXOpeningElement' || object.type === 'XJSOpeningElement') && object.name.name === 'For');
 };
 
 function visitEndForTag(traverse, object, path, state) {
-  utils.append(')}, this)', state);
+  utils.append('); }, this)', state);
   if (shouldWrapCurlyBrackets()) {
     utils.append('}', state);
   }
@@ -140,11 +140,11 @@ function visitEndForTag(traverse, object, path, state) {
 }
 
 visitEndForTag.test = function (object, path, state) {
-  return object.type === 'XJSClosingElement' && object.name.name === 'For';
+  return ((object.type === 'JSXClosingElement' || object.type === 'XJSClosingElement') && object.name.name === 'For');
 };
 
 function shouldWrapCurlyBrackets() {
-  return  contextStack.length > 0 && contextStack[contextStack.length - 2] === IN_XJS_ELEMENT;
+  return  contextStack.length > 0 && contextStack[contextStack.length - 2] === IN_JSX_ELEMENT;
 }
 
 module.exports = {
