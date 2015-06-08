@@ -79,35 +79,33 @@ tag, for instance.
 Define `<For>` like so:
 
 ```
-  <For each="blah" of={this.props.blahs}>
-    <span key={blah}>{blah + this.somethingElse}</span>
+  <For each="blah" index="index" of={this.props.blahs}>
+    <span key={blah}>{blah + this.somethingElse} at {index}</span>
   </For>
 ```
 
 and this will desugar into:
 
 ```
-  this.props.blahs.map(function(blah) { return (
-    <span key={blah}>{blah + this.somethingElse}</span>
+  this.props.blahs.map(function(blah, index) { return (
+    <span key={blah}>{blah + this.somethingElse} at {index}</span>
   )}, this)
 ```
 
 The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each 
-item in the array - and a `of` attribute which is an expression (with `{}` around it) that refers to the array that 
-you'll loop through.
+item in the array - and an `of` attribute which is an expression (with `{}` around it) that refers to the array that 
+you'll loop through. You can also include an `index` attribute which will resolve to the index of the current item in
+the array, but it's optional.
 
 Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd 
 potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
 as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
-## Nested Control Statements
-Didn't work in <= 1.0.1 but are supported as of 1.0.2 :).
-
 ## How To Use
 First up, obviously:
 
 ```
-  npm install jsx-control-statements
+  npm install --save-dev jsx-control-statements
 ```
 
 ### Babel Plugin
@@ -199,6 +197,5 @@ function jsxControlStatementsify(filename) {
 ```
 
 ### Others
-These are the only ways I've tried, but any other method that involves using JSTransform should be applicable to 
-jsx control statements. Basically you've just got to get some kind of JSTransform loader (they're available for other
-build systems like Browserify) and run your JSX files through it before you pass them into the JSX transpiler itself.
+These are the only ways that have been tried, but any other method that involves using JSTransform or Babel should be
+applicable to jsx control statements.
