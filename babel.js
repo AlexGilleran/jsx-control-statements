@@ -30,7 +30,7 @@ module.exports = function (babel) {
     }
 
     var condition = _.find(attributes, function (attr) {
-      return attr.name.name === 'condition'
+      return attr.name.name === 'condition';
     });
 
     if (!condition) {
@@ -40,7 +40,7 @@ module.exports = function (babel) {
     var children = removeLiterals(node.children);
 
     var notElseTag = function (child) {
-      return child.type !== 'JSXElement' || child.openingElement.name.name !== 'Else'
+      return child.type !== 'JSXElement' || child.openingElement.name.name !== 'Else';
     };
 
     var ifBlock, elseBlock;
@@ -68,12 +68,14 @@ module.exports = function (babel) {
       throwError(errors.FOR_WITH_NO_ATTRIBUTES, node, file);
     }
 
-    var each, of;
+    var each, of, index;
     attributes.forEach(function (attr) {
       if (attr.name.name === 'each') {
         each = attr;
       } else if (attr.name.name === 'of') {
         of = attr;
+      } else if (attr.name.name === 'index') {
+        index = attr;
       }
     });
 
@@ -90,6 +92,12 @@ module.exports = function (babel) {
 
     var child = children[0];
 
+    var mapParams = [t.identifier(each.value.value)];
+
+    if (index) {
+      mapParams.push(t.identifier(index.value.value));
+    }
+
     return t.memberExpression(
       of.value.expression,
       t.callExpression(
@@ -97,7 +105,7 @@ module.exports = function (babel) {
         [
           t.functionExpression(
             null,
-            [t.identifier(each.value.value)],
+            mapParams,
             t.blockStatement([
               t.returnStatement(child)
             ])
