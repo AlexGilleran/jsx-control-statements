@@ -101,6 +101,14 @@ Note that a `<For>` *cannot* be at the root of a `render()` function in a React 
 potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
 as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
+To loop across an `Object`, use `Object.keys()` like so:
+
+```
+  <For each="blahKey" of={Object.keys(this.props.blahObj)}>
+    <span key={blahKey}>{blahObj[blahKey]}</span>
+  </For>
+```
+
 ## How To Use
 First up, obviously:
 
