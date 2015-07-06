@@ -6,3 +6,4 @@
 1.1.0 [2015/06/08]: Added "index" attribute to <For> statement (thanks helarqjsc!), fixed working-but-noncompliant code 
                     generation through JSTransform, added support for JSXElement and XJSElement in JSTransform
                     (thanks justafish!)
+1.1.1 [2015/07/06]: Added example of looping over an object to docs.
