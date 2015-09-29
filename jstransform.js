@@ -57,8 +57,6 @@ function visitStartIfTag(traverse, object, path, state) {
   utils.catchup(condition.value.expression.range[1], state);
   utils.append(' ? (', state);
   utils.move(object.range[1], state);
-
-  inControlStatement = true;
 }
 
 visitStartIfTag.test = function (object, path, state) {
@@ -127,8 +125,7 @@ function visitStartForTag(traverse, object, path, state) {
   }
   utils.append(') { return (', state);
 
-  utils.move(object.range[1], state)
-  inControlStatement = true;
+  utils.move(object.range[1], state);
 }
 
 visitStartForTag.test = function (object, path, state) {
