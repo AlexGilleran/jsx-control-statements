@@ -2,7 +2,8 @@ var plugin = require('../../babel');
 var expect = require('chai').expect;
 var errors = require('../../error-messages');
 
-require("babel/register")({
+require("babel-core/register")({
+  presets: ['babel-preset-react'],
   plugins: [plugin]
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "jsx-control-statements",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "Neater control statements (if/for) for jsx",
   "author": {
     "name": "Alex Gilleran",
@@ -26,11 +26,13 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "babel": "^5.8.23",
+    "babel-core": "^6.1.2",
+    "babel-plugin-syntax-jsx": "^6.1.18",
     "jstransform": "^9.1.0",
     "lodash": "^3.3.0"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.1.2",
     "chai": "^2.1.0",
     "mocha": "^2.1.0",
     "node-jsx": "^0.12.4",

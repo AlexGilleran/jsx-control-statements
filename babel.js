@@ -9,18 +9,23 @@ module.exports = function (babel) {
     'If': transformIf
   };
 
-  return new babel.Transformer('jsx-control-statements', {
-    JSXElement: {
-      exit: function (node, parent, scope, file) {
-        var nodeName = node.openingElement.name ? node.openingElement.name.name : null;
-        var handler = nodeHandlers[nodeName];
+  var visitor = {
+    JSXElement: function (path) {
+      var args = arguments;
 
-        if (handler) {
-          return handler(node, file);
-        }
+      var nodeName = path.node.openingElement.name ? path.node.openingElement.name.name : null;
+      var handler = nodeHandlers[nodeName];
+
+      if (handler) {
+        path.replaceWith(handler(path.node, path.hub.file));
       }
     }
-  });
+  };
+
+  return {
+    inherits: require("babel-plugin-syntax-jsx"),
+    visitor: visitor
+  };
 
   function transformIf(node, file) {
     var attributes = node.openingElement.attributes;
@@ -55,10 +60,10 @@ module.exports = function (babel) {
     if (children.length > 1) {
       elseBlock = _.takeRightWhile(children, notElseTag);
     } else {
-      elseBlock = [t.literal('')];
+      elseBlock = [t.StringLiteral('')];
     }
 
-    return t.conditionalExpression(condition.value.expression, ifBlock[0], elseBlock[0]);
+    return t.ConditionalExpression(condition.value.expression, ifBlock[0], elseBlock[0]);
   }
 
   function transformFor(node, file) {
@@ -92,33 +97,33 @@ module.exports = function (babel) {
 
     var child = children[0];
 
-    var mapParams = [t.identifier(each.value.value)];
+    var mapParams = [t.Identifier(each.value.value)];
 
     if (index) {
-      mapParams.push(t.identifier(index.value.value));
+      mapParams.push(t.Identifier(index.value.value));
     }
 
-    return t.memberExpression(
-      of.value.expression,
-      t.callExpression(
-        t.identifier('map'),
-        [
-          t.functionExpression(
-            null,
-            mapParams,
-            t.blockStatement([
-              t.returnStatement(child)
-            ])
-          ),
-          t.identifier('this')
-        ]
-      )
+    return t.callExpression(
+      t.memberExpression(
+        of.value.expression,
+        t.identifier('map')
+      ),
+      [
+        t.functionExpression(
+          null,
+          mapParams,
+          t.blockStatement([
+            t.returnStatement(child)
+          ])
+        ),
+        t.identifier('this')
+      ]
     );
   }
 
   function removeLiterals(nodes) {
     return _.filter(nodes, function (child) {
-      return child.type !== 'Literal';
+      return child.type !== 'JSXText';
     });
   }
 
