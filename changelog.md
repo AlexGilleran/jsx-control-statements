@@ -7,3 +7,4 @@
                     generation through JSTransform, added support for JSXElement and XJSElement in JSTransform
                     (thanks justafish!)
 1.1.1 [2015/07/06]: Added example of looping over an object to docs.
+2.0.0 [2015/12/01]: Updated for Babel 6, moved repo to personal Github.
