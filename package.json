@@ -4,15 +4,15 @@
   "description": "Neater control statements (if/for) for jsx",
   "author": {
     "name": "Alex Gilleran",
-    "email": "alex.gilleran@valtech.com"
+    "email": "alex@alexgilleran.com"
   },
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/valtech-au/jsx-control-statements"
+    "url": "https://github.com/AlexGilleran/jsx-control-statements"
   },
   "bugs": {
-    "url": "https://github.com/valtech-au/jsx-control-statements/issues"
+    "url": "https://github.com/AlexGilleran/jsx-control-statements/issues"
   },
   "keywords": [
     "react",
