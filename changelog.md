@@ -8,3 +8,4 @@
                     (thanks justafish!)
 1.1.1 [2015/07/06]: Added example of looping over an object to docs.
 2.0.0 [2015/12/01]: Updated for Babel 6, moved repo to personal Github.
+2.0.1 [2015/12/07]: Updated readme for greater clarity.
