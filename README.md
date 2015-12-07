@@ -13,25 +13,6 @@ So that's what this does. Depending on how you use it, it's either a Babel plugi
 JSTransform visitors that run just before JSX transpilation (less recommended) and perform desugaring from
 `<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
-## Why Transform?!
-
-Excellent question! You could easily just create actual React components that have _most_ of the same functionality 
-(e.g. [React If](https://github.com/romac/react-if), which inspired this project). The problem is that because of the
-way JSX works, everything inside an actual React component gets executed, whether it's actually used or not. So if you
-have:
-
-```
-  <If condition={obj}>
-    <div>{obj.name}<div>
-  </If>
-```
-
-`obj.name` is going to be executed (and fail) even though you just guarded against it, which is both annoying and 
-_incredibly_ unintuitive for new developers.
-
-By transforming it into a ternary if instead, only code that's supposed to be executed will be executed, which is much
-easier to read, even though it can require an extra build step if you use the JSTransform method.
-
 ## If Tag
 
 Define an `<If>` tag like so:
@@ -108,102 +89,11 @@ To loop across an `Object`, use `Object.keys()` like so:
     <span key={blahKey}>{blahObj[blahKey]}</span>
   </For>
 ```
+## How to Use
+Setting up depends on whether you use Babel or not - if so, [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Using-With-Babel). If you aren't using Babel, [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Using-with-JSTransform).
 
-## How To Use
-First up, obviously:
+## Babel / JSX-Control-Statements Versions
+Babel 6 introduced breaking changes to the plugin API - as such jsx-control-statements versions >= 2.0.0 support only Babel >= 6, those below that support only Babel <= 5.
 
-```
-  npm install --save-dev jsx-control-statements
-```
-
-### Babel Plugin
-This is much easier to use than the other methods, and the code that it runs is better too, so I'd definitely recommend
-this if you're running Babel.
-
-How to use the plugin depends on how you configure Babel:
-
-#### Node Require Hook
-```
-require("babel/register")({
-  plugins: ["jsx-control-statements/babel"]
-});
-```
-
-#### CLI
-```
-babel --plugins jsx-control-statements/babel script.js
-```
-
-#### .babelrc
-```
-{
-  "plugins": ["jsx-control-statements/babel"]
-}
-```
-
-#### Babelify
-```
-browserify({
-  // etc etc
-  transform: [
-    babelify.configure({
-      plugins: ["jsx-control-statements/babel"]
-    })
-  ]
-});
-```
-
-### Webpack (without Babel)
-For webpack you'll want to `npm install` the existing
-[JSTransform Loader](https://github.com/conradz/jstransform-loader) and then chain it in front of your existing JSX
-Loader, setting it to use the control statements visitors like so:
-
-```
-  {..., loader: 'jsx-loader!jstransform-loader?jsx-control-statements/jstransform'}
-```
-
-### Node-JSX
-If you're using [Node-JSX](https://github.com/petehunt/node-jsx) to transpile inside node, you can just use the included
-server transformer as an additional transform, which you pass in during the install of Node JSX.
-
-```
-var nodeJsx = require('node-jsx');
-var serverTransformer = require('jsx-control-statements/server-transformer');
-
-nodeJsx.install({
-  extension: '.jsx',
-  additionalTransform: serverTransformer
-});
-```
-
-### Browserify (without Babel)
-As with Webpack, use the Babel plugin if you're using Babel, otherwise you need to use [JSTransformify](https://github.com/andreypopp/jstransformify) to run the JSTransform visitors - doing this depends on how you use Browserify.
-
-#### Command Line
-```
-browserify -t [ jstransformify -v jsx-control-statements/jstransform ] app.js > bundle.js
-```
-
-#### Gulp
-This is a bit more involved given than I can't find a nice way to pass options to gulp-browserify. Unfortunately you have to do something a bit like this:
-```
-var jstransformify = require('jstransformify');
-var jsxControlStatements = require('jsx-control-statements/jstransform');
-var reactify = require('reactify'); 
-
-function jsxControlStatementsify(filename) {
-  return jstransformify(filename, {visitors: jsxControlStatements});
-}
-
-...
-// (in your task)
-  gulp.src('src/entry.js')
-    .pipe(browserify({
-      transform: [jsxControlStatementsify, reactify]
-    }))
-    .pipe(gulp.dest('./dist'));
-```
-
-### Others
-These are the only ways that have been tried, but any other method that involves using JSTransform or Babel should be
-applicable to jsx control statements.
+## Why Bother Transforming?
+See [here](https://github.com/AlexGilleran/jsx-control-statements/wiki/Why-Transform).
