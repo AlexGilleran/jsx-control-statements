@@ -21,7 +21,7 @@ trackXjsElementDepthEntering.test = function (object, path, state) {
   }
 
   return false;
-}
+};
 
 function trackXjsElementDepthLeaving() {}
 trackXjsElementDepthLeaving.test = function (object, path, state) {
@@ -30,7 +30,7 @@ trackXjsElementDepthLeaving.test = function (object, path, state) {
   }
 
   return false;
-}
+};
 
 function visitStartIfTag(traverse, object, path, state) {
   hasElse = false;
@@ -61,7 +61,7 @@ function visitStartIfTag(traverse, object, path, state) {
 
 visitStartIfTag.test = function (object, path, state) {
   return ((object.type === 'JSXOpeningElement' || object.type === 'XJSOpeningElement') && object.name.name === 'If');
-}
+};
 
 function visitElseTag(traverse, object, path, state) {
   hasElse = true;
@@ -76,7 +76,7 @@ visitElseTag.test = function (object, path, state) {
 
 function visitEndIfTag(traverse, object, path, state) {
   utils.catchup(object.range[0], state);
-  utils.append(hasElse ? ')' : ') : \'\'', state);
+  utils.append(hasElse ? ')' : ') : null', state);
   if (shouldWrapCurlyBrackets()) {
     utils.append(' }', state);
   }
