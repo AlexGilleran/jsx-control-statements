@@ -25,6 +25,10 @@
     "react-component"
   ],
   "license": "MIT",
+  "scripts": {
+    "test-babel": "mocha spec/with-babel/*.js",
+    "test-jstransform": "mocha spec/with-jstransform/*.js"
+  },
   "dependencies": {
     "babel-core": "^6.1.2",
     "babel-plugin-syntax-jsx": "^6.1.18",
