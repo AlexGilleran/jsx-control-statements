@@ -1,5 +1,7 @@
 # JSX Control Statements
 
+[![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg)](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=travis&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=travis)
+
 React and JSX are great, but to those of us who are used to dedicated templating libraries like Handlebars, the control
 statements (e.g. if conditions and for loops) are a step backwards in terms of neatness and readability. What's worse is
 that JSX is _perfectly capable_ of using the kind of conditional and looping logic we're used to, but it has to be done
@@ -9,7 +11,7 @@ actual view, which in my mind turns it into spaghetti.
 Wouldn't it be easier if we could just have some syntactical sugar that turned neat `<If>`/`<Else />`/`</If>` and
 `<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
 
-So that's what this does. Depending on how you use it, it's either a Babel plugin (recommended) or a set of 
+So that's what this does. Depending on how you use it, it's either a Babel plugin (recommended) or a set of
 JSTransform visitors that run just before JSX transpilation (less recommended) and perform desugaring from
 `<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
@@ -43,7 +45,7 @@ This will desugar into:
   )
 ```
 
-or 
+or
 
 ```
   this.props.condition === 'blah' ? (
@@ -51,7 +53,7 @@ or
   ) : ''
 ```
 
-`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within 
+`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within
 `{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
 tag, for instance.
 
@@ -73,12 +75,12 @@ and this will desugar into:
   )}, this)
 ```
 
-The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each 
-item in the array - and an `of` attribute which is an expression (with `{}` around it) that refers to the array that 
+The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each
+item in the array - and an `of` attribute which is an expression (with `{}` around it) that refers to the array that
 you'll loop through. You can also include an `index` attribute which will resolve to the index of the current item in
 the array, but it's optional.
 
-Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd 
+Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd
 potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
 as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 

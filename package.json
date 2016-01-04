@@ -1,6 +1,6 @@
 {
   "name": "jsx-control-statements",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Neater control statements (if/for) for jsx",
   "author": {
     "name": "Alex Gilleran",
@@ -27,7 +27,9 @@
   "license": "MIT",
   "scripts": {
     "test-babel": "mocha spec/with-babel/*.js",
-    "test-jstransform": "mocha spec/with-jstransform/*.js"
+    "test-jstransform": "mocha spec/with-jstransform/*.js",
+    "cover-babel": "istanbul cover -x \"**/spec/**\" --dir coverage/babel node_modules/mocha/bin/_mocha spec/with-babel/*.js",
+    "cover-jstransform": "istanbul cover -x \"**/spec/**\"  --dir coverage/jstransform node_modules/mocha/bin/_mocha spec/with-jstransform/*.js"
   },
   "dependencies": {
     "babel-core": "^6.1.2",
@@ -41,6 +43,8 @@
     "mocha": "^2.1.0",
     "node-jsx": "^0.12.4",
     "react": "^0.14.x",
-    "react-dom": "^0.14.x"
+    "react-dom": "^0.14.x",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.1"
   }
 }
