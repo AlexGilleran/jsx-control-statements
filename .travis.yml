@@ -1,5 +1,6 @@
 language: node_js
 node_js: stable
 script:
-  - npm run test-babel
-  - npm run test-jstransform
+  - npm run cover-babel
+  - npm run cover-jstransform
+after_script: "cat coverage/babel/lcov.info coverage/jstransform/lcov.info | node_modules/coveralls/bin/coveralls.js"

@@ -27,7 +27,9 @@
   "license": "MIT",
   "scripts": {
     "test-babel": "mocha spec/with-babel/*.js",
-    "test-jstransform": "mocha spec/with-jstransform/*.js"
+    "test-jstransform": "mocha spec/with-jstransform/*.js",
+    "cover-babel": "istanbul cover --dir coverage/babel node_modules/mocha/bin/_mocha spec/with-jstransform/*.js",
+    "cover-jstransform": "istanbul cover --dir coverage/jstransform node_modules/mocha/bin/_mocha spec/with-jstransform/*.js"
   },
   "dependencies": {
     "babel-core": "^6.1.2",
@@ -41,6 +43,8 @@
     "mocha": "^2.1.0",
     "node-jsx": "^0.12.4",
     "react": "^0.14.x",
-    "react-dom": "^0.14.x"
+    "react-dom": "^0.14.x",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.1"
   }
 }
