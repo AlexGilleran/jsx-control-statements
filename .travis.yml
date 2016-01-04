@@ -4,3 +4,7 @@ script:
   - npm run cover-babel
   - npm run cover-jstransform
 after_script: "cat coverage/babel/lcov.info coverage/jstransform/lcov.info | node_modules/coveralls/bin/coveralls.js"
+notifications:
+  email:
+    on_success: never
+    on_failure: change
