@@ -28,7 +28,7 @@
   "scripts": {
     "test-babel": "mocha spec/with-babel/*.js",
     "test-jstransform": "mocha spec/with-jstransform/*.js",
-    "cover-babel": "istanbul cover --dir coverage/babel node_modules/mocha/bin/_mocha spec/with-jstransform/*.js",
+    "cover-babel": "istanbul cover --dir coverage/babel node_modules/mocha/bin/_mocha spec/with-babel/*.js",
     "cover-jstransform": "istanbul cover --dir coverage/jstransform node_modules/mocha/bin/_mocha spec/with-jstransform/*.js"
   },
   "dependencies": {
