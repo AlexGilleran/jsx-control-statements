@@ -40,6 +40,13 @@ module.exports = function () {
       expect(rendered).not.to.contain('<span');
       expect(rendered).not.to.contain('IfBlock');
     });
+
+    it('should render nothing when condition false', function () {
+      var ifWithoutElse = React.createElement(IfWithoutElse);
+      var rendered = React.renderToString(ifWithoutElse);
+      expect(rendered).not.to.contain('<span');
+      expect(rendered).not.to.contain('IfBlock');
+    });
   });
 
   describe('requiring in component with nested if/else', function () {
@@ -93,22 +100,22 @@ module.exports = function () {
     }
   });
 
-describe('requiring in component with for with index', function () {
-  var ForWithIndex = require('./fixtures/for-with-index.jsx');
- 
-  it('should render list of items', function () {
-    var forAsRoot = React.createElement(ForWithIndex, {blahs: ['blah1', 'blah2', 'blah3']});
-    var rendered = React.renderToString(forAsRoot);
-    expect(rendered).to.match(/.*span.*blah1test0..*span.*span.*blah2test1.*span.*blah3test2.*span.*/);
-  });
+  describe('requiring in component with for with index', function () {
+    var ForWithIndex = require('./fixtures/for-with-index.jsx');
 
-  it('should render empty list of items as blank', function () {
-    var forAsRoot = React.createElement(ForWithIndex, {blahs: []});
-    var rendered = React.renderToString(forAsRoot);
-    expect(rendered).to.match(/<div.*><\/div>/);
+    it('should render list of items', function () {
+      var forAsRoot = React.createElement(ForWithIndex, {blahs: ['blah1', 'blah2', 'blah3']});
+      var rendered = React.renderToString(forAsRoot);
+      expect(rendered).to.match(/.*span.*blah1test0..*span.*span.*blah2test1.*span.*blah3test2.*span.*/);
+    });
+
+    it('should render empty list of items as blank', function () {
+      var forAsRoot = React.createElement(ForWithIndex, {blahs: []});
+      var rendered = React.renderToString(forAsRoot);
+      expect(rendered).to.match(/<div.*><\/div>/);
+    });
+
   });
-  
-});
 
   describe('nesting if within for', function () {
     var IfInsideFor = require('./fixtures/if-inside-for.jsx');
@@ -118,6 +125,13 @@ describe('requiring in component with for with index', function () {
       var rendered = React.renderToString(ifInsideFor);
       expect(rendered).to.contain('blah1');
       expect(rendered).to.not.contain('blah2');
+    });
+
+    it('should render nothing if condition is false', function () {
+      var ifInsideFor = React.createElement(IfInsideFor, {blahs: ['nope', 'nope2', 'nope3']});
+      var rendered = React.renderToString(ifInsideFor);
+      expect(rendered).to.not.contain('Not Rendered');
+      expect(rendered).to.not.contain('<span');
     });
   });
 

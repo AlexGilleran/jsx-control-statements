@@ -4,7 +4,8 @@ var errors = require('../../error-messages');
 
 require("babel-core/register")({
   presets: ['babel-preset-react'],
-  plugins: [plugin]
+  plugins: [plugin],
+  cache: false
 });
 
 var tests = require('../tests');

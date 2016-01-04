@@ -60,7 +60,7 @@ module.exports = function (babel) {
     if (children.length > 1) {
       elseBlock = _.takeRightWhile(children, notElseTag);
     } else {
-      elseBlock = [t.StringLiteral('')];
+      elseBlock = [t.NullLiteral()];
     }
 
     return t.ConditionalExpression(condition.value.expression, ifBlock[0], elseBlock[0]);
