@@ -1,6 +1,6 @@
 # JSX Control Statements
 
-[![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=travis&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=travis)
+[![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg)] [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=travis&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=travis)
 
 React and JSX are great, but to those of us who are used to dedicated templating libraries like Handlebars, the control
 statements (e.g. if conditions and for loops) are a step backwards in terms of neatness and readability. What's worse is
