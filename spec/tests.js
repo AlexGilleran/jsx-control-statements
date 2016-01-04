@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOMServer = require('react-dom/server');
 var expect = require('chai').expect;
 var errors = require('../error-messages');
 
@@ -8,7 +9,7 @@ module.exports = function () {
 
     it('should render if block when condition true', function () {
       var ifWithElse = React.createElement(IfWithElse, {condition: 'blah'});
-      var rendered = React.renderToString(ifWithElse);
+      var rendered = ReactDOMServer.renderToString(ifWithElse);
       expect(rendered).to.contain('<span');
       expect(rendered).to.contain('IfBlock');
       expect(rendered).not.to.contain('ElseBlock');
@@ -16,7 +17,7 @@ module.exports = function () {
 
     it('should render else block when condition false', function () {
       var ifWithElse = React.createElement(IfWithElse);
-      var rendered = React.renderToString(ifWithElse);
+      var rendered = ReactDOMServer.renderToString(ifWithElse);
       expect(rendered).to.contain('<span');
       expect(rendered).to.contain('ElseBlock');
       expect(rendered).not.to.contain('IfBlock');
@@ -28,7 +29,7 @@ module.exports = function () {
 
     it('should render if block when condition true', function () {
       var ifWithoutElse = React.createElement(IfWithoutElse, {condition: 'blah'});
-      var rendered = React.renderToString(ifWithoutElse);
+      var rendered = ReactDOMServer.renderToString(ifWithoutElse);
       expect(rendered).to.contain('<span');
       expect(rendered).to.contain('IfBlock');
       expect(rendered).not.to.contain('ElseBlock');
@@ -36,14 +37,14 @@ module.exports = function () {
 
     it('should render else block when condition false', function () {
       var ifWithoutElse = React.createElement(IfWithoutElse);
-      var rendered = React.renderToString(ifWithoutElse);
+      var rendered = ReactDOMServer.renderToString(ifWithoutElse);
       expect(rendered).not.to.contain('<span');
       expect(rendered).not.to.contain('IfBlock');
     });
 
     it('should render nothing when condition false', function () {
       var ifWithoutElse = React.createElement(IfWithoutElse);
-      var rendered = React.renderToString(ifWithoutElse);
+      var rendered = ReactDOMServer.renderToString(ifWithoutElse);
       expect(rendered).not.to.contain('<span');
       expect(rendered).not.to.contain('IfBlock');
     });
@@ -54,26 +55,26 @@ module.exports = function () {
 
     it('should render if-if block when both conditions true', function () {
       var nestedIf = React.createElement(NestedIf, {condition: 'blah', otherCondition: 'other'});
-      var rendered = React.renderToString(nestedIf);
+      var rendered = ReactDOMServer.renderToString(nestedIf);
       expect(rendered).to.contain('If-If');
       expect(rendered).not.to.contain('Else');
     });
 
     it('should render if-else block when outer condition true, inner false', function () {
       var nestedIf = React.createElement(NestedIf, {condition: 'blah'});
-      var rendered = React.renderToString(nestedIf);
+      var rendered = ReactDOMServer.renderToString(nestedIf);
       expect(rendered).to.contain('If-Else');
     });
 
     it('should render else-if block when outer condition false, inner true', function () {
       var nestedIf = React.createElement(NestedIf, {otherCondition: 'other'});
-      var rendered = React.renderToString(nestedIf);
+      var rendered = ReactDOMServer.renderToString(nestedIf);
       expect(rendered).to.contain('Else-If');
     });
 
     it('should render else-else block when both conditions false', function () {
       var nestedIf = React.createElement(NestedIf);
-      var rendered = React.renderToString(nestedIf);
+      var rendered = ReactDOMServer.renderToString(nestedIf);
       expect(rendered).to.contain('Else-Else');
     });
   });
@@ -88,13 +89,13 @@ module.exports = function () {
     function runForTests(ComponentDefinition) {
       it('should render list of items', function () {
         var forAsRoot = React.createElement(ComponentDefinition, {blahs: ['blah1', 'blah2', 'blah3']});
-        var rendered = React.renderToString(forAsRoot);
+        var rendered = ReactDOMServer.renderToString(forAsRoot);
         expect(rendered).to.match(/.*span.*blah1test..*span.*span.*blah2test.*span.*blah3test.*span.*/);
       });
 
       it('should render empty list of items as blank', function () {
         var forAsRoot = React.createElement(ComponentDefinition, {blahs: []});
-        var rendered = React.renderToString(forAsRoot);
+        var rendered = ReactDOMServer.renderToString(forAsRoot);
         expect(rendered).to.match(/<div.*><\/div>/);
       });
     }
@@ -105,13 +106,13 @@ module.exports = function () {
 
     it('should render list of items', function () {
       var forAsRoot = React.createElement(ForWithIndex, {blahs: ['blah1', 'blah2', 'blah3']});
-      var rendered = React.renderToString(forAsRoot);
+      var rendered = ReactDOMServer.renderToString(forAsRoot);
       expect(rendered).to.match(/.*span.*blah1test0..*span.*span.*blah2test1.*span.*blah3test2.*span.*/);
     });
 
     it('should render empty list of items as blank', function () {
       var forAsRoot = React.createElement(ForWithIndex, {blahs: []});
-      var rendered = React.renderToString(forAsRoot);
+      var rendered = ReactDOMServer.renderToString(forAsRoot);
       expect(rendered).to.match(/<div.*><\/div>/);
     });
 
@@ -122,14 +123,14 @@ module.exports = function () {
 
     it('should render only the item where if condition is true', function () {
       var ifInsideFor = React.createElement(IfInsideFor, {blahs: ['blah1', 'blah2', 'blah3']});
-      var rendered = React.renderToString(ifInsideFor);
+      var rendered = ReactDOMServer.renderToString(ifInsideFor);
       expect(rendered).to.contain('blah1');
       expect(rendered).to.not.contain('blah2');
     });
 
     it('should render nothing if condition is false', function () {
       var ifInsideFor = React.createElement(IfInsideFor, {blahs: ['nope', 'nope2', 'nope3']});
-      var rendered = React.renderToString(ifInsideFor);
+      var rendered = ReactDOMServer.renderToString(ifInsideFor);
       expect(rendered).to.not.contain('Not Rendered');
       expect(rendered).to.not.contain('<span');
     });
@@ -144,7 +145,7 @@ module.exports = function () {
         otherBlahs: ['notBlah1', 'notBlah2', 'notBlah3'],
         test: true
       });
-      var rendered = React.renderToString(forInsideIf);
+      var rendered = ReactDOMServer.renderToString(forInsideIf);
       expect(rendered).to.contain('blah1');
       expect(rendered).to.contain('blah2');
       expect(rendered).to.contain('blah3');
@@ -157,7 +158,7 @@ module.exports = function () {
         otherBlahs: ['notBlah1', 'notBlah2', 'notBlah3'],
         test: false
       });
-      var rendered = React.renderToString(forInsideIf);
+      var rendered = ReactDOMServer.renderToString(forInsideIf);
       expect(rendered).to.contain('notBlah1');
       expect(rendered).to.contain('notBlah2');
       expect(rendered).to.contain('notBlah3');
@@ -174,7 +175,7 @@ module.exports = function () {
         otherBlahs: ['1hlab', '2hlab', '3hlab'],
         test: true
       });
-      var rendered = React.renderToString(forInsideFor);
+      var rendered = ReactDOMServer.renderToString(forInsideFor);
       expect(rendered).to.contain('1hlabblah1');
       expect(rendered).to.contain('1hlabblah2');
       expect(rendered).to.contain('1hlabblah3');
@@ -196,7 +197,7 @@ module.exports = function () {
         otherBlahs: ['1hlab', '2hlab', '3hlab'],
         test: true
       });
-      var rendered = React.renderToString(forInsideFor);
+      var rendered = ReactDOMServer.renderToString(forInsideFor);
       expect(rendered).to.contain('1hlabblah100');
       expect(rendered).to.contain('1hlabblah210');
       expect(rendered).to.contain('1hlabblah320');
