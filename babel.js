@@ -34,8 +34,6 @@ module.exports = function (babel) {
     } else {
       ifBlock = ifBlock[0];
     }
-    //ifBlock = ifBlock.length > 1 ?  t.ArrayExpression(ifBlock) : ifBlock[0];
-
 
     if (children.length > 1) {
       elseBlock = _.takeRightWhile(children, notElseTag);
@@ -102,16 +100,9 @@ module.exports = function (babel) {
     );
   }
 
-  function removeLiterals(nodes) {
-    return _.filter(nodes, function (child) {
-      return child.type !== 'JSXText';
-    });
-  }
-
   function throwError(message, node, file) {
     throw new Error(message + ' at ' + file.opts.filename + ':' + node.loc.start.line + ',' + node.loc.start.column);
   }
-
 
   var nodeHandlers = {
     'For': transformFor,
