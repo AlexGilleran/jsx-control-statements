@@ -50,7 +50,7 @@ or
 ```
   this.props.condition === 'blah' ? (
     <span>IfBlock</span>
-  ) : ''
+  ) : null
 ```
 
 `<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within
