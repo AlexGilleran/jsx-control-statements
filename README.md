@@ -116,3 +116,6 @@ find the code for the JSTransform version at https://github.com/AlexGilleran/jsx
 
 ## Why Bother Transforming?
 See [here](https://github.com/AlexGilleran/jsx-control-statements/wiki/Why-Transform).
+
+## I Want to Contribute!
+Yay! Please read the [Contributor's Guide](https://github.com/AlexGilleran/jsx-control-statements/blob/master/CONTRIBUTING.md).
