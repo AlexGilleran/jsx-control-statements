@@ -14,6 +14,8 @@ Wouldn't it be easier if we could just have some syntactical sugar that turned n
 So that's what this does. It's a Babel plugin that runs just before JSX transpilation and performs desugaring from
 `<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
+> *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
+
 ## Syntax
 ### If Tag
 
@@ -110,7 +112,7 @@ As of 3.0.0 having a JSXExpression as a child of a JSX control statment is suppo
 - 1.x.x was a Babel plugin supporting Babel <= 5, and a set of JSTransform visitors.
 
 This used to support both JSTransform and Babel, but as JSTransform is no longer maintained support was dropped. You can
-find the code for the JSTransform version [here](https://github.com/AlexGilleran/jsx-control-statements-jstransform.
+find the code for the JSTransform version at https://github.com/AlexGilleran/jsx-control-statements-jstransform.
 
 ## Why Bother Transforming?
 See [here](https://github.com/AlexGilleran/jsx-control-statements/wiki/Why-Transform).
