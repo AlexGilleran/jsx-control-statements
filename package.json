@@ -20,21 +20,17 @@
     "if",
     "for",
     "loop",
-    "jstransform",
     "babel",
     "react-component"
   ],
   "license": "MIT",
   "scripts": {
-    "test-babel": "mocha spec/with-babel/*.js",
-    "test-jstransform": "mocha spec/with-jstransform/*.js",
-    "cover-babel": "istanbul cover -x \"**/spec/**\" --dir coverage/babel node_modules/mocha/bin/_mocha spec/with-babel/*.js",
-    "cover-jstransform": "istanbul cover -x \"**/spec/**\"  --dir coverage/jstransform node_modules/mocha/bin/_mocha spec/with-jstransform/*.js"
+    "test": "mocha spec/*.js",
+    "cover": "istanbul cover -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec/*.js"
   },
   "dependencies": {
     "babel-core": "^6.1.2",
     "babel-plugin-syntax-jsx": "^6.1.18",
-    "jstransform": "^9.1.0",
     "lodash": "^3.3.0"
   },
   "devDependencies": {

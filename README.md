@@ -11,11 +11,11 @@ actual view, which in my mind turns it into spaghetti.
 Wouldn't it be easier if we could just have some syntactical sugar that turned neat `<If>`/`<Else />`/`</If>` and
 `<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
 
-So that's what this does. Depending on how you use it, it's either a Babel plugin (recommended) or a set of
-JSTransform visitors that run just before JSX transpilation (less recommended) and perform desugaring from
+So that's what this does. It's a Babel plugin that runs just before JSX transpilation and performs desugaring from
 `<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
-## If Tag
+## Syntax
+### If Tag
 
 Define an `<If>` tag like so:
 
@@ -57,7 +57,7 @@ or
 `{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
 tag, for instance.
 
-## For Tag
+### For Tag
 
 Define `<For>` like so:
 
@@ -91,11 +91,26 @@ To loop across an `Object`, use `Object.keys()` like so:
     <span key={blahKey}>{blahObj[blahKey]}</span>
   </For>
 ```
-## How to Use
-Setting up depends on whether you use Babel or not - if so, [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Using-With-Babel). If you aren't using Babel, [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Using-with-JSTransform).
 
-## Babel / JSX-Control-Statements Versions
-Babel 6 introduced breaking changes to the plugin API - as such jsx-control-statements versions >= 2.0.0 support only Babel >= 6, those below that support only Babel <= 5.
+### Expressions as Children
+As of 3.0.0 having a JSXExpression as a child of a JSX control statment is supported, i.e.
+
+```
+<If condition={foo}>
+  {'foo'}
+</If>
+```
+
+## How to Use
+[Use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/How-to-Use)
+
+## Major Versions
+- 3.x.x is a pure Babel plugin supporting Babel >= 6.
+- 2.x.x was a Babel plugin supporting Babel >= 6, and a set of JSTransform visitors.
+- 1.x.x was a Babel plugin supporting Babel <= 5, and a set of JSTransform visitors.
+
+This used to support both JSTransform and Babel, but as JSTransform is no longer maintained support was dropped. You can
+find the code for the JSTransform version [here](https://github.com/AlexGilleran/jsx-control-statements-jstransform.
 
 ## Why Bother Transforming?
 See [here](https://github.com/AlexGilleran/jsx-control-statements/wiki/Why-Transform).

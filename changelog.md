@@ -11,3 +11,4 @@
 - 2.0.1 [2015/12/07]: Updated readme for greater clarity.
 - 2.0.2 [2016/01/04]: Fixed `<If>` in `<For>` returning `<span>` when condition false (thanks texttechne!)
 - 2.0.3 [2016/01/05]: Added travis / coveralls badges to readme.md.
+- 3.0.0 [2016/01/07]: Removed JSTransform support, added support for JSXExpressionContainer as child.
