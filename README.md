@@ -101,8 +101,8 @@ As of 3.0.0 having a JSXExpression as a child of a JSX control statment is suppo
 </If>
 ```
 
-## How to Use
-[Use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/How-to-Use)
+## Installation
+[Use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Installation)
 
 ## Major Versions
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
