@@ -37,8 +37,12 @@ However, Babel can be used and configured in many different ways, so
 which fits your setup.
 
 ### Linting
-Linting is supported by vkbansal's
-(ESLint plugin for *JSX-Control-Statements*)[https://github.com/vkbansal/eslint-plugin-jsx-control-statements].
+Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
+(well, and some more cases) would lead to warnings / errors by ESLint about undefined variables.
+
+But fortunately you can use this
+[ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
+to happily lint your code.
 
 ## Syntax
 ### If Tag
@@ -80,7 +84,7 @@ or
 ```
 
 `<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within
-`{}`. All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
+`{}`). All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
 tag, for instance.
 
 ### For Tag
