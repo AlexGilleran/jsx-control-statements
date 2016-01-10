@@ -16,6 +16,30 @@ So that's what this does. It's a Babel plugin that runs just before JSX transpil
 
 > *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
 
+## Installation
+As a prerequisite you need to have [Babel](https://github.com/babel/babel) installed and configured in your project.
+
+Install via npm:
+
+```
+  npm install --save-dev jsx-control-statements
+```
+
+Then you only need to specify *JSX-Control-Statements* as Babel plugin, which you would typically do in your `.babelrc`:
+```
+{
+  ...
+  "plugins": ["jsx-control-statements"]
+}
+```
+However, Babel can be used and configured in many different ways, so
+[use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Installation) to pick a configuration
+which fits your setup.
+
+### Linting
+Linting is supported by vkbansal's
+(ESLint plugin for *JSX-Control-Statements*)[https://github.com/vkbansal/eslint-plugin-jsx-control-statements].
+
 ## Syntax
 ### If Tag
 
@@ -102,9 +126,6 @@ As of 3.0.0 having a JSXExpression as a child of a JSX control statment is suppo
   {'foo'}
 </If>
 ```
-
-## Installation
-[Use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Installation)
 
 ## Major Versions
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
