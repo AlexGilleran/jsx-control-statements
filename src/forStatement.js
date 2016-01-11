@@ -3,9 +3,10 @@ var error = require('./error');
 
 
 module.exports = function(babel) {
-  var t = babel.types;
+  var types = babel.types;
 
   return function(node, file) {
+    var children, child, mapParams = [];
     var attributes = node.openingElement.attributes;
 
     if (!attributes || !attributes.length) {
@@ -16,46 +17,49 @@ module.exports = function(babel) {
     attributes.forEach(function (attr) {
       if (attr.name.name === 'each') {
         each = attr;
-      } else if (attr.name.name === 'of') {
+      }
+      else if (attr.name.name === 'of') {
         of = attr;
-      } else if (attr.name.name === 'index') {
+      }
+      else if (attr.name.name === 'index') {
         index = attr;
       }
     });
 
-    if (!each || !of) {
+    if (!of) {
       error.throwError(error.FOR_WITH_NO_ATTRIBUTES, node, file);
     }
 
-    var children = t.react.buildChildren(node);
+    children = types.react.buildChildren(node);
     if (children.length > 1) {
       error.throwError(error.MULTIPLE_CHILDREN, node, file);
-    } else if (children.length === 0) {
-      error.throwError(error.NO_CHILDREN, node, file);
     }
+    if (children.length === 0) {
+      return types.NullLiteral();
+    }
+    child = children[0];
 
-    var child = children[0];
-
-    var mapParams = [t.Identifier(each.value.value)];
-
+    if (each) {
+      mapParams.push(types.Identifier(each.value.value));
+    }
     if (index) {
-      mapParams.push(t.Identifier(index.value.value));
+      mapParams.push(types.Identifier(index.value.value));
     }
 
-    return t.callExpression(
-      t.memberExpression(
+    return types.callExpression(
+      types.memberExpression(
         of.value.expression,
-        t.identifier('map')
+        types.identifier('map')
       ),
       [
-        t.functionExpression(
+        types.functionExpression(
           null,
           mapParams,
-          t.blockStatement([
-            t.returnStatement(child)
+          types.blockStatement([
+            types.returnStatement(child)
           ])
         ),
-        t.identifier('this')
+        types.identifier('this')
       ]
     );
   }

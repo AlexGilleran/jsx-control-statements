@@ -3,6 +3,23 @@ var ReactDOMServer = require('react-dom/server');
 var expect = require('chai').expect;
 
 
+describe('requiring in component with minimalistic for', function () {
+  var FixtureEmpty = require('../fixtures/for-empty.jsx');
+  var FixtureNoEach = require('../fixtures/for-without-each.jsx');
+
+  describe('should render nothing if loop is empty', function() {
+    var fixture = React.createElement(FixtureEmpty);
+    var rendered = ReactDOMServer.renderToString(fixture);
+    expect(rendered).to.match(/<div[^>]*><\/div>/);
+  });
+
+  describe('should simply iterate without each', function() {
+    var fixture = React.createElement(FixtureNoEach);
+    var rendered = ReactDOMServer.renderToString(fixture);
+    expect(rendered).to.match(/<div[^>]*>(<span[^>]*>ABC<\/span>){3}<\/div>/);
+  });
+});
+
 describe('requiring in component with for', function () {
   var ForView = require('../fixtures/for.jsx');
   var ForViewRevAttrs = require('../fixtures/for-backwards-attributes.jsx');

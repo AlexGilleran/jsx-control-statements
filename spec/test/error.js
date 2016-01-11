@@ -15,12 +15,6 @@ describe('when encountering errors', function () {
     }).to.throw(Error, errors.FOR_WITH_NO_ATTRIBUTES);
   });
 
-  it('should fail for a <For> with no each', function () {
-    expect(function () {
-      require('../fixtures/errors/for-with-no-each.jsx');
-    }).to.throw(Error, errors.FOR_WITH_NO_ATTRIBUTES);
-  });
-
   it('should fail for a <For> with no of', function () {
     expect(function () {
       require('../fixtures/errors/for-with-no-of.jsx');
@@ -33,12 +27,6 @@ describe('when encountering errors', function () {
     }).to.throw(Error, /.*7,8.*/);
   });
 
-  it('should fail for an <If> with no children', function() {
-    expect(function() {
-      require('../fixtures/errors/if-with-no-children.jsx');
-    }).to.throw(Error, errors.NO_CHILDREN);
-  });
-
   it('should fail for an <If> with multiple children', function() {
     expect(function() {
       require('../fixtures/errors/if-with-multiple-children.jsx');
@@ -49,12 +37,6 @@ describe('when encountering errors', function () {
     expect(function() {
       require('../fixtures/errors/else-with-multiple-children.jsx');
     }).to.throw(Error, errors.MULTIPLE_CHILDREN);
-  });
-
-  it('should fail for an <For> with no children', function() {
-    expect(function() {
-      require('../fixtures/errors/for-with-no-children.jsx');
-    }).to.throw(Error, errors.NO_CHILDREN);
   });
 
   it('should fail for an <For> with multiple children', function() {
