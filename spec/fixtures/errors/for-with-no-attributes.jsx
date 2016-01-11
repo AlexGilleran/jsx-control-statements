@@ -6,7 +6,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <For of={this.props.blahs} each="blah">
+        <For>
           <span key={blah}>{blah + this.test}</span>
         </For>
       </div>
