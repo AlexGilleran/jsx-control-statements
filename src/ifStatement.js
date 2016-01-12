@@ -6,11 +6,11 @@ var ELSE_IF = 'ElseIf';
 var ELSE = 'Else';
 var CONDITION = 'condition';
 
-function getSingleBlock(blocks, node, file) {
+function getSingleBlock(blocks, types, node, file) {
   if (blocks.length > 1) {
     error.throwError(error.MULTIPLE_CHILDREN, node, file);
   } else if (blocks.length === 0) {
-    error.throwError(error.NO_CHILDREN, node, file);
+    blocks[0] = types.NullLiteral();
   }
 
   return blocks[0];
@@ -64,28 +64,31 @@ function getBlocks(nodes, file) {
 }
 
 function isTag (node, tagName) {
-  return node.type === 'JSXElement' && node.openingElement.name.name === tagName;
+  return node.type === 'JSXElement'
+    && node.openingElement
+    && node.openingElement.name
+    && node.openingElement.name.name === tagName;
 }
 
 
 module.exports = function(babel) {
-  var t = babel.types;
+  var types = babel.types;
 
   return function(node, file) {
     var ifBlock, elseBlock, elseIfBlocks;
 
     var condition = getConditionExpression(node, file);
-    var children = t.react.buildChildren(node); // normalize JSXText and JSXExpressionContainer to expressions
+    var children = types.react.buildChildren(node); // normalize JSXText and JSXExpressionContainer to expressions
     var blocks = getBlocks(children, file);
 
-    ifBlock = getSingleBlock(blocks.ifBlock, node, file);
+    ifBlock = getSingleBlock(blocks.ifBlock, types, node, file);
 
     elseBlock = blocks.elseBlock;
     if (elseBlock.length > 1) {
       error.throwError(error.MULTIPLE_CHILDREN, node, file);
     }
     else if (elseBlock.length === 0) {
-      elseBlock = [t.NullLiteral()];
+      elseBlock = [types.NullLiteral()];
     }
     elseBlock = elseBlock[0];
 
@@ -93,11 +96,11 @@ module.exports = function(babel) {
     elseIfBlocks = blocks.elseIfBlocks;
     if (elseIfBlocks.length) {
       _.forEachRight(elseIfBlocks, function(elseIfBlock) {
-        var singleElseIfBlock = getSingleBlock(elseIfBlock.blocks, elseIfBlock.node, file);
-        elseBlock = t.ConditionalExpression(elseIfBlock.condition, singleElseIfBlock, elseBlock);
+        var singleElseIfBlock = getSingleBlock(elseIfBlock.blocks, types, elseIfBlock.node, file);
+        elseBlock = types.ConditionalExpression(elseIfBlock.condition, singleElseIfBlock, elseBlock);
       });
     }
 
-    return t.ConditionalExpression(condition, ifBlock, elseBlock);
+    return types.ConditionalExpression(condition, ifBlock, elseBlock);
   }
 };

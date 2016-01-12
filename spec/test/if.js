@@ -3,8 +3,19 @@ var ReactDOMServer = require('react-dom/server');
 var expect = require('chai').expect;
 
 
+describe('requiring in component with empty if', function() {
+  var Fixture = require('../fixtures/if-empty.jsx');
+
+  it('should render nothing when condition false', function () {
+    var fixture = React.createElement(Fixture);
+    var rendered = ReactDOMServer.renderToString(fixture);
+    expect(rendered).to.match(/^<div[^>]*><\/div>$/);
+  });
+
+});
+
 describe('requiring in component with if', function () {
-  var IfWithoutElse = require('../fixtures/if-without-else.jsx');
+  var IfWithoutElse = require('../fixtures/if.jsx');
 
   it('should render if block when condition true', function () {
     var ifWithoutElse = React.createElement(IfWithoutElse, {condition: 'blah'});
@@ -20,6 +31,7 @@ describe('requiring in component with if', function () {
     expect(rendered).not.to.contain('<span');
     expect(rendered).not.to.contain('IfBlock');
   });
+
 });
 
 describe('requiring in component with if/else', function () {
