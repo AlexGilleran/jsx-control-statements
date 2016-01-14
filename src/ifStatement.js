@@ -29,6 +29,10 @@ function getConditionExpression(node, file) {
   if (!condition) {
     error.throwError(error.IF_WITH_NO_CONDITION, node, file);
   }
+  else if (!condition.value || condition.value.type !== 'JSXExpressionContainer') {
+    error.throwError(error['IF_WRONG_DATATYPE_CONDITION'], node, file);
+  }
+
 
   return condition.value.expression;
 }

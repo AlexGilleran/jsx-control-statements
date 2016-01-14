@@ -21,12 +21,30 @@ function addMapParam(types, params, attribute) {
   }
 }
 
+function checkForString(attributes, name, node, file) {
+  if (attributes[name]) {
+    var attrib = attributes[name];
+    if (!attrib.value || attrib.value.type !== 'StringLiteral') {
+      error.throwError(error['FOR_WRONG_DATATYPE_'+name.toUpperCase()], node, file);
+    }
+  }
+}
+
+function checkForExpressionContainer(attributes, name, node, file) {
+  if (attributes[name]) {
+    var attrib = attributes[name];
+    if (!attrib.value || attrib.value.type !== 'JSXExpressionContainer') {
+      error.throwError(error['FOR_WRONG_DATATYPE_'+name.toUpperCase()], node, file);
+    }
+  }
+}
+
 
 module.exports = function(babel) {
   var types = babel.types;
 
   return function(node, file) {
-    var child, mapParams = [];
+    var child, mapParams = [], expressionType;
     var attributes = getAttributeMap(node);
     var children = types.react.buildChildren(node);
 
@@ -34,7 +52,11 @@ module.exports = function(babel) {
     if (!attributes.of) {
       error.throwError(error.FOR_WITH_NO_ATTRIBUTES, node, file);
     }
-    //if (!attributes.of.value)
+    // check for correct data types, as far as possible
+    checkForString(attributes, 'each', node, file);
+    checkForString(attributes, 'index', node, file);
+    checkForExpressionContainer(attributes, 'of', node, file);
+
     if (children.length > 1) {
       error.throwError(error.MULTIPLE_CHILDREN, node, file);
     }
