@@ -11,7 +11,7 @@ module.exports = function (babel) {
 
   var visitor = {
     JSXElement: function (path) {
-      var nodeName = path.node.openingElement.name ? path.node.openingElement.name.name : null;
+      var nodeName = path.node.openingElement.name.name;
       var handler = nodeHandlers[nodeName];
 
       if (handler) {

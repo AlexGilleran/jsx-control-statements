@@ -14,22 +14,17 @@ var TYPES = {
  * @returns {boolean} whether the searched for element was found
  */
 exports.isTag = function (node, tagName) {
-  return node.type === TYPES.ELEMENT
-    && node.openingElement
-    && node.openingElement.name
-    && node.openingElement.name.name === tagName;
+  return node.type === TYPES.ELEMENT && node.openingElement.name.name === tagName;
 };
 
 /**
  * Tests whether this is an JSXExpressionContainer and returns it if true.
  *
  * @param {object} attribute - The attribute the value of which is tested
- * @returns {null|JSXExpressionContainer}
+ * @returns {boolean}
  */
 exports.isExpressionContainer = function(attribute) {
-  return attribute
-    && attribute.value
-    && attribute.value.type === TYPES.EXPRESSION_CONTAINER;
+  return attribute && attribute.value.type === TYPES.EXPRESSION_CONTAINER;
 };
 
 exports.getExpression = function(attribute) {
@@ -40,13 +35,10 @@ exports.getExpression = function(attribute) {
  * Tests whether this is an StringLiteral and returns it if true.
  *
  * @param {object} attribute - The attribute the value of which is tested
- * @returns {null|string}
+ * @returns {boolean}
  */
 exports.isStringLiteral = function(attribute) {
-  return attribute
-    && attribute.value
-    && attribute.value.type === TYPES.STRING_LITERAL
-    ? attribute.value.type : null;
+  return attribute && attribute.value.type === TYPES.STRING_LITERAL;
 };
 
 /**
@@ -56,14 +48,8 @@ exports.isStringLiteral = function(attribute) {
  * @returns {object} Map of all attributes with their name as key
  */
 exports.getAttributeMap = function (node) {
-  if (!node.openingElement || !node.openingElement.attributes) {
-    return {};
-  }
-
   return _.reduce(node.openingElement.attributes, function(result, attr) {
-    if (attr.name && attr.name.name) {
-      result[attr.name.name] = attr;
-    }
+    result[attr.name.name] = attr;
     return result;
   }, {});
 };
