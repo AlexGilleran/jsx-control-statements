@@ -1,19 +1,16 @@
 var _ = require('lodash');
-var error = require('./error');
 
+var astUtil = require('./util/ast');
+var errorUtil = require('./util/error');
 
-function getAttributeMap(node) {
-  if (!node.openingElement || !node.openingElement.attributes) {
-    return {};
-  }
-
-  return _.reduce(node.openingElement.attributes, function(result, attr) {
-    if (attr.name && attr.name.name) {
-      result[attr.name.name] = attr;
-    }
-    return result;
-  }, {});
-}
+var ELEMENTS = {
+  FOR: 'For'
+};
+var ATTRIBUTES = {
+  EACH: 'each',
+  OF: 'of',
+  INDEX: 'index'
+};
 
 function addMapParam(types, params, attribute) {
   if (attribute && attribute.value) {
@@ -21,44 +18,38 @@ function addMapParam(types, params, attribute) {
   }
 }
 
-function checkForString(attributes, name, node, file) {
-  if (attributes[name]) {
-    var attrib = attributes[name];
-    if (!attrib.value || attrib.value.type !== 'StringLiteral') {
-      error.throwError(error['FOR_WRONG_DATATYPE_'+name.toUpperCase()], node, file);
-    }
+function checkForString(attributes, name, errorInfos) {
+  if (attributes[name] && !astUtil.isStringLiteral(attributes[name])) {
+    errorUtil.throwNotStringType(name, errorInfos)
   }
 }
 
-function checkForExpressionContainer(attributes, name, node, file) {
-  if (attributes[name]) {
-    var attrib = attributes[name];
-    if (!attrib.value || attrib.value.type !== 'JSXExpressionContainer') {
-      error.throwError(error['FOR_WRONG_DATATYPE_'+name.toUpperCase()], node, file);
-    }
+function checkForExpression(attributes, name, errorInfos) {
+  if (attributes[name] && !astUtil.isExpressionContainer(attributes[name])) {
+    errorUtil.throwNotExpressionType(name, errorInfos)
   }
 }
-
 
 module.exports = function(babel) {
   var types = babel.types;
 
   return function(node, file) {
-    var child, mapParams = [], expressionType;
-    var attributes = getAttributeMap(node);
-    var children = types.react.buildChildren(node);
+    var child, mapParams = [];
+    var errorInfos = { node: node, file: file, element: ELEMENTS.FOR };
+    var attributes = astUtil.getAttributeMap(node);
+    var children = astUtil.getChildren(types, node);
 
     // required attribute
-    if (!attributes.of) {
-      error.throwError(error.FOR_WITH_NO_ATTRIBUTES, node, file);
+    if (!attributes[ATTRIBUTES.OF]) {
+      errorUtil.throwNoAttribute(ATTRIBUTES.OF, errorInfos)
     }
     // check for correct data types, as far as possible
-    checkForString(attributes, 'each', node, file);
-    checkForString(attributes, 'index', node, file);
-    checkForExpressionContainer(attributes, 'of', node, file);
+    checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
+    checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
+    checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
 
     if (children.length > 1) {
-      error.throwError(error.MULTIPLE_CHILDREN, node, file);
+      errorUtil.throwMultipleChildren(errorInfos);
     }
 
     // simply return without any child nodes
@@ -67,12 +58,12 @@ module.exports = function(babel) {
     }
 
     child = children[0];
-    addMapParam(types, mapParams, attributes.each);
-    addMapParam(types, mapParams, attributes.index);
+    addMapParam(types, mapParams, attributes[ATTRIBUTES.EACH]);
+    addMapParam(types, mapParams, attributes[ATTRIBUTES.INDEX]);
 
     return types.callExpression(
       types.memberExpression(
-        attributes.of.value.expression,
+        attributes[ATTRIBUTES.OF].value.expression,
         types.identifier('map')
       ),
       [

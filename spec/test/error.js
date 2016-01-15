@@ -1,18 +1,21 @@
 var expect = require('chai').expect;
-var errors = require('../../src/error');
+
+var errorUtil = require('../../src/util/error');
+var renderError = errorUtil.renderErrorMessage;
+var errors = errorUtil.ERRORS;
 
 
 describe('when encountering errors', function () {
   it('should fail for an <If> with no condition', function () {
     expect(function () {
       require('../fixtures/errors/if-with-no-condition.jsx');
-    }).to.throw(Error, errors.IF_WITH_NO_CONDITION);
+    }).to.throw(Error, renderError(errors.NO_ATTRIBUTE, {attribute: 'condition', element: 'If'}));
   });
 
   it('should fail for a <For> with no of', function () {
     expect(function () {
       require('../fixtures/errors/for-with-no-of.jsx');
-    }).to.throw(Error, errors.FOR_WITH_NO_ATTRIBUTES);
+    }).to.throw(Error, renderError(errors.NO_ATTRIBUTE, {attribute: 'of', element: 'For'}));
   });
 
   it('should give location of errors', function() {
@@ -24,19 +27,19 @@ describe('when encountering errors', function () {
   it('should fail for an <If> with multiple children', function() {
     expect(function() {
       require('../fixtures/errors/if-with-multiple-children.jsx');
-    }).to.throw(Error, errors.MULTIPLE_CHILDREN);
+    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
   });
 
   it('should fail for an <Else> with multiple children', function() {
     expect(function() {
       require('../fixtures/errors/else-with-multiple-children.jsx');
-    }).to.throw(Error, errors.MULTIPLE_CHILDREN);
+    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
   });
 
   it('should fail for an <For> with multiple children', function() {
     expect(function() {
       require('../fixtures/errors/for-with-multiple-children.jsx');
-    }).to.throw(Error, errors.MULTIPLE_CHILDREN);
+    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
   });
 });
 
@@ -46,24 +49,24 @@ describe('when encountering the wrong data type', function() {
   it('should fail for a <If> with a non expression "condition" attribute', function () {
     expect(function () {
       require('../fixtures/errors/if-with-non-expression-condition.jsx');
-    }).to.throw(Error, errors.IF_WRONG_DATATYPE_CONDITION);
+    }).to.throw(Error, renderError(errors.NOT_EXPRESSION_TYPE, {element: 'If', attribute: 'condition'}));
   });
 
   it('should fail for a <For> with a non string "each" attribute', function () {
     expect(function () {
       require('../fixtures/errors/for-with-non-string-each.jsx');
-    }).to.throw(Error, errors.FOR_WRONG_DATATYPE_EACH);
+    }).to.throw(Error, renderError(errors.NOT_STRING_TYPE, {element: 'For', attribute: 'each'}));
   });
 
   it('should fail for a <For> with non string "index" attribute', function () {
     expect(function () {
       require('../fixtures/errors/for-with-non-string-index.jsx');
-    }).to.throw(Error, errors.FOR_WRONG_DATATYPE_INDEX);
+    }).to.throw(Error, renderError(errors.NOT_STRING_TYPE, {element: 'For', attribute: 'index'}));
   });
 
   it('should fail for a <For> with non ExpressionContainer "of" attribute', function () {
     expect(function () {
       require('../fixtures/errors/for-with-non-expression-of.jsx');
-    }).to.throw(Error, errors.FOR_WRONG_DATATYPE_OF);
+    }).to.throw(Error, renderError(errors.NOT_EXPRESSION_TYPE, {element: 'For', attribute: 'of'}));
   });
 });

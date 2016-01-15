@@ -1,54 +1,33 @@
 var _ = require('lodash');
-var error = require('./error');
+
+var astUtil = require('./util/ast');
+var errorUtil = require('./util/error');
+
+var ELEMENTS = {
+  IF: 'If',
+  ELSE_IF: 'ElseIf',
+  ELSE: 'Else'
+};
+var ATTRIBUTES = {
+  CONDITION: 'condition'
+};
 
 
-var ELSE_IF = 'ElseIf';
-var ELSE = 'Else';
-var CONDITION = 'condition';
-
-function getSingleBlock(blocks, types, node, file) {
-  if (blocks.length > 1) {
-    error.throwError(error.MULTIPLE_CHILDREN, node, file);
-  } else if (blocks.length === 0) {
-    blocks[0] = types.NullLiteral();
-  }
-
-  return blocks[0];
-}
-
-function getConditionExpression(node, file) {
-  var attributes = node.openingElement.attributes;
-  var condition;
-
-  if (attributes && attributes.length) {
-    condition = _.find(attributes, function (attr) {
-      return attr.name.name === CONDITION;
-    });
-  }
-
-  if (!condition) {
-    error.throwError(error.IF_WITH_NO_CONDITION, node, file);
-  }
-  else if (!condition.value || condition.value.type !== 'JSXExpressionContainer') {
-    error.throwError(error['IF_WRONG_DATATYPE_CONDITION'], node, file);
-  }
-
-
-  return condition.value.expression;
-}
-
-function getBlocks(nodes, file) {
+function getBlocks(nodes, errorInfos) {
   var result = {
     ifBlock: [],
     elseBlock: [],
     elseIfBlocks: []
   };
-
   var currentBlock = result.ifBlock;
+
   _.forEach(nodes, function(node) {
-    if (isTag(node, ELSE_IF)) {
+    if (astUtil.isTag(node, ELEMENTS.ELSE_IF)) {
+      errorInfos.node = node;
+      errorInfos.element = ELEMENTS.ELSE_IF;
       var newElseIfBlock = [];
-      var condition = getConditionExpression(node, file);
+      var condition = getConditionExpression(node, errorInfos);
+
       result.elseIfBlocks.push({
         node: node,
         condition: condition,
@@ -56,7 +35,7 @@ function getBlocks(nodes, file) {
       });
       currentBlock = newElseIfBlock;
     }
-    else if (isTag(node, ELSE)) {
+    else if (astUtil.isTag(node, ELEMENTS.ELSE)) {
       currentBlock = result.elseBlock;
     }
     else {
@@ -67,11 +46,28 @@ function getBlocks(nodes, file) {
   return result;
 }
 
-function isTag (node, tagName) {
-  return node.type === 'JSXElement'
-    && node.openingElement
-    && node.openingElement.name
-    && node.openingElement.name.name === tagName;
+function getSingleBlock(blocks, types, errorInfos) {
+  if (blocks.length > 1) {
+    errorUtil.throwMultipleChildren(errorInfos);
+  }
+  else if (blocks.length === 0) {
+    blocks[0] = types.NullLiteral();
+  }
+
+  return blocks[0];
+}
+
+function getConditionExpression(node, errorInfos) {
+  var condition = astUtil.getAttributeMap(node)[ATTRIBUTES.CONDITION];
+
+  if (!condition) {
+    errorUtil.throwNoAttribute(ATTRIBUTES.CONDITION, errorInfos);
+  }
+  if (!astUtil.isExpressionContainer(condition)) {
+    errorUtil.throwNotExpressionType(ATTRIBUTES.CONDITION, errorInfos);
+  }
+
+  return astUtil.getExpression(condition);
 }
 
 
@@ -80,27 +76,23 @@ module.exports = function(babel) {
 
   return function(node, file) {
     var ifBlock, elseBlock, elseIfBlocks;
+    var errorInfos = { node: node, file: file, element: ELEMENTS.IF };
+    var condition = getConditionExpression(node, errorInfos);
+    var children = astUtil.getChildren(types, node);
+    var blocks = getBlocks(children, errorInfos);
 
-    var condition = getConditionExpression(node, file);
-    var children = types.react.buildChildren(node); // normalize JSXText and JSXExpressionContainer to expressions
-    var blocks = getBlocks(children, file);
-
-    ifBlock = getSingleBlock(blocks.ifBlock, types, node, file);
-
-    elseBlock = blocks.elseBlock;
-    if (elseBlock.length > 1) {
-      error.throwError(error.MULTIPLE_CHILDREN, node, file);
-    }
-    else if (elseBlock.length === 0) {
-      elseBlock = [types.NullLiteral()];
-    }
-    elseBlock = elseBlock[0];
+    ifBlock = getSingleBlock(blocks.ifBlock, types, errorInfos);
+    elseBlock = getSingleBlock(blocks.elseBlock, types, errorInfos);
 
     // test ? x : (test2 ? y : z)
     elseIfBlocks = blocks.elseIfBlocks;
     if (elseIfBlocks.length) {
+      errorInfos.element = ELEMENTS.ELSE_IF;
+
       _.forEachRight(elseIfBlocks, function(elseIfBlock) {
-        var singleElseIfBlock = getSingleBlock(elseIfBlock.blocks, types, elseIfBlock.node, file);
+        errorInfos.node = elseIfBlock.node;
+        var singleElseIfBlock = getSingleBlock(elseIfBlock.blocks, types, errorInfos);
+
         elseBlock = types.ConditionalExpression(elseIfBlock.condition, singleElseIfBlock, elseBlock);
       });
     }
