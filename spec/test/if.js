@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 describe('requiring in component with empty if', function() {
   var Fixture = require('../fixtures/if-empty.jsx');
 
-  it('should render nothing when condition false', function () {
+  it('should render nothing when condition true, but if is empty', function () {
     var fixture = React.createElement(Fixture);
     var rendered = ReactDOMServer.renderToString(fixture);
     expect(rendered).to.match(/^<div[^>]*><\/div>$/);

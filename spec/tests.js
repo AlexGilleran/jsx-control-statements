@@ -7,6 +7,7 @@ require('babel-core/register')({
 });
 
 
+require('./test/basic');
 require('./test/if');
 require('./test/for');
 require('./test/mixed');
