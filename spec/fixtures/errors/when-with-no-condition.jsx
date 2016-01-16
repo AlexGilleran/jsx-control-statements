@@ -4,8 +4,9 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <If condition={this.props.condition === 'blah'}>
-        </If>
+        <Choose>
+          <When>WhenBlock</When>
+        </Choose>
       </div>
     );
   }

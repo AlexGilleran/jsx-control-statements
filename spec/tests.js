@@ -9,6 +9,7 @@ require('babel-core/register')({
 
 require('./test/basic');
 require('./test/if');
+require('./test/choose');
 require('./test/for');
 require('./test/mixed');
 require('./test/extension');
