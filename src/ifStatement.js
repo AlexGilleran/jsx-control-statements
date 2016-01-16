@@ -5,7 +5,6 @@ var errorUtil = require('./util/error');
 
 var ELEMENTS = {
   IF: 'If',
-  ELSE_IF: 'ElseIf',
   ELSE: 'Else'
 };
 var ATTRIBUTES = {
@@ -16,26 +15,12 @@ var ATTRIBUTES = {
 function getBlocks(nodes, errorInfos) {
   var result = {
     ifBlock: [],
-    elseBlock: [],
-    elseIfBlocks: []
+    elseBlock: []
   };
   var currentBlock = result.ifBlock;
 
   _.forEach(nodes, function(node) {
-    if (astUtil.isTag(node, ELEMENTS.ELSE_IF)) {
-      errorInfos.node = node;
-      errorInfos.element = ELEMENTS.ELSE_IF;
-      var newElseIfBlock = [];
-      var condition = getConditionExpression(node, errorInfos);
-
-      result.elseIfBlocks.push({
-        node: node,
-        condition: condition,
-        blocks: newElseIfBlock
-      });
-      currentBlock = newElseIfBlock;
-    }
-    else if (astUtil.isTag(node, ELEMENTS.ELSE)) {
+    if (astUtil.isTag(node, ELEMENTS.ELSE)) {
       currentBlock = result.elseBlock;
     }
     else {
@@ -83,19 +68,6 @@ module.exports = function(babel) {
 
     ifBlock = getSingleBlock(blocks.ifBlock, types, errorInfos);
     elseBlock = getSingleBlock(blocks.elseBlock, types, errorInfos);
-
-    // test ? x : (test2 ? y : z)
-    elseIfBlocks = blocks.elseIfBlocks;
-    if (elseIfBlocks.length) {
-      errorInfos.element = ELEMENTS.ELSE_IF;
-
-      _.forEachRight(elseIfBlocks, function(elseIfBlock) {
-        errorInfos.node = elseIfBlock.node;
-        var singleElseIfBlock = getSingleBlock(elseIfBlock.blocks, types, errorInfos);
-
-        elseBlock = types.ConditionalExpression(elseIfBlock.condition, singleElseIfBlock, elseBlock);
-      });
-    }
 
     return types.ConditionalExpression(condition, ifBlock, elseBlock);
   }
