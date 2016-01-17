@@ -6,6 +6,17 @@ var ATTRIBUTES = {
   CONDITION: 'condition'
 };
 
+exports.getSingleBlock = function(types, blocks, errorInfos) {
+  if (blocks.length > 1) {
+    errorUtil.throwMultipleChildren(errorInfos);
+  }
+  else if (blocks.length === 0) {
+    blocks[0] = types.NullLiteral();
+  }
+
+  return blocks[0];
+};
+
 exports.getConditionExpression = function(node, errorInfos) {
   var condition = astUtil.getAttributeMap(node)[ATTRIBUTES.CONDITION];
 

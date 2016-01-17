@@ -38,12 +38,11 @@
   "devDependencies": {
     "babel-preset-react": "^6.1.2",
     "chai": "^2.1.0",
-    "chai-spies": "^0.7.1",
-    "coveralls": "^2.11.6",
-    "istanbul": "^0.4.1",
     "mocha": "^2.1.0",
     "node-jsx": "^0.12.4",
     "react": "^0.14.x",
-    "react-dom": "^0.14.x"
+    "react-dom": "^0.14.x",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.1"
   }
 }

@@ -16,6 +16,7 @@ function throwError(errorMsg, infos) {
 }
 
 exports.ERRORS = ERRORS = {
+  MULTIPLE_CHILDREN: 'Control statements cannot have multiple children!',
   NO_ATTRIBUTE: 'Attribute \'<%= attribute %>\' is required for <<%= element %>>, but missing!',
   NOT_EXPRESSION_TYPE: 'Attribute \'<%= attribute %>\' of <<%= element %>> tag must be an expression, e.g. \'<%= attribute %>={ ... }\'',
   NOT_STRING_TYPE: 'Attribute \'<%= attribute %>\' of <<%= element %>> tag must be of type String, e.g. \'<%= attribute %>="..."\'',
@@ -42,6 +43,10 @@ exports.throwNotExpressionType = function(attributeName, infos) {
 exports.throwNotStringType = function(attributeName, infos) {
   infos.attribute = attributeName;
   throwError(ERRORS.NOT_STRING_TYPE, infos);
+};
+
+exports.throwMultipleChildren = function(infos) {
+  throwError(ERRORS.MULTIPLE_CHILDREN, infos);
 };
 
 exports.throwChooseWithoutWhen = function(infos) {
