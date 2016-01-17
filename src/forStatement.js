@@ -34,10 +34,11 @@ module.exports = function(babel) {
   var types = babel.types;
 
   return function(node, file) {
-    var child, mapParams = [];
+    var blocks, mapParams = [];
     var errorInfos = { node: node, file: file, element: ELEMENTS.FOR };
     var attributes = astUtil.getAttributeMap(node);
     var children = astUtil.getChildren(types, node);
+    var returnExpression = astUtil.getSanitizedExpressionForContent(types, children);
 
     // required attribute
     if (!attributes[ATTRIBUTES.OF]) {
@@ -48,16 +49,11 @@ module.exports = function(babel) {
     checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
     checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
 
-    if (children.length > 1) {
-      errorUtil.throwMultipleChildren(errorInfos);
-    }
-
     // simply return without any child nodes
     if (!children.length) {
-      return types.NullLiteral();
+      return returnExpression;
     }
 
-    child = children[0];
     addMapParam(types, mapParams, attributes[ATTRIBUTES.EACH]);
     addMapParam(types, mapParams, attributes[ATTRIBUTES.INDEX]);
 
@@ -71,7 +67,7 @@ module.exports = function(babel) {
           null,
           mapParams,
           types.blockStatement([
-            types.returnStatement(child)
+            types.returnStatement(returnExpression)
           ])
         ),
         types.identifier('this')

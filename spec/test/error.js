@@ -60,23 +60,6 @@ describe('when encountering errors', function () {
     }).to.throw(Error, /.*7,8.*/);
   });
 
-  it('should fail for an <If> with multiple children', function() {
-    expect(function() {
-      require('../fixtures/errors/if-with-multiple-children.jsx');
-    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
-  });
-
-  it('should fail for an <Else> with multiple children', function() {
-    expect(function() {
-      require('../fixtures/errors/else-with-multiple-children.jsx');
-    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
-  });
-
-  it('should fail for an <For> with multiple children', function() {
-    expect(function() {
-      require('../fixtures/errors/for-with-multiple-children.jsx');
-    }).to.throw(Error, renderError(errors.MULTIPLE_CHILDREN));
-  });
 });
 
 

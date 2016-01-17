@@ -9,7 +9,7 @@ var ELEMENTS = {
 };
 
 
-function getBlocks(nodes, errorInfos) {
+function getBlocks(nodes) {
   var result = {
     ifBlock: [],
     elseBlock: []
@@ -36,10 +36,10 @@ module.exports = function(babel) {
     var errorInfos = { node: node, file: file, element: ELEMENTS.IF };
     var condition = conditionalUtil.getConditionExpression(node, errorInfos);
     var children = astUtil.getChildren(types, node);
-    var blocks = getBlocks(children, errorInfos);
+    var blocks = getBlocks(children);
 
-    ifBlock = conditionalUtil.getSingleBlock(types, blocks.ifBlock, errorInfos);
-    elseBlock = conditionalUtil.getSingleBlock(types, blocks.elseBlock, errorInfos);
+    ifBlock = astUtil.getSanitizedExpressionForContent(types, blocks.ifBlock);
+    elseBlock = astUtil.getSanitizedExpressionForContent(types, blocks.elseBlock);
 
     return types.ConditionalExpression(condition, ifBlock, elseBlock);
   }
