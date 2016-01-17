@@ -1,12 +1,14 @@
-var transformIf = require('./ifStatement');
 var transformFor = require('./forStatement');
+var transformIf = require('./ifStatement');
+var transformChoose = require('./chooseStatement');
 
 
 module.exports = function (babel) {
 
   var nodeHandlers = {
     'For': transformFor(babel),
-    'If': transformIf(babel)
+    'If': transformIf(babel),
+    'Choose': transformChoose(babel)
   };
 
   var visitor = {

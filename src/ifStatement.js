@@ -1,14 +1,11 @@
 var _ = require('lodash');
 
 var astUtil = require('./util/ast');
-var errorUtil = require('./util/error');
+var conditionalUtil = require('./util/conditional');
 
 var ELEMENTS = {
   IF: 'If',
   ELSE: 'Else'
-};
-var ATTRIBUTES = {
-  CONDITION: 'condition'
 };
 
 
@@ -31,43 +28,18 @@ function getBlocks(nodes, errorInfos) {
   return result;
 }
 
-function getSingleBlock(blocks, types, errorInfos) {
-  if (blocks.length > 1) {
-    errorUtil.throwMultipleChildren(errorInfos);
-  }
-  else if (blocks.length === 0) {
-    blocks[0] = types.NullLiteral();
-  }
-
-  return blocks[0];
-}
-
-function getConditionExpression(node, errorInfos) {
-  var condition = astUtil.getAttributeMap(node)[ATTRIBUTES.CONDITION];
-
-  if (!condition) {
-    errorUtil.throwNoAttribute(ATTRIBUTES.CONDITION, errorInfos);
-  }
-  if (!astUtil.isExpressionContainer(condition)) {
-    errorUtil.throwNotExpressionType(ATTRIBUTES.CONDITION, errorInfos);
-  }
-
-  return astUtil.getExpression(condition);
-}
-
-
 module.exports = function(babel) {
   var types = babel.types;
 
   return function(node, file) {
     var ifBlock, elseBlock, elseIfBlocks;
     var errorInfos = { node: node, file: file, element: ELEMENTS.IF };
-    var condition = getConditionExpression(node, errorInfos);
+    var condition = conditionalUtil.getConditionExpression(node, errorInfos);
     var children = astUtil.getChildren(types, node);
     var blocks = getBlocks(children, errorInfos);
 
-    ifBlock = getSingleBlock(blocks.ifBlock, types, errorInfos);
-    elseBlock = getSingleBlock(blocks.elseBlock, types, errorInfos);
+    ifBlock = conditionalUtil.getSingleBlock(types, blocks.ifBlock, errorInfos);
+    elseBlock = conditionalUtil.getSingleBlock(types, blocks.elseBlock, errorInfos);
 
     return types.ConditionalExpression(condition, ifBlock, elseBlock);
   }

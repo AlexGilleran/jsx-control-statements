@@ -6,6 +6,10 @@ var TYPES = {
   STRING_LITERAL: 'StringLiteral'
 };
 
+function getTagName (node) {
+  return node.openingElement.name.name;
+}
+
 /**
  * Test if this is a custom JSX element with the given name.
  *
@@ -13,9 +17,10 @@ var TYPES = {
  * @param {string} tagName - Name of element
  * @returns {boolean} whether the searched for element was found
  */
-exports.isTag = function (node, tagName) {
-  return node.type === TYPES.ELEMENT && node.openingElement.name.name === tagName;
+exports.isTag = isTag = function (node, tagName) {
+  return node.type === TYPES.ELEMENT && getTagName(node) === tagName;
 };
+
 
 /**
  * Tests whether this is an JSXExpressionContainer and returns it if true.
@@ -27,6 +32,12 @@ exports.isExpressionContainer = function(attribute) {
   return attribute && attribute.value.type === TYPES.EXPRESSION_CONTAINER;
 };
 
+/**
+ * Get expression from given attribute.
+ *
+ * @param {JSXAttribute} attribute
+ * @returns {Expression}
+ */
 exports.getExpression = function(attribute) {
   return attribute.value.expression;
 };
