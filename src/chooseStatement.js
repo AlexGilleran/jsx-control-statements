@@ -29,7 +29,7 @@ function getBlocks(types, children, errorInfos) {
         errorUtil.throwChooseWithMultipleOtherwise(errorInfos);
       }
 
-      result[ELEMENTS.OTHERWISE] = conditionalUtil.getSingleBlock(types, childNodes, errorInfos);
+      result[ELEMENTS.OTHERWISE] = astUtil.getSanitizedExpressionForContent(types, childNodes);
     }
     else if (astUtil.isTag(child, ELEMENTS.WHEN)) {
       childNodes = astUtil.getChildren(types, child);
@@ -38,7 +38,7 @@ function getBlocks(types, children, errorInfos) {
 
       result[ELEMENTS.WHEN].push({
         condition: conditionalUtil.getConditionExpression(child, errorInfos),
-        children: conditionalUtil.getSingleBlock(types, childNodes, errorInfos)
+        children: astUtil.getSanitizedExpressionForContent(types, childNodes)
       });
     }
     else {
