@@ -14,7 +14,8 @@ Wouldn't it be easier if we could just have some syntactical sugar that turned n
 So that's what this does. It's a Babel plugin that runs just before JSX transpilation and performs desugaring from
 `<If>` -> ` ? : ` and `<For>` -> `Array.map`.
 
-> *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
+> *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated
+out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
 
 ## Installation
 As a prerequisite you need to have [Babel](https://github.com/babel/babel) installed and configured in your project.
@@ -38,7 +39,7 @@ which fits your setup.
 
 ### Linting
 Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
-(well, and some more cases) would lead to warnings / errors by ESLint about undefined variables.
+(well, and some more cases) would lead to warnings or errors by ESLint about undefined variables.
 
 But fortunately you can use this
 [ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
@@ -50,59 +51,79 @@ to happily lint your code.
 Define an `<If>` tag like so:
 
 ```
-  <If condition={this.props.condition === 'blah'}>
+  // desugars into: this.props.myCondition ? <span>IfBlock</span> : null
+  <If condition={this.props.myCondition}>
+    <span>IfBlock</span>
+  </If>
+
+  // desugars into: this.props.myCondition === 'maybe' ? <span>IfBlock</span> : <span>ElseBlock</span>
+  <If condition={this.props.myCondition === 'maybe'}>
     <span>IfBlock</span>
   <Else />
     <span>ElseBlock</span>
   </If>
-```
 
-or
-
-```
-  <If condition={this.props.condition === 'blah'}>
-    <span>IfBlock</span>
+  // using multiple child elements and / or expressions is supported
+  // desugars into: true ? ['1st part', <span>2nd part</span>, <span>3rd part</span>] : null
+  <If condition={true}>
+    {'1st part'}
+    <span>2nd part</span>
+    <span>3rd part</span>
   </If>
 ```
 
-This will desugar into:
+
+`<If>` tags must have a `condition` attribute which is expected to be or return a boolean expression (i.e. contained
+within `{}`).
+
+### Choose Tag
+
+This is an alternative syntax for more complex conditional statements. The syntax itself is XMLish and conforms by and
+large to JSTL or XSLT:
 
 ```
-  this.props.condition === 'blah' ? (
+<choose>
+  <when condition={myCondition}>
     <span>IfBlock</span>
-  ) : (
+  </when>
+  <when condition={myOtherCondition}>
+    <span>ElseIfBlock</span>
+    <span>Another ElseIfBlock</span>
+    <span>...</span>
+  </when>
+  <default>
     <span>ElseBlock</span>
-  )
-```
+  </default>
+</choose>
 
-or
-
-```
-  this.props.condition === 'blah' ? (
+// default block is optional; minimal example:
+<choose>
+  <when condition={true}>
     <span>IfBlock</span>
-  ) : null
+  </when>
+</choose>
 ```
+Each `choose` statement requires at least one `when` block, but may contain as many `when` blocks as desired. Each
+`when` block in turn requires a `condition` attribute which must be an expression. The `default` block is optional.
 
-`<If>` tags must have a `condition` attribute which is expected to be some kind of expression (i.e. contained within
-`{}`). All the normal rules for putting JSX tags inside ternary ifs apply - the `<If>` block can only contain a single
-tag, for instance.
+This syntax desugars into a (sequence of) ternary operator(s).
 
 ### For Tag
 
 Define `<For>` like so:
-
 ```
-  <For each="blah" index="index" of={this.props.blahs}>
-    <span key={blah}>{blah + this.somethingElse} at {index}</span>
+  //  desugars into:
+  //  this.props.items.map(function(item) {
+  //    <span key={item.id}>{item.title}</span>
+  //  }
+  <For each="item" of={this.props.items}>
+    <span key={item.id}>{item.title}</span>
   </For>
-```
 
-and this will desugar into:
-
-```
-  this.props.blahs.map(function(blah, index) { return (
-    <span key={blah}>{blah + this.somethingElse} at {index}</span>
-  )}, this)
+  <For each="item" index="idx" of={ [1,2,3] }>
+    <span key={idx}>{item}</span>
+    <span key={idx + '_2'}>Static Text</span>
+  </For>
 ```
 
 The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each
@@ -122,14 +143,6 @@ To loop across an `Object`, use `Object.keys()` like so:
   </For>
 ```
 
-### Expressions as Children
-As of 3.0.0 having a JSXExpression as a child of a JSX control statment is supported, i.e.
-
-```
-<If condition={foo}>
-  {'foo'}
-</If>
-```
 
 ## Major Versions
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
