@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 var astUtil = require('./util/ast');
 var conditionalUtil = require('./util/conditional');
 
@@ -16,7 +14,7 @@ function getBlocks(nodes) {
   };
   var currentBlock = result.ifBlock;
 
-  _.forEach(nodes, function(node) {
+  nodes.forEach(function(node) {
     if (astUtil.isTag(node, ELEMENTS.ELSE)) {
       currentBlock = result.elseBlock;
     }

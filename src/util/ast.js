@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 var TYPES = {
   ELEMENT: 'JSXElement',
   EXPRESSION_CONTAINER: 'JSXExpressionContainer',
@@ -59,7 +57,7 @@ exports.isStringLiteral = function(attribute) {
  * @returns {object} Map of all attributes with their name as key
  */
 exports.getAttributeMap = function (node) {
-  return _.reduce(node.openingElement.attributes, function(result, attr) {
+  return node.openingElement.attributes.reduce(function(result, attr) {
     result[attr.name.name] = attr;
     return result;
   }, {});
@@ -84,8 +82,15 @@ exports.getChildren = function(babelTypes, node) {
  * @param {string} keyValue - Value of the key
  */
 var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyValue) {
-  var key = _.find(node.openingElement.attributes, function(attrib) { return attrib.name.name === 'key' });
-  if (!key) {
+  var keyFound;
+  node.openingElement.attributes.forEach(function(attrib) {
+    if(attrib.name.name === 'key') {
+      keyFound = true;
+      return false;
+    }
+  });
+
+  if (!keyFound) {
     var keyAttrib = babelTypes.jSXAttribute(babelTypes.jSXIdentifier('key'), babelTypes.stringLiteral(''+keyValue));
     node.openingElement.attributes.push(keyAttrib)
   }

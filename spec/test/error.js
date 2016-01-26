@@ -15,7 +15,7 @@ describe('when encountering errors', function () {
   it('should fail for a <Choose> without children', function () {
     expect(function () {
       require('../fixtures/errors/choose-with-no-children.jsx');
-    }).to.throw(Error, renderError(errors.NO_CHILDREN, {element: 'Choose'}));
+    }).to.throw(Error, renderError(errors.CHOOSE_WITHOUT_WHEN));
   });
 
   it('should fail for a <Choose> with no <When>', function () {

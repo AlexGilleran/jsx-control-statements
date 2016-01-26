@@ -1,5 +1,10 @@
-var _ = require('lodash');
-
+// http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format#answer-4673436
+function formatString(format) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return format.replace(/{(\d+)}/g, function(match, number) {
+    return typeof args[number] != 'undefined' ? args[number] : match;
+  });
+}
 
 function throwError(errorMsg, infos) {
   throw new Error(
@@ -15,10 +20,10 @@ function throwError(errorMsg, infos) {
   );
 }
 
-exports.ERRORS = ERRORS = {
-  NO_ATTRIBUTE: 'Attribute \'<%= attribute %>\' is required for <<%= element %>>, but missing!',
-  NOT_EXPRESSION_TYPE: 'Attribute \'<%= attribute %>\' of <<%= element %>> tag must be an expression, e.g. \'<%= attribute %>={ ... }\'',
-  NOT_STRING_TYPE: 'Attribute \'<%= attribute %>\' of <<%= element %>> tag must be of type String, e.g. \'<%= attribute %>="..."\'',
+var ERRORS = exports.ERRORS = {
+  NO_ATTRIBUTE: 'Attribute \'{0}\' is required for <{1}>, but missing!',
+  NOT_EXPRESSION_TYPE: 'Attribute \'{0}\' of <{1}> tag must be an expression, e.g. \'{0}={ ... }\'',
+  NOT_STRING_TYPE: 'Attribute \'{0}\' of <{1}> tag must be of type String, e.g. \'{0}="..."\'',
   CHOOSE_WITHOUT_WHEN: '<Choose> statement requires at least one <When> element!',
   CHOOSE_OTHERWISE_NOT_LAST: '<Otherwise> must be the last element within a <Choose> statement!',
   CHOOSE_WITH_MULTIPLE_OTHERWISE: '<Choose> statement allows only for one <Otherwise> block!',
@@ -26,7 +31,12 @@ exports.ERRORS = ERRORS = {
 };
 
 exports.renderErrorMessage = function(errorMsg, infos) {
-  return _.template(errorMsg)(infos);
+  var args = [];
+  if (infos) {
+    args.push(infos.attribute);
+    args.push(infos.element);
+  }
+  return formatString(errorMsg, args);
 };
 
 exports.throwNoAttribute = function(attributeName, infos) {

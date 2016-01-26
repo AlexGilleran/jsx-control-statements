@@ -32,8 +32,7 @@
   },
   "dependencies": {
     "babel-core": "^6.1.2",
-    "babel-plugin-syntax-jsx": "^6.1.18",
-    "lodash": "^3.3.0"
+    "babel-plugin-syntax-jsx": "^6.1.18"
   },
   "devDependencies": {
     "babel-preset-react": "^6.1.2",

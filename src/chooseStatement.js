@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 var astUtil = require('./util/ast');
 var conditionalUtil = require('./util/conditional');
 var errorUtil = require('./util/error');
@@ -16,7 +14,7 @@ function getBlocks(types, children, errorInfos) {
   var result = {};
   result[ELEMENTS.WHEN] = [];
 
-  _.reduceRight(children, function(result, child) {
+  children.reduceRight(function(result, child) {
     if (astUtil.isTag(child, ELEMENTS.OTHERWISE)) {
       childNodes = astUtil.getChildren(types, child);
       errorInfos.element = ELEMENTS.OTHERWISE;
@@ -71,7 +69,7 @@ module.exports = function(babel) {
       errorUtil.throwChooseWithoutWhen(errorInfos);
     }
 
-    _.forEachRight(blocks[ELEMENTS.WHEN], function(whenBlock) {
+    blocks[ELEMENTS.WHEN].reverse().forEach(function(whenBlock) {
       ternaryExpression = types.ConditionalExpression(whenBlock.condition, whenBlock.children, ternaryExpression);
     });
 

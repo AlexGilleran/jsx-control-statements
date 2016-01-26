@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 var astUtil = require('./util/ast');
 var errorUtil = require('./util/error');
 
@@ -34,7 +32,7 @@ module.exports = function(babel) {
   var types = babel.types;
 
   return function(node, file) {
-    var blocks, mapParams = [];
+    var mapParams = [];
     var errorInfos = { node: node, file: file, element: ELEMENTS.FOR };
     var attributes = astUtil.getAttributeMap(node);
     var children = astUtil.getChildren(types, node);
