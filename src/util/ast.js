@@ -107,7 +107,7 @@ exports.getSanitizedExpressionForContent = function(babelTypes, blocks) {
     return blocks[0];
   }
 
-  for(var i = 0; i < blocks.length; i++) {
+  for (var i = 0; i < blocks.length; i++) {
     var block = blocks[i];
     if (babelTypes.isJSXElement(block)) {
       addKeyAttribute(babelTypes, block, i);
