@@ -12,3 +12,4 @@
 - 2.0.2 [2016/01/04]: Fixed `<If>` in `<For>` returning `<span>` when condition false (thanks texttechne!)
 - 2.0.3 [2016/01/05]: Added travis / coveralls badges to readme.md.
 - 3.0.0 [2016/01/07]: Removed JSTransform support, added support for JSXExpressionContainer as child.
+- 3.1.0 [2016/01/31]: Removed lodash (#33), supported multiple elements in control statements (#2), added support for "choose" syntax
