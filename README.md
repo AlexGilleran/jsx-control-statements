@@ -82,29 +82,29 @@ This is an alternative syntax for more complex conditional statements. The synta
 large to JSTL or XSLT:
 
 ```
-<choose>
-  <when condition={myCondition}>
+<Choose>
+  <When condition={myCondition}>
     <span>IfBlock</span>
-  </when>
-  <when condition={myOtherCondition}>
+  </When>
+  <When condition={myOtherCondition}>
     <span>ElseIfBlock</span>
     <span>Another ElseIfBlock</span>
     <span>...</span>
-  </when>
-  <default>
+  </When>
+  <Otherwise>
     <span>ElseBlock</span>
-  </default>
-</choose>
+  </Otherwise>
+</Choose>
 
 // default block is optional; minimal example:
-<choose>
-  <when condition={true}>
+<Choose>
+  <When condition={true}>
     <span>IfBlock</span>
-  </when>
-</choose>
+  </When>
+</Choose>
 ```
-Each `choose` statement requires at least one `when` block, but may contain as many `when` blocks as desired. Each
-`when` block in turn requires a `condition` attribute which must be an expression. The `default` block is optional.
+Each `Choose` statement requires at least one `When` block, but may contain as many `When` blocks as desired. Each
+`When` block in turn requires a `condition` attribute which must be an expression. The `Otherwise` block is optional.
 
 This syntax desugars into a (sequence of) ternary operator(s).
 
