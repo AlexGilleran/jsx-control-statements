@@ -10,6 +10,9 @@ module.exports = React.createClass({
         <When condition={this.props.when2}>
           <span>WhenBlock2</span>
         </When>
+        <When condition={this.props.when3}>
+          <span>WhenBlock3</span>
+        </When>
         <Otherwise>
           <span>OtherwiseBlock</span>
         </Otherwise>
