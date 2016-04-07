@@ -69,7 +69,7 @@ module.exports = function(babel) {
       errorUtil.throwChooseWithoutWhen(errorInfos);
     }
 
-    blocks[ELEMENTS.WHEN].reverse().forEach(function(whenBlock) {
+    blocks[ELEMENTS.WHEN].forEach(function(whenBlock) {
       ternaryExpression = types.ConditionalExpression(whenBlock.condition, whenBlock.children, ternaryExpression);
     });
 

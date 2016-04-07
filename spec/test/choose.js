@@ -46,6 +46,25 @@ describe('requiring in component with choose/otherwise', function () {
   });
 });
 
+describe('requiring in component with multi-when choose', function () {
+  var Fixture = require('../fixtures/choose/multi-when-choose.jsx');
+
+  it('should render the first block when both conditions true', function () {
+    var rendered = util.render(Fixture, {when1: true, when2: true});
+    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock1'));
+  });
+
+  it('should render the second block when the second condition is true', function () {
+    var rendered = util.render(Fixture, {when1: false, when2: true});
+    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock2'));
+  });
+
+  it('should render else block when condition false', function () {
+    var rendered = util.render(Fixture);
+    expect(rendered).to.match(util.matchTextWithinSpan('OtherwiseBlock'));
+  });
+});
+
 describe('requiring in component with nested choose', function () {
   var Fixture = require('../fixtures/choose/nested-choose.jsx');
 
