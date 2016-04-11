@@ -20,6 +20,11 @@ describe('requiring in component with choose', function () {
     expect(rendered).to.match(util.matchTextWithinSpanWithinDiv('WhenBlock1'));
   });
 
+  it('should render first when block when both conditions true', function () {
+    var rendered = util.render(Fixture, {when1: true, when2: true});
+    expect(rendered).to.match(util.matchTextWithinSpanWithinDiv('WhenBlock1'));
+  });
+
   it('should render second when block when condition true', function () {
     var rendered = util.render(Fixture, {when2: true});
     expect(rendered).to.match(util.matchTextWithinSpanWithinDiv('WhenBlock2'));
