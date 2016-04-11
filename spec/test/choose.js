@@ -51,50 +51,6 @@ describe('requiring in component with choose/otherwise', function () {
   });
 });
 
-describe('requiring in component with multi-when choose', function () {
-  var Fixture = require('../fixtures/choose/multi-when-choose.jsx');
-
-  it('should render the first block when the conditions are true, true, true', function () {
-    var rendered = util.render(Fixture, {when1: true, when2: true, when3: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock1'));
-  });
-
-  it('should render the first block when the conditions are true, true, false', function () {
-    var rendered = util.render(Fixture, {when1: true, when2: true, when3: false});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock1'));
-  });
-
-  it('should render the first block when the conditions are true, false, true', function () {
-    var rendered = util.render(Fixture, {when1: true, when2: false, when3: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock1'));
-  });
-
-  it('should render the first block when the conditions are true, false, false', function () {
-    var rendered = util.render(Fixture, {when1: true, when2: false, when3: false});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock1'));
-  });
-
-  it('should render the second block when the conditions are false, true, true', function () {
-    var rendered = util.render(Fixture, {when1: false, when2: true, when3: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock2'));
-  });
-
-  it('should render the second block when the conditions are false, true, false', function () {
-    var rendered = util.render(Fixture, {when1: false, when2: true, when3: false});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock2'));
-  });
-
-  it('should render the third block when the conditions are false, false, true', function () {
-    var rendered = util.render(Fixture, {when1: false, when2: false, when3: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('WhenBlock3'));
-  });
-
-  it('should render else block when the conditions are false, false, false', function () {
-    var rendered = util.render(Fixture);
-    expect(rendered).to.match(util.matchTextWithinSpan('OtherwiseBlock'));
-  });
-});
-
 describe('requiring in component with nested choose', function () {
   var Fixture = require('../fixtures/choose/nested-choose.jsx');
 
