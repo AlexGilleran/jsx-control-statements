@@ -48,45 +48,62 @@ to happily lint your code.
 ## Syntax
 ### If Tag
 
-Define an `<If>` tag like so:
+Used to express the most simple conditional logic.
 
+```javascript
+// simple
+<If condition={ true }>
+  <span>IfBlock</span>
+</If>
+
+// with else (deprecated: see choose)
+<If condition={ this.props.myCondition === 'maybe' }>
+  <span>IfBlock</span>
+<Else />
+  <span>ElseBlock</span>
+</If>
+
+// using multiple child elements and / or expressions
+<If condition={ true }>
+  1st part
+  { "2nd part" }
+  <span>3rd part</span>
+  <span>4th part</span>
+</If>
 ```
-  // desugars into: this.props.myCondition ? <span>IfBlock</span> : null
-  <If condition={this.props.myCondition}>
-    <span>IfBlock</span>
-  </If>
+#### &lt;If&gt;
+The body of the if statement only gets evaluated if `condition` is true.
 
-  // desugars into: this.props.myCondition === 'maybe' ? <span>IfBlock</span> : <span>ElseBlock</span>
-  <If condition={this.props.myCondition === 'maybe'}>
-    <span>IfBlock</span>
-  <Else />
-    <span>ElseBlock</span>
-  </If>
+Prop Name | Prop Type | Required
+--------- | --------- | --------
+condition | boolean | :white_check_mark:
 
-  // using multiple child elements and / or expressions is supported
-  // desugars into: true ? ['1st part', <span>2nd part</span>, <span>3rd part</span>] : null
-  <If condition={true}>
-    {'1st part'}
-    <span>2nd part</span>
-    <span>3rd part</span>
-  </If>
+#### &lt;Else /&gt;
+The else element has no properties and demarcates the `else` branch (deprecated).
+
+#### Transformation
+If statements transform to the *ternary operator*:
+```javascript
+// before transformation
+<If condition={ test }>
+  <span>Truth</span>
+</If>
+
+// after transformation
+{ test ? <span>Truth</span> : null }
 ```
-
-
-`<If>` tags must have a `condition` attribute which is expected to be or return a boolean expression (i.e. contained
-within `{}`).
 
 ### Choose Tag
 
 This is an alternative syntax for more complex conditional statements. The syntax itself is XMLish and conforms by and
-large to JSTL or XSLT:
+large to JSTL or XSLT (the attribute is called `condition` instead of `test`):
 
-```
+```javascript
 <Choose>
-  <When condition={myCondition}>
+  <When condition={ test1 }>
     <span>IfBlock</span>
   </When>
-  <When condition={myOtherCondition}>
+  <When condition={ test2 }>
     <span>ElseIfBlock</span>
     <span>Another ElseIfBlock</span>
     <span>...</span>
@@ -103,44 +120,85 @@ large to JSTL or XSLT:
   </When>
 </Choose>
 ```
-Each `Choose` statement requires at least one `When` block, but may contain as many `When` blocks as desired. Each
-`When` block in turn requires a `condition` attribute which must be an expression. The `Otherwise` block is optional.
 
+#### &lt;Choose&gt;
+Acts as a simple container and only allows for `<Choose>` and `<Otherwise>` as children.
+Each `<Choose>` statement requires at least one `<When>` block but may contain as many as desired.
+The `<Otherwise>` block is optional.
+
+#### &lt;When&gt;
+Analog to `<If>`.
+
+Prop Name | Prop Type | Required
+--------- | --------- | --------
+condition | boolean | :white_check_mark:
+
+#### &lt;Otherwise&gt;
+`<Otherwise>` has not attributes and demarcates the else branch of the conditional.
+
+#### Transformation
 This syntax desugars into a (sequence of) ternary operator(s).
+
+```javascript
+// Before transformation
+<Choose>
+  <When condition={ test1 }>
+    <span>IfBlock1</span>
+  </When>
+  <When condition={ test2 }>
+    <span>IfBlock2</span>
+  </When>
+  <Otherwise>
+    <span>ElseBlock</span>
+  </Otherwise>
+</Choose>
+
+// After transformation
+{ test1 ? <span>IfBlock1</span> : test2 ? <span>IfBlock2</span> : <span>ElseBlock</span> }
+```
 
 ### For Tag
 
 Define `<For>` like so:
-```
-  //  desugars into:
-  //  this.props.items.map(function(item) {
-  //    <span key={item.id}>{item.title}</span>
-  //  }
-  <For each="item" of={this.props.items}>
-    <span key={item.id}>{item.title}</span>
+```javascript
+  // you must provide the key attribute yourself
+  <For each="item" of={ this.props.items }>
+    <span key={ item.id }>{ item.title }</span>
   </For>
 
+  // using the index as key attribute is not stable if the array changes
   <For each="item" index="idx" of={ [1,2,3] }>
-    <span key={idx}>{item}</span>
-    <span key={idx + '_2'}>Static Text</span>
+    <span key={ idx }>{ item }</span>
+    <span key={ idx + '_2' }>Static Text</span>
   </For>
 ```
 
-The `<For>` tag expects an `each` attribute as a string (with `""` around it) - this is what you'll reference for each
-item in the array - and an `of` attribute which is an expression (with `{}` around it) that refers to the array that
-you'll loop through. You can also include an `index` attribute which will resolve to the index of the current item in
-the array, but it's optional.
+Prop Name | Prop Type | Required | description
+--------- | --------- | --------   -----------
+of | array or collection(Immutable) | :white_check_mark: | the array to iterate over. This can also be a collection (Immutable.js) or anything on which a function with the name `map` can be called
+each | string | | a reference to the current item of the array which can be used within the body as variable
+index | string | | a reference to the index of the current item which can be used within the body as variable
 
 Note that a `<For>` *cannot* be at the root of a `render()` function in a React component, because then you'd
 potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
 as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
-To loop across an `Object`, use `Object.keys()` like so:
+#### Transformation
+There is no implementation for the map function within *jsx-control-statements*. We only expect that a
+function can be called on the passed object (to the `of` attribute) which has the same signature as `Array.map`.
 
-```
-  <For each="blahKey" of={Object.keys(this.props.blahObj)}>
-    <span key={blahKey}>{blahObj[blahKey]}</span>
-  </For>
+```javascript
+// before transformation
+<For each="item" index="index" of={ items )}>
+  <span key={ item.id }>{ index }. { item.title }</span>
+</For>
+
+// after transformation
+{
+  items.map( function(item, index) {
+    <span key={ item.id }>{ index }. { item.title }</span>
+  })
+}
 ```
 
 
