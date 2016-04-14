@@ -174,7 +174,7 @@ Define `<For>` like so:
 ```
 
 Prop Name | Prop Type | Required | description
---------- | --------- | --------   -----------
+--------- | --------- | -------- | -----------
 of | array or collection(Immutable) | :white_check_mark: | the array to iterate over. This can also be a collection (Immutable.js) or anything on which a function with the name `map` can be called
 each | string | | a reference to the current item of the array which can be used within the body as variable
 index | string | | a reference to the index of the current item which can be used within the body as variable
