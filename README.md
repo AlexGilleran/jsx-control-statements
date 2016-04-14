@@ -2,20 +2,37 @@
 
 [![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg?branch=master)](https://travis-ci.org/AlexGilleran/jsx-control-statements) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=master&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=master)
 
-React and JSX are great, but to those of us who are used to dedicated templating libraries like Handlebars, the control
-statements (e.g. if conditions and for loops) are a step backwards in terms of neatness and readability. What's worse is
-that JSX is _perfectly capable_ of using the kind of conditional and looping logic we're used to, but it has to be done
-through ugly use of ternary ifs and `Array.map`, or by doing this logic in javascript before you start defining your
-actual view, which in my mind turns it into spaghetti.
+If you are used dedicated templating libraries like Handlebars it might come as surprise to you that JSX is missing
+one important part which every other template language contains, i.e. control statements. This is by design since
+JSX by itself is not a templating library but just syntactic sugar. It only takes care of transforming XMLish
+expressions into JavaScript expressions.
 
-Wouldn't it be easier if we could just have some syntactical sugar that turned neat `<If>`/`<Else />`/`</If>` and
-`<For>`/`</For>` tags into ternary ifs and `Array.map`, so you could read your render functions a bit more easily?
+*JSX-Control-Statements* extends JSX to allow for the essential control statements: **conditionals** and **loops**.
+It does so by transforming component-like elements (e.g. `<If>` and `<For>`) to their JavaScript counterparts. Hence
+it is following the spirit of JSX by only adding syntactic sugar.
 
-So that's what this does. It's a Babel plugin that runs just before JSX transpilation and performs desugaring from
-`<If>` -> ` ? : ` and `<For>` -> `Array.map`.
+The only dependency *JSX-Control-Statements* relies upon is *Babel*.
 
 > *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated
 out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
+
+
+## A Note on Transformation and Alternative Solutions
+It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
+of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
+will always evaluate all of its properties including the component body. Hence the following example will fail for
+those libraries:
+```javascript
+<IfComponent condition={ item }>
+  { item.title }
+</IfComponent>
+```
+The error will be "Cannot read property 'title' of undefined", because React will evaluate the body of the custom
+component and pass it as "children" property to it.
+
+This is the reason why conditionals must be implemented in pure JS. *JSX-Control-Statements* only adds the
+syntactic sugar to write conditionals as component, while it transforms this "component" to a pure JS expression.
+
 
 ## Installation
 As a prerequisite you need to have [Babel](https://github.com/babel/babel) installed and configured in your project.
@@ -45,6 +62,7 @@ But fortunately you can use this
 [ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
 to happily lint your code.
 
+
 ## Syntax
 ### If Tag
 
@@ -58,10 +76,10 @@ Used to express the most simple conditional logic.
 
 // using multiple child elements and / or expressions
 <If condition={ true }>
-  1st part
-  { "2nd part" }
-  <span>3rd part</span>
-  <span>4th part</span>
+  one
+  { "two" }
+  <span>three</span>
+  <span>four</span>
 </If>
 ```
 #### &lt;If&gt;
@@ -118,7 +136,7 @@ large to JSTL or XSLT (the attribute is called `condition` instead of `test`):
 ```
 
 #### &lt;Choose&gt;
-Acts as a simple container and only allows for `<Choose>` and `<Otherwise>` as children.
+Acts as a simple container and only allows for `<When>` and `<Otherwise>` as children.
 Each `<Choose>` statement requires at least one `<When>` block but may contain as many as desired.
 The `<Otherwise>` block is optional.
 
