@@ -28,11 +28,13 @@ those libraries:
 </IfComponent>
 ```
 The error will be "Cannot read property 'title' of undefined", because React will evaluate the body of the custom
-component and pass it as "children" property to it.
+component and pass it as "children" property to it. The only workaround is to force React into lazy evaluation by
+wrapping the statement in a function.
 
 This is the reason why conditionals must be implemented in pure JS. *JSX-Control-Statements* only adds the
 syntactic sugar to write conditionals as component, while it transforms this "component" to a pure JS expression.
 
+See [Alternative Solutions](#alternative-solutions) for a more detailed comparison and pure JS solutions.
 
 ## Installation
 As a prerequisite you need to have [Babel](https://github.com/babel/babel) installed and configured in your project.
@@ -215,6 +217,86 @@ function can be called on the passed object (to the `of` attribute) which has th
 }
 ```
 
+## Alternative Solutions
+
+### Pure JavaScript
+Since everything will be compiled to JavaScript anyway, you might prefer to stick to pure JavaScript solutions.
+
+#### Conditionals
+Probably the most common way for simple conditionals is the use of the && operator:
+```javascript
+// simple if
+{ test && <span>true</span> }
+
+// additionally the else branch
+{ !test && <span>false</span> }
+```
+
+The ternary operator is probably more elegant for if / else conditionals:
+```javascript
+// simple
+{ test ? <span>true</span> : <span>false</span> }
+
+// with multiple children
+{ test ? [<span key="1">one</span>, <span key="2">two</span>] : <span>false</span> }
+```
+
+Another approach is to refactor your conditional into a function:
+```javascript
+testFunc(condition){
+  if(condition) {
+    return <span>true</span>;
+  }
+  else {
+    return <span>false</span>
+  }
+}
+
+render() {
+  return (
+    <div>{ testFunc(test) }</div>
+  )
+}
+```
+
+#### Loops
+Not many options here:
+```javascript
+{ items.map(function(item) {
+    <span key={ item.id }>{ item. title }</span>
+}) }
+```
+
+#### Comparison
+Arguments pro *JSX-Control-Statements* in comparison to pure JS solutions:
+
+* more intuitive and easier to handle for designers and people with non-heavy JS background
+* JSX does not get fragmented by JS statements
+* Better readability and neatness, but that probably depends on you
+
+Cons:
+
+* penalty on build-time performance
+* depends on Babel 6
+* some Babel configuration
+
+### React Components
+Although there exists a reasonable amount of React components for conditionals, *JSX-Control-Statements* seems to be
+the only viable approach (see the [intro section](#a-note-on-transformation-and-alternative-solutions)) in this
+regard and there seems to be no alternative for loops.
+Nevertheless to sum up all pro arguments for this library:
+
+* conditionals are not flawed
+* loops with variable reference are made possible at all
+* no penalty on the runtime performance
+* no import / require statements needed to use control statements
+* it works exactly as JSX is supposed to work: Plain syntactic sugar
+
+Cons:
+
+* depends on Babel 6
+* some Babel configuration
+* penalty on build time performance
 
 ## Major Versions
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
@@ -223,9 +305,6 @@ function can be called on the passed object (to the `of` attribute) which has th
 
 This used to support both JSTransform and Babel, but as JSTransform is no longer maintained support was dropped. You can
 find the code for the JSTransform version at https://github.com/AlexGilleran/jsx-control-statements-jstransform.
-
-## Why Bother Transforming?
-See [here](https://github.com/AlexGilleran/jsx-control-statements/wiki/Why-Transform).
 
 ## I Want to Contribute!
 Yay! Please read the [Contributor's Guide](https://github.com/AlexGilleran/jsx-control-statements/blob/master/CONTRIBUTING.md).
