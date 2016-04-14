@@ -56,13 +56,6 @@ Used to express the most simple conditional logic.
   <span>IfBlock</span>
 </If>
 
-// with else (deprecated: see choose)
-<If condition={ this.props.myCondition === 'maybe' }>
-  <span>IfBlock</span>
-<Else />
-  <span>ElseBlock</span>
-</If>
-
 // using multiple child elements and / or expressions
 <If condition={ true }>
   1st part
@@ -78,8 +71,11 @@ Prop Name | Prop Type | Required
 --------- | --------- | --------
 condition | boolean | :white_check_mark:
 
-#### &lt;Else /&gt;
-The else element has no properties and demarcates the `else` branch (deprecated).
+#### &lt;Else /&gt; (deprecated)
+The else element has no properties and demarcates the `else` branch.
+
+This element is deprecated, since it's bad JSX/XML semantics and breaks auto-formatting.
+Please use `<Choose>` instead.
 
 #### Transformation
 If statements transform to the *ternary operator*:
