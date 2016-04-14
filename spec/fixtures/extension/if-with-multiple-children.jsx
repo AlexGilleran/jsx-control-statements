@@ -6,7 +6,7 @@ module.exports = React.createClass({
       <div>
         <If condition={this.props.condition}>
           {'if rendered'}
-          <span>test</span>
+          <span {...this.props}>test</span>
         <Else />
           {'else rendered'}
           <span>test</span>

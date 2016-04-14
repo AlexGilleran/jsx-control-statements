@@ -84,7 +84,7 @@ exports.getChildren = function(babelTypes, node) {
 var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyValue) {
   var keyFound;
   node.openingElement.attributes.forEach(function(attrib) {
-    if(attrib.name.name === 'key') {
+    if(babelTypes.isJSXAttribute(attrib) && attrib.name.name === 'key') {
       keyFound = true;
       return false;
     }

@@ -7,7 +7,7 @@ module.exports = React.createClass({
         <Choose>
           <When condition={this.props.when}>
             <span>When1</span>
-            <span>When2</span>
+            <span {...this.props}>When2</span>
           </When>
           <Otherwise>
             <span>Other1</span>
