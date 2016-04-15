@@ -14,3 +14,4 @@
 - 3.0.0 [2016/01/07]: Removed JSTransform support, added support for JSXExpressionContainer as child.
 - 3.1.0 [2016/01/31]: Removed lodash (#33), supported multiple elements in control statements (#2), added support for "choose" syntax
 - 3.1.1 [2016/04/12]: Corrected branches of <Choose> evaluating in reverse order (thanks @RacingTadpole!)
+- 3.1.2 [2016/04/15]: Fixed combination of spread operator and multiple children leading to parser error, big changes to readme file with clearer documentation.
