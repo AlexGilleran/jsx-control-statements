@@ -13,10 +13,6 @@ it is following the spirit of JSX by only adding syntactic sugar.
 
 The only dependency *JSX-Control-Statements* relies upon is *Babel*.
 
-> *Note:* As of 3.0.0 the JSTransform version of jsx-control-statements is no longer supported, and has been separated
-out to https://github.com/AlexGilleran/jsx-control-statements-jstransform.
-
-
 ## A Note on Transformation and Alternative Solutions
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
 of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
@@ -62,8 +58,7 @@ Since all control statements are transformed via Babel, no `require` or `import`
 
 But fortunately you can use this
 [ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
-to happily lint your code.
-
+to lint your code.
 
 ## Syntax
 ### If Tag
@@ -91,7 +86,7 @@ Prop Name | Prop Type | Required
 --------- | --------- | --------
 condition | boolean | :white_check_mark:
 
-#### &lt;Else /&gt; (deprecated)
+#### _&lt;Else /&gt; (deprecated)_
 The else element has no properties and demarcates the `else` branch.
 
 This element is deprecated, since it's bad JSX/XML semantics and breaks auto-formatting.
@@ -150,7 +145,7 @@ Prop Name | Prop Type | Required
 condition | boolean | :white_check_mark:
 
 #### &lt;Otherwise&gt;
-`<Otherwise>` has not attributes and demarcates the else branch of the conditional.
+`<Otherwise>` has no attributes and demarcates the else branch of the conditional.
 
 #### Transformation
 This syntax desugars into a (sequence of) ternary operator(s).
@@ -270,33 +265,35 @@ Not many options here:
 #### Comparison
 Arguments pro *JSX-Control-Statements* in comparison to pure JS solutions:
 
-* more intuitive and easier to handle for designers and people with non-heavy JS background
+* More intuitive and easier to handle for designers and people with non-heavy JS background
 * JSX does not get fragmented by JS statements
 * Better readability and neatness, but that probably depends on you
 
 Cons:
 
-* penalty on build-time performance
-* depends on Babel 6
-* some Babel configuration
+* Penalty on build-time performance
+* Depends on Babel 6
+* Some Babel configuration
 
 ### React Components
-Although there exists a reasonable amount of React components for conditionals, *JSX-Control-Statements* seems to be
-the only viable approach (see the [intro section](#a-note-on-transformation-and-alternative-solutions)) in this
-regard and there seems to be no alternative for loops.
-Nevertheless to sum up all pro arguments for this library:
+There are a reasonable amount of React components for conditionals (e.g. [react-if](https://github.com/romac/react-if)), *JSX-Control-Statements* is the only approach we know of that avoids execution of all branches (see the [intro section](#a-note-on-transformation-and-alternative-solutions)), and there seems to be no other component-based solution to looping - while it would be possible to make a component that renders everything in `props.children` for every element of an array, you'd have to access the members of the array in that component instead of the one that uses it.
 
-* conditionals are not flawed
-* loops with variable reference are made possible at all
-* no penalty on the runtime performance
-* no import / require statements needed to use control statements
-* it works exactly as JSX is supposed to work: Plain syntactic sugar
+For more discussion on `If` in React by the react team, have a look at https://github.com/reactjs/react-future/issues/35.
+
+To sum up:
+
+* Conditionals don't execute invalid paths
+* Loops with variable references to each element and index are made possible
+* No penalty on runtime performance
+* No import / require statements needed to use control statements
+* It works exactly as JSX is supposed to work: Plain syntactic sugar
 
 Cons:
 
-* depends on Babel 6
-* some Babel configuration
-* penalty on build time performance
+* Depends on Babel 6
+* Some Babel configuration
+* Slightly longer build times
+* Requires an extra plugin to work with ESLint
 
 ## Major Versions
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
