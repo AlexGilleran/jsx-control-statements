@@ -276,7 +276,7 @@ Cons:
 * Some Babel configuration
 
 ### React Components
-There are a reasonable amount of React components for conditionals (e.g. [react-if](https://github.com/romac/react-if)), *JSX-Control-Statements* is the only approach we know of that avoids execution of all branches (see the [intro section](#a-note-on-transformation-and-alternative-solutions)), and there seems to be no other component-based solution to looping - while it would be possible to make a component that renders everything in `props.children` for every element of an array, you'd have to access the members of the array in that component instead of the one that uses it.
+There are a reasonable amount of React components for conditionals (e.g. [react-if](https://github.com/romac/react-if), which inspired this in the first place), *JSX-Control-Statements* is the only approach we know of that avoids execution of all branches (see the [intro section](#a-note-on-transformation-and-alternative-solutions)), and there seems to be no other component-based solution to looping - while it would be possible to make a component that renders everything in `props.children` for every element of an array, you'd have to access the members of the array in that component instead of the one that uses it.
 
 For more discussion on `If` in React by the react team, have a look at https://github.com/reactjs/react-future/issues/35.
 
