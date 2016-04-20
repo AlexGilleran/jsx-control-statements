@@ -27,6 +27,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "lint": "eslint src spec",
     "test": "mocha spec/*.js",
     "cover": "istanbul cover -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec/*.js"
   },
@@ -35,10 +36,16 @@
     "babel-plugin-syntax-jsx": "^6.1.18"
   },
   "devDependencies": {
+    "babel-eslint": "^6.0.3",
     "babel-preset-react": "^6.1.2",
     "chai": "^2.1.0",
     "chai-spies": "^0.7.1",
     "coveralls": "^2.11.6",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^1.0.1",
+    "eslint-plugin-jsx-control-statements": "^2.1.0",
+    "eslint-plugin-react": "^5.0.1",
     "istanbul": "^0.4.1",
     "mocha": "^2.1.0",
     "node-jsx": "^0.12.4",

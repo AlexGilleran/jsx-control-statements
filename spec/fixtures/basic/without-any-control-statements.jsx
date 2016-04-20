@@ -6,9 +6,8 @@ var Iff = React.createClass({
   }
 });
 
-
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <div>
         <Iff />

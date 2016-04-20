@@ -5,7 +5,6 @@ var util = require('../testUtil');
 chai.use(spies);
 var expect = chai.expect;
 
-
 describe('extension: data type handling', function() {
   var IfStringLiteral = require('../fixtures/extension/if-with-string-literal.jsx');
   var IfExpressionContainer = require('../fixtures/extension/if-with-expression-container.jsx');
@@ -32,7 +31,7 @@ describe('extension: data type handling', function() {
   });
 
   it('should handle expression containers within for tag', function() {
-    var rendered = util.render(ForExpressionContainer, {items: ["test1", "test2", "test3"]});
+    var rendered = util.render(ForExpressionContainer, {items: ['test1', 'test2', 'test3']});
 
     expect(rendered).to.match(
       util.createDivMatcher()
@@ -129,5 +128,4 @@ describe('extension: multiple children', function() {
     );
     expect(consoleSpy).to.not.have.been.called();
   });
-
 });

@@ -8,11 +8,11 @@ exports.render = function(Fixture, args) {
 };
 
 function getSpan(content) {
-  return '<span[^>]*>' + content + '<\/span>';
+  return '<span[^>]*>' + content + '</span>';
 }
 
 function getDiv(content) {
-  return '<div[^>]*>' + content + '<\/div>';
+  return '<div[^>]*>' + content + '</div>';
 }
 
 function buildRegExp(matcher) {
@@ -56,9 +56,9 @@ var Builder = function(type) {
       var result = items.join('');
       return buildRegExp(type === 'div' ? getDiv(result) : getSpan(result));
     }
-  }
+  };
 };
 
 exports.createDivMatcher = function() {
-  return new Builder("div");
+  return new Builder('div');
 };

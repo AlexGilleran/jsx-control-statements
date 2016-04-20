@@ -6,7 +6,6 @@ require('babel-core/register')({
   cache: false
 });
 
-
 require('./test/basic');
 require('./test/if');
 require('./test/choose');

@@ -1,0 +1,28 @@
+{
+  "extends": ["airbnb/legacy", "plugin:react/recommended", "plugin:jsx-control-statements/recommended"],
+  "plugins": [
+    "react",
+    "jsx-control-statements"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "new-cap": 0,
+    "func-names": 0,
+    "no-param-reassign": 0,
+    "space-before-function-paren": [2, "never"],
+    "max-len": [1, 120],
+    "consistent-return": 0,
+    "vars-on-top": 0,
+    "object-curly-spacing": 0,
+    "react/display-name": 0,
+    "react/prop-types": 0
+  },
+  "env": {
+    "mocha": true
+  }
+}

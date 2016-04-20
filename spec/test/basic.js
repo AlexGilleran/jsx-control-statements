@@ -1,7 +1,6 @@
 var util = require('../testUtil');
 var expect = require('chai').expect;
 
-
 describe('Other JSXElements should not be affected', function() {
   var Fixture = require('../fixtures/basic/without-any-control-statements');
 
@@ -9,5 +8,4 @@ describe('Other JSXElements should not be affected', function() {
     var rendered = util.render(Fixture);
     expect(rendered).to.match(/<div[^>]*><span[^>]*>Test<\/span><\/div>/);
   });
-
 });

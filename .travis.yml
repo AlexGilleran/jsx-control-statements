@@ -1,7 +1,7 @@
 language: node_js
 node_js: stable
 script:
-  - npm run cover
+  - npm run lint && npm run cover
 after_script: "cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
 notifications:
   email:
