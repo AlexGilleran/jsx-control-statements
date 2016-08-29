@@ -4,9 +4,9 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div>
-        <For each="otherBlah" of={this.props.otherBlahs}>
-          <For each="blah" of={this.props.blahs}>
-            <span key={otherBlah + blah}>{otherBlah + blah}</span>
+        <For each="otherItem" of={this.props.otherItems}>
+          <For each="item" of={this.props.items}>
+            <span key={otherItem + item}>{otherItem + item}</span>
           </For>
         </For>
       </div>

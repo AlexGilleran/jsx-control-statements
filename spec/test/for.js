@@ -26,12 +26,12 @@ describe('requiring in component with for', function () {
 
   function runForTests(ComponentDefinition) {
     it('should render list of items', function () {
-      var rendered = util.render(ComponentDefinition, {blahs: ['blah1', 'blah2', 'blah3']});
-      expect(rendered).to.match(/.*span.*blah1test..*span.*span.*blah2test.*span.*blah3test.*span.*/);
+      var rendered = util.render(ComponentDefinition, {items: ['item1', 'item2', 'item3']});
+      expect(rendered).to.match(/.*span.*item1test..*span.*span.*item2test.*span.*item3test.*span.*/);
     });
 
     it('should render empty list of items as blank', function () {
-      var rendered = util.render(ComponentDefinition, {blahs: []});
+      var rendered = util.render(ComponentDefinition, {items: []});
       expect(rendered).to.match(/<div.*><\/div>/);
     });
   }
@@ -39,15 +39,21 @@ describe('requiring in component with for', function () {
 
 describe('requiring in component with for with index', function () {
   var ForWithIndex = require('../fixtures/for/for-with-index.jsx');
+  var ForWithIndexWithoutEach = require('../fixtures/for/for-with-index-without-each.jsx');
 
   it('should render list of items', function () {
-    var rendered = util.render(ForWithIndex, {blahs: ['blah1', 'blah2', 'blah3']});
-    expect(rendered).to.match(/.*span.*blah1test0..*span.*span.*blah2test1.*span.*blah3test2.*span.*/);
+    var rendered = util.render(ForWithIndex, {items: ['item1', 'item2', 'item3']});
+    expect(rendered).to.match(/.*span.*item1test0..*span.*span.*item2test1.*span.*item3test2.*span.*/);
   });
 
   it('should render empty list of items as blank', function () {
-    var rendered = util.render(ForWithIndex, {blahs: []});
+    var rendered = util.render(ForWithIndex, {items: []});
     expect(rendered).to.match(/<div.*><\/div>/);
+  });
+
+  it('should render indices without values', function() {
+    var rendered = util.render(ForWithIndexWithoutEach, {items: ["one", "two", "three"]});
+    expect(rendered).to.match(/.*span.*0.*1.*2.*/);
   });
 
 });
@@ -57,20 +63,20 @@ describe('nesting for within for', function () {
 
   it('should render only the first loop when if condition is true', function () {
     var rendered = util.render(ForInsideFor, {
-      blahs: ['blah1', 'blah2', 'blah3'],
-      otherBlahs: ['1hlab', '2hlab', '3hlab'],
+      items: ['item1', 'item2', 'item3'],
+      otherItems: ['1hlab', '2hlab', '3hlab'],
       test: true
     });
 
-    expect(rendered).to.contain('1hlabblah1');
-    expect(rendered).to.contain('1hlabblah2');
-    expect(rendered).to.contain('1hlabblah3');
-    expect(rendered).to.contain('2hlabblah1');
-    expect(rendered).to.contain('2hlabblah2');
-    expect(rendered).to.contain('2hlabblah3');
-    expect(rendered).to.contain('3hlabblah1');
-    expect(rendered).to.contain('3hlabblah2');
-    expect(rendered).to.contain('3hlabblah3');
+    expect(rendered).to.contain('1hlabitem1');
+    expect(rendered).to.contain('1hlabitem2');
+    expect(rendered).to.contain('1hlabitem3');
+    expect(rendered).to.contain('2hlabitem1');
+    expect(rendered).to.contain('2hlabitem2');
+    expect(rendered).to.contain('2hlabitem3');
+    expect(rendered).to.contain('3hlabitem1');
+    expect(rendered).to.contain('3hlabitem2');
+    expect(rendered).to.contain('3hlabitem3');
   });
 });
 
@@ -79,19 +85,19 @@ describe('nesting for within for with indexes', function () {
 
   it('should render a list of items using indexes from both Fors', function () {
     var rendered = util.render(ForInsideFor, {
-      blahs: ['blah1', 'blah2', 'blah3'],
-      otherBlahs: ['1hlab', '2hlab', '3hlab'],
+      items: ['item1', 'item2', 'item3'],
+      otherItems: ['1hlab', '2hlab', '3hlab'],
       test: true
     });
 
-    expect(rendered).to.contain('1hlabblah100');
-    expect(rendered).to.contain('1hlabblah210');
-    expect(rendered).to.contain('1hlabblah320');
-    expect(rendered).to.contain('2hlabblah101');
-    expect(rendered).to.contain('2hlabblah211');
-    expect(rendered).to.contain('2hlabblah321');
-    expect(rendered).to.contain('3hlabblah102');
-    expect(rendered).to.contain('3hlabblah212');
-    expect(rendered).to.contain('3hlabblah322');
+    expect(rendered).to.contain('1hlabitem100');
+    expect(rendered).to.contain('1hlabitem210');
+    expect(rendered).to.contain('1hlabitem320');
+    expect(rendered).to.contain('2hlabitem101');
+    expect(rendered).to.contain('2hlabitem211');
+    expect(rendered).to.contain('2hlabitem321');
+    expect(rendered).to.contain('3hlabitem102');
+    expect(rendered).to.contain('3hlabitem212');
+    expect(rendered).to.contain('3hlabitem322');
   });
 });

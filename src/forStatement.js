@@ -10,21 +10,25 @@ var ATTRIBUTES = {
   INDEX: 'index'
 };
 
-function addMapParam(types, params, attribute) {
+function addMapParam(types, params, attributes, attributeKey) {
+  var attribute = attributes[attributeKey];
   if (attribute && attribute.value) {
-    params.push(types.Identifier(attribute.value.value))
+    params.push(types.Identifier(attribute.value.value));
+  }
+  else {
+    params.push(types.Identifier(attributeKey));
   }
 }
 
 function checkForString(attributes, name, errorInfos) {
   if (attributes[name] && !astUtil.isStringLiteral(attributes[name])) {
-    errorUtil.throwNotStringType(name, errorInfos)
+    errorUtil.throwNotStringType(name, errorInfos);
   }
 }
 
 function checkForExpression(attributes, name, errorInfos) {
   if (attributes[name] && !astUtil.isExpressionContainer(attributes[name])) {
-    errorUtil.throwNotExpressionType(name, errorInfos)
+    errorUtil.throwNotExpressionType(name, errorInfos);
   }
 }
 
@@ -52,8 +56,8 @@ module.exports = function(babel) {
       return returnExpression;
     }
 
-    addMapParam(types, mapParams, attributes[ATTRIBUTES.EACH]);
-    addMapParam(types, mapParams, attributes[ATTRIBUTES.INDEX]);
+    addMapParam(types, mapParams, attributes, ATTRIBUTES.EACH);
+    addMapParam(types, mapParams, attributes, ATTRIBUTES.INDEX);
 
     return types.callExpression(
       types.memberExpression(

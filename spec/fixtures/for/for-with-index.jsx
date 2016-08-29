@@ -6,8 +6,8 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <For each="blah" index="$index" of={this.props.blahs}>
-          <span key={blah}>{blah + this.test + $index}</span>
+        <For each="item" index="$index" of={this.props.items}>
+          <span key={item}>{item + this.test + $index}</span>
         </For>
       </div>
     );
