@@ -11,7 +11,7 @@ expressions into JavaScript expressions.
 It does so by transforming component-like elements (e.g. `<If>` and `<For>`) to their JavaScript counterparts. Hence
 it is following the spirit of JSX by only adding syntactic sugar.
 
-The only dependency *JSX-Control-Statements* relies upon is *Babel*.
+The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compatible with React and React Native.
 
 ## A Note on Transformation and Alternative Solutions
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
