@@ -5,7 +5,7 @@
 *JSX-Control-Statements* is a Babel plugin that extends JSX to add basic control statements: **conditionals** and **loops**.
 It does so by transforming component-like control statements to their JavaScript counterparts - e.g. `<If condition={condition()}>Hello World!</If>` becomes `condition() ? 'Hello World!' : null`.
 
-Developers who are accustomed to using JavaScript templating libraries like Handlebars are often surprised that there's no built-in looping or conditional syntax. This is by design - JSX by is not a templating library, it's declarative syntactic sugar over functional JavaScript expressions. JSX Control Statements follows the same principle - it provides a component-like syntax that keeps your `render` functions neat and readable, but desugars into clean, readable JavaScript.
+Developers coming to React from using JavaScript templating libraries like Handlebars are often surprised that there's no built-in looping or conditional syntax. This is by design - JSX by is not a templating library, it's declarative syntactic sugar over functional JavaScript expressions. JSX Control Statements follows the same principle - it provides a component-like syntax that keeps your `render` functions neat and readable, but desugars into clean, readable JavaScript.
 
 The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compatible with React and React Native.
 
