@@ -2,18 +2,14 @@
 
 [![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg?branch=master)](https://travis-ci.org/AlexGilleran/jsx-control-statements) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=master&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=master) [![npm version](https://img.shields.io/npm/v/jsx-control-statements.svg?style=flat)](https://www.npmjs.com/package/jsx-control-statements)
 
-If you are used dedicated templating libraries like Handlebars it might come as surprise to you that JSX is missing
-one important part which every other template language contains, i.e. control statements. This is by design since
-JSX by itself is not a templating library but just syntactic sugar. It only takes care of transforming XMLish
-expressions into JavaScript expressions.
+*JSX-Control-Statements* is a Babel plugin that extends JSX to add basic control statements: **conditionals** and **loops**.
+It does so by transforming component-like control statements to their JavaScript counterparts - e.g. `<If condition={condition()}>Hello World!</If>` becomes `condition() ? 'Hello World!' : null`. 
 
-*JSX-Control-Statements* extends JSX to allow for the essential control statements: **conditionals** and **loops**.
-It does so by transforming component-like elements (e.g. `<If>` and `<For>`) to their JavaScript counterparts. Hence
-it is following the spirit of JSX by only adding syntactic sugar.
+Developers who are accustomed to using JavaScript templating libraries like Handlebars are often surprised that there's no built-in looping or conditional syntax. This is by design - JSX by is not a templating library, it's declarative syntactic sugar over functional JavaScript expressions. JSX Control Statements follows the same principle - it provides a component-like syntax that keeps your `render` functions neat and readable, but desugars into clean, readable JavaScript.
 
 The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compatible with React and React Native.
 
-## A Note on Transformation and Alternative Solutions
+### A Note on Transformation and Alternative Solutions
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
 of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
 will always evaluate all of its properties including the component body. Hence the following example will fail for
