@@ -215,7 +215,7 @@ There's still not a perfect solution for FlowType given that it doesn't provide 
 type checker complaining about statements being undeclared. As of now there's no neat way to make the Flow checker
 recognise `each` attributes in `<For>` loops as a variable - the best workaround for now is something like:
 
-```
+```javascript
 render() {
   declare var eachVariable: string;
 
