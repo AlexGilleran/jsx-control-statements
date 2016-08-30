@@ -31,6 +31,10 @@ exports.matchTextWithinSpanWithinDiv = function(text) {
   return buildRegExp(getDiv(getSpan(text)));
 };
 
+exports.matchTextWithinSpansWithinDiv = function(text1, text2) {
+  return buildRegExp(getDiv(getSpan(text1) + getSpan(text2)));
+};
+
 exports.matchEmptyDiv = function() {
   return buildRegExp(getDiv(''));
 };

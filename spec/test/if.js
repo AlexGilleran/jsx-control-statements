@@ -1,5 +1,9 @@
-var expect = require('chai').expect;
+var chai = require('chai');
+var spies = require('chai-spies');
 var util = require('../testUtil');
+
+chai.use(spies);
+var expect = chai.expect;
 
 
 describe('requiring in component with empty if', function() {
@@ -50,11 +54,13 @@ describe('requiring in component with if/else', function () {
 
 describe('requiring in component with nested if/else', function () {
   var Fixture = require('../fixtures/if/nested-if.jsx');
+  var consoleSpy = chai.spy.on(console, 'error');
 
   it('should render if-if block when both conditions true', function () {
     var rendered = util.render(Fixture, {ifCondition: true, nestedIfCondition: true});
     expect(rendered).to.contain('>If-If<');
     expect(rendered).not.to.contain('Else');
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render if-else block when outer condition true, inner false', function () {
@@ -62,6 +68,7 @@ describe('requiring in component with nested if/else', function () {
     expect(rendered).to.contain('>If-Else<');
     expect(rendered).not.to.contain('If<');
     expect(rendered).not.to.contain('>Else');
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render else-if block when outer condition false, inner true', function () {
@@ -69,11 +76,13 @@ describe('requiring in component with nested if/else', function () {
     expect(rendered).to.contain('>Else-If<');
     expect(rendered).not.to.contain('If-');
     expect(rendered).not.to.contain('-Else');
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render else-else block when both conditions false', function () {
     var rendered = util.render(Fixture);
     expect(rendered).to.contain('Else-Else');
     expect(rendered).not.to.contain('If');
+    expect(consoleSpy).to.not.have.been.called();
   });
 });

@@ -104,18 +104,22 @@ var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyVa
  * @param blocks - the content blocks
  * @returns {NullLiteral|Expression|ArrayExpression}
  */
-exports.getSanitizedExpressionForContent = function(babelTypes, blocks) {
+exports.getSanitizedExpressionForContent = function(babelTypes, blocks, keyPrefix) {
   if (!blocks.length) {
     return babelTypes.NullLiteral();
   }
   else if (blocks.length == 1) {
+    if (keyPrefix) {
+      addKeyAttribute(babelTypes, blocks[0], keyPrefix);
+    }
     return blocks[0];
   }
 
   for (var i = 0; i < blocks.length; i++) {
     var block = blocks[i];
     if (babelTypes.isJSXElement(block)) {
-      addKeyAttribute(babelTypes, block, i);
+      var key = keyPrefix ? keyPrefix + '-' + i : i;
+      addKeyAttribute(babelTypes, block, key);
     }
   }
 

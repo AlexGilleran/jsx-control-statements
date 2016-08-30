@@ -1,5 +1,9 @@
-var expect = require('chai').expect;
+var chai = require('chai');
+var spies = require('chai-spies');
 var util = require('../testUtil');
+
+chai.use(spies);
+var expect = chai.expect;
 
 
 describe('requiring in component with empty when', function() {
@@ -53,24 +57,29 @@ describe('requiring in component with choose/otherwise', function () {
 
 describe('requiring in component with nested choose', function () {
   var Fixture = require('../fixtures/choose/nested-choose.jsx');
+  var consoleSpy = chai.spy.on(console, 'error');
 
   it('should render when-when block when both conditions true', function () {
     var rendered = util.render(Fixture, {outerWhen: true, innerWhen: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('When-When'));
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv('test', 'When-When'));
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render when-otherwise block when outer condition true, inner false', function () {
     var rendered = util.render(Fixture, {outerWhen: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('When-Otherwise'));
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv('test', 'When-Otherwise'));
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render otherwise-when block when outer condition false, inner true', function () {
     var rendered = util.render(Fixture, {innerWhen: true});
-    expect(rendered).to.match(util.matchTextWithinSpan('Otherwise-When'));
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv('test', 'Otherwise-When'));
+    expect(consoleSpy).to.not.have.been.called();
   });
 
   it('should render otherwise-otherwise block when both conditions false', function () {
     var rendered = util.render(Fixture);
-    expect(rendered).to.match(util.matchTextWithinSpan('Otherwise-Otherwise'));
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv('test', 'Otherwise-Otherwise'));
+    expect(consoleSpy).to.not.have.been.called();
   });
 });

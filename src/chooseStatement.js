@@ -9,7 +9,7 @@ var ELEMENTS = {
 };
 
 
-function getBlocks(types, children, errorInfos) {
+function getBlocks(types, children, errorInfos, key) {
   var childNodes;
   var result = {};
   result[ELEMENTS.WHEN] = [];
@@ -27,7 +27,7 @@ function getBlocks(types, children, errorInfos) {
         errorUtil.throwChooseWithMultipleOtherwise(errorInfos);
       }
 
-      result[ELEMENTS.OTHERWISE] = astUtil.getSanitizedExpressionForContent(types, childNodes);
+      result[ELEMENTS.OTHERWISE] = astUtil.getSanitizedExpressionForContent(types, childNodes, key);
     }
     else if (astUtil.isTag(child, ELEMENTS.WHEN)) {
       childNodes = astUtil.getChildren(types, child);
@@ -36,7 +36,7 @@ function getBlocks(types, children, errorInfos) {
 
       result[ELEMENTS.WHEN].push({
         condition: conditionalUtil.getConditionExpression(child, errorInfos),
-        children: astUtil.getSanitizedExpressionForContent(types, childNodes)
+        children: astUtil.getSanitizedExpressionForContent(types, childNodes, key)
       });
     }
     else {
@@ -61,7 +61,8 @@ module.exports = function(babel) {
   return function(node, file) {
     var errorInfos = { node: node, file: file, element: ELEMENTS.CHOOSE };
     var children = astUtil.getChildren(types, node);
-    var blocks = getBlocks(types, children, errorInfos);
+    var key = astUtil.getAttributeMap(node)['key'];
+    var blocks = getBlocks(types, children, errorInfos, key);
     var ternaryExpression = blocks[ELEMENTS.OTHERWISE];
 
     if (!blocks[ELEMENTS.WHEN].length) {
