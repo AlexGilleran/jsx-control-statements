@@ -1,7 +1,7 @@
-﻿var React = require('react');
+﻿var React = require("react");
 
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <Choose>
         <When condition={this.props.when1}>

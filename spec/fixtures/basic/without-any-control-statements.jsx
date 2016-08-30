@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require("react");
 
 var Iff = React.createClass({
   render: function() {
@@ -6,9 +6,8 @@ var Iff = React.createClass({
   }
 });
 
-
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <div>
         <Iff />

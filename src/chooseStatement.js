@@ -1,40 +1,40 @@
-var astUtil = require('./util/ast');
-var conditionalUtil = require('./util/conditional');
-var errorUtil = require('./util/error');
+var astUtil = require("./util/ast");
+var conditionalUtil = require("./util/conditional");
+var errorUtil = require("./util/error");
 
 var ELEMENTS = {
-  CHOOSE: 'Choose',
-  WHEN: 'When',
-  OTHERWISE: 'Otherwise'
+  CHOOSE: "Choose",
+  WHEN: "When",
+  OTHERWISE: "Otherwise"
 };
 
 
 function getBlocks(types, children, errorInfos, key) {
   var childNodes;
-  var result = {};
-  result[ELEMENTS.WHEN] = [];
+  var startResult = {};
+  startResult[ELEMENTS.WHEN] = [];
 
-  children.reduceRight(function(result, child) {
+  var result = children.reduceRight(function(resultSoFar, child) {
     if (astUtil.isTag(child, ELEMENTS.OTHERWISE)) {
       childNodes = astUtil.getChildren(types, child);
       errorInfos.element = ELEMENTS.OTHERWISE;
       errorInfos.node = child;
 
-      if (result[ELEMENTS.WHEN].length) {
+      if (resultSoFar[ELEMENTS.WHEN].length) {
         errorUtil.throwChooseOtherwiseNotLast(errorInfos);
       }
-      else if (result[ELEMENTS.OTHERWISE]) {
+      else if (resultSoFar[ELEMENTS.OTHERWISE]) {
         errorUtil.throwChooseWithMultipleOtherwise(errorInfos);
       }
 
-      result[ELEMENTS.OTHERWISE] = astUtil.getSanitizedExpressionForContent(types, childNodes, key);
+      resultSoFar[ELEMENTS.OTHERWISE] = astUtil.getSanitizedExpressionForContent(types, childNodes, key);
     }
     else if (astUtil.isTag(child, ELEMENTS.WHEN)) {
       childNodes = astUtil.getChildren(types, child);
       errorInfos.element = ELEMENTS.WHEN;
       errorInfos.node = child;
 
-      result[ELEMENTS.WHEN].push({
+      resultSoFar[ELEMENTS.WHEN].push({
         condition: conditionalUtil.getConditionExpression(child, errorInfos),
         children: astUtil.getSanitizedExpressionForContent(types, childNodes, key)
       });
@@ -45,8 +45,8 @@ function getBlocks(types, children, errorInfos, key) {
       errorUtil.throwChooseWithWrongChildren(errorInfos);
     }
 
-    return result;
-  }, result);
+    return resultSoFar;
+  }, startResult);
 
   if (!result[ELEMENTS.OTHERWISE]) {
     result[ELEMENTS.OTHERWISE] = types.NullLiteral();
@@ -61,7 +61,7 @@ module.exports = function(babel) {
   return function(node, file) {
     var errorInfos = { node: node, file: file, element: ELEMENTS.CHOOSE };
     var children = astUtil.getChildren(types, node);
-    var key = astUtil.getAttributeMap(node)['key'];
+    var key = astUtil.getAttributeMap(node).key;
     var blocks = getBlocks(types, children, errorInfos, key);
     var ternaryExpression = blocks[ELEMENTS.OTHERWISE];
 
@@ -75,5 +75,5 @@ module.exports = function(babel) {
     });
 
     return ternaryExpression;
-  }
+  };
 };

@@ -1,8 +1,8 @@
-var React = require('react');
+var React = require("react");
 
 module.exports = React.createClass({
-  render: function () {
-    this.test = 'test';
+  render: function() {
+    this.test = "test";
 
     return (
       <div>

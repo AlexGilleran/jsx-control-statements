@@ -1,13 +1,13 @@
-var astUtil = require('./util/ast');
-var errorUtil = require('./util/error');
+var astUtil = require("./util/ast");
+var errorUtil = require("./util/error");
 
 var ELEMENTS = {
-  FOR: 'For'
+  FOR: "For"
 };
 var ATTRIBUTES = {
-  EACH: 'each',
-  OF: 'of',
-  INDEX: 'index'
+  EACH: "each",
+  OF: "of",
+  INDEX: "index"
 };
 
 function addMapParam(types, params, attributes, attributeKey) {
@@ -44,7 +44,7 @@ module.exports = function(babel) {
 
     // required attribute
     if (!attributes[ATTRIBUTES.OF]) {
-      errorUtil.throwNoAttribute(ATTRIBUTES.OF, errorInfos)
+      errorUtil.throwNoAttribute(ATTRIBUTES.OF, errorInfos);
     }
     // check for correct data types, as far as possible
     checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
@@ -62,7 +62,7 @@ module.exports = function(babel) {
     return types.callExpression(
       types.memberExpression(
         attributes[ATTRIBUTES.OF].value.expression,
-        types.identifier('map')
+        types.identifier("map")
       ),
       [
         types.functionExpression(
@@ -72,8 +72,8 @@ module.exports = function(babel) {
             types.returnStatement(returnExpression)
           ])
         ),
-        types.identifier('this')
+        types.identifier("this")
       ]
     );
-  }
+  };
 };

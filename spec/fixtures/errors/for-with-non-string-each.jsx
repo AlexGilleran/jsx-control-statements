@@ -1,10 +1,10 @@
-var React = require('react');
+var React = require("react");
 
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <div>
-        <For each={ 'item' } index="i" of={[1, 2]}>
+        <For each={ "item" } index="i" of={[1, 2]}>
           <span>Fails</span>
         </For>
       </div>

@@ -1,11 +1,11 @@
-﻿var React = require('react');
+﻿var React = require("react");
 
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <div>
         <If condition={true}>
-          {'outer1'}
+          {"outer1"}
           <span>outer2</span>
           <If condition={this.props.conditionInner}>
             <span>inner1</span>

@@ -1,5 +1,5 @@
-var React = require('react');
-var ReactDOMServer = require('react-dom/server');
+var React = require("react");
+var ReactDOMServer = require("react-dom/server");
 
 
 exports.render = function(Fixture, args) {
@@ -8,15 +8,15 @@ exports.render = function(Fixture, args) {
 };
 
 function getSpan(content) {
-  return '<span[^>]*>' + content + '<\/span>';
+  return "<span[^>]*>" + content + "</span>";
 }
 
 function getDiv(content) {
-  return '<div[^>]*>' + content + '<\/div>';
+  return "<div[^>]*>" + content + "</div>";
 }
 
 function buildRegExp(matcher) {
-  return new RegExp('^' + matcher + '$');
+  return new RegExp("^" + matcher + "$");
 }
 
 exports.matchTextWithinSpan = function(text) {
@@ -36,7 +36,7 @@ exports.matchTextWithinSpansWithinDiv = function(text1, text2) {
 };
 
 exports.matchEmptyDiv = function() {
-  return buildRegExp(getDiv(''));
+  return buildRegExp(getDiv(""));
 };
 
 
@@ -53,10 +53,10 @@ var Builder = function(type) {
       return this;
     },
     build: function() {
-      var result = items.join('');
-      return buildRegExp(type === 'div' ? getDiv(result) : getSpan(result));
+      var result = items.join("");
+      return buildRegExp(type === "div" ? getDiv(result) : getSpan(result));
     }
-  }
+  };
 };
 
 exports.createDivMatcher = function() {

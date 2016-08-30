@@ -1,10 +1,10 @@
 var TYPES = {
-  ELEMENT: 'JSXElement',
-  EXPRESSION_CONTAINER: 'JSXExpressionContainer',
-  STRING_LITERAL: 'StringLiteral'
+  ELEMENT: "JSXElement",
+  EXPRESSION_CONTAINER: "JSXExpressionContainer",
+  STRING_LITERAL: "StringLiteral"
 };
 
-function getTagName (node) {
+function getTagName(node) {
   return node.openingElement.name.name;
 }
 
@@ -15,7 +15,7 @@ function getTagName (node) {
  * @param {string} tagName - Name of element
  * @returns {boolean} whether the searched for element was found
  */
-exports.isTag = isTag = function (node, tagName) {
+exports.isTag = function(node, tagName) {
   return node.type === TYPES.ELEMENT && getTagName(node) === tagName;
 };
 
@@ -56,7 +56,7 @@ exports.isStringLiteral = function(attribute) {
  * @param {JSXElement} node - Current node from which attributes are gathered
  * @returns {object} Map of all attributes with their name as key
  */
-exports.getAttributeMap = function (node) {
+exports.getAttributeMap = function(node) {
   return node.openingElement.attributes.reduce(function(result, attr) {
     result[attr.name.name] = attr;
     return result;
@@ -75,7 +75,7 @@ exports.getChildren = function(babelTypes, node) {
 };
 
 /**
- * Adds attribute 'key' to given node, if not already preesent.
+ * Adds attribute "key" to given node, if not already preesent.
  *
  * @param {object} babelTypes - Babel lib
  * @param {JSXElement} node - Current node to which the new attribute is added
@@ -84,15 +84,15 @@ exports.getChildren = function(babelTypes, node) {
 var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyValue) {
   var keyFound;
   node.openingElement.attributes.forEach(function(attrib) {
-    if(babelTypes.isJSXAttribute(attrib) && attrib.name.name === 'key') {
+    if (babelTypes.isJSXAttribute(attrib) && attrib.name.name === "key") {
       keyFound = true;
       return false;
     }
   });
 
   if (!keyFound) {
-    var keyAttrib = babelTypes.jSXAttribute(babelTypes.jSXIdentifier('key'), babelTypes.stringLiteral(''+keyValue));
-    node.openingElement.attributes.push(keyAttrib)
+    var keyAttrib = babelTypes.jSXAttribute(babelTypes.jSXIdentifier("key"), babelTypes.stringLiteral("" + keyValue));
+    node.openingElement.attributes.push(keyAttrib);
   }
 };
 
@@ -108,7 +108,7 @@ exports.getSanitizedExpressionForContent = function(babelTypes, blocks, keyPrefi
   if (!blocks.length) {
     return babelTypes.NullLiteral();
   }
-  else if (blocks.length == 1) {
+  else if (blocks.length === 1) {
     if (keyPrefix) {
       addKeyAttribute(babelTypes, blocks[0], keyPrefix);
     }
@@ -118,7 +118,7 @@ exports.getSanitizedExpressionForContent = function(babelTypes, blocks, keyPrefi
   for (var i = 0; i < blocks.length; i++) {
     var block = blocks[i];
     if (babelTypes.isJSXElement(block)) {
-      var key = keyPrefix ? keyPrefix + '-' + i : i;
+      var key = keyPrefix ? keyPrefix + "-" + i : i;
       addKeyAttribute(babelTypes, block, key);
     }
   }
