@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg?branch=master)](https://travis-ci.org/AlexGilleran/jsx-control-statements) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=master&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=master) [![npm version](https://img.shields.io/npm/v/jsx-control-statements.svg?style=flat)](https://www.npmjs.com/package/jsx-control-statements)
 
 *JSX-Control-Statements* is a Babel plugin that extends JSX to add basic control statements: **conditionals** and **loops**.
-It does so by transforming component-like control statements to their JavaScript counterparts - e.g. `<If condition={condition()}>Hello World!</If>` becomes `condition() ? 'Hello World!' : null`. 
+It does so by transforming component-like control statements to their JavaScript counterparts - e.g. `<If condition={condition()}>Hello World!</If>` becomes `condition() ? 'Hello World!' : null`.
 
 Developers who are accustomed to using JavaScript templating libraries like Handlebars are often surprised that there's no built-in looping or conditional syntax. This is by design - JSX by is not a templating library, it's declarative syntactic sugar over functional JavaScript expressions. JSX Control Statements follows the same principle - it provides a component-like syntax that keeps your `render` functions neat and readable, but desugars into clean, readable JavaScript.
 
@@ -47,14 +47,6 @@ Then you only need to specify *JSX-Control-Statements* as Babel plugin, which yo
 However, Babel can be used and configured in many different ways, so
 [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Installation) to pick a configuration
 which fits your setup.
-
-### Linting
-Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
-(well, and some more cases) would lead to warnings or errors by ESLint about undefined variables.
-
-But fortunately you can use this
-[ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
-to lint your code.
 
 ## Syntax
 ### If Tag
@@ -207,6 +199,35 @@ function can be called on the passed object (to the `of` attribute) which has th
   })
 }
 ```
+
+## Linting
+### ESLint
+Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
+(well, and some more cases) would lead to warnings or errors by ESLint about undefined variables.
+
+But fortunately you can use this
+[ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
+to lint your code.
+
+### FlowType
+There's still not a perfect solution for FlowType given that it doesn't provide a lot of plugin functionality
+(at least not yet). Flow definitions are available in `jsx-control-statements.flow.js`, which will stop the
+type checker complaining about statements being undeclared. As of now there's no neat way to make the Flow checker
+recognise `each` attributes in `<For>` loops as a variable - the best workaround for now is something like:
+
+```
+render() {
+  declare var eachVariable: string;
+
+  return (
+    <For each="eachVariable" of={["hello", "world"]}>
+      {eachVariable}
+    </For>
+  );
+}
+```
+
+If you know of a better way to work around this please let us know!
 
 ## Alternative Solutions
 
