@@ -3,9 +3,10 @@
 - 1.0.2 [2015/03/08]: Fixed nested control statements completely breaking.
 - 1.0.3 [2015/05/12]: Added babel plugin
 - 1.0.4 [2015/05/12]: Added instructions for use with browserify.
-- 1.1.0 [2015/06/08]: Added "index" attribute to <For> statement (thanks helarqjsc!), fixed working-but-noncompliant code
-                    generation through JSTransform, added support for JSXElement and XJSElement in JSTransform
-                    (thanks justafish!)
+- 1.1.0 [2015/06/08]:
+    - Added "index" attribute to <For> statement (thanks helarqjsc!)
+    - fixed working-but-noncompliant code generation through JSTransform
+    - Added support for JSXElement and XJSElement in JSTransform (thanks justafish!)
 - 1.1.1 [2015/07/06]: Added example of looping over an object to docs.
 - 2.0.0 [2015/12/01]: Updated for Babel 6, moved repo to personal Github.
 - 2.0.1 [2015/12/07]: Updated readme for greater clarity.
@@ -15,3 +16,7 @@
 - 3.1.0 [2016/01/31]: Removed lodash (#33), supported multiple elements in control statements (#2), added support for "choose" syntax
 - 3.1.1 [2016/04/12]: Corrected branches of <Choose> evaluating in reverse order (thanks @RacingTadpole!)
 - 3.1.2 [2016/04/15]: Fixed combination of spread operator and multiple children leading to parser error, big changes to readme file with clearer documentation.
+- 3.1.3 [2016/08/30]:
+    - Fixed key warnings for nested statements.
+    - Fixed `index` attribute on `<For>` tag only working if `each` was also set.
+    - Added basic flowtype definitions.
