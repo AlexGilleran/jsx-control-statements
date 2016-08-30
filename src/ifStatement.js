@@ -1,11 +1,10 @@
-var astUtil = require('./util/ast');
-var conditionalUtil = require('./util/conditional');
+var astUtil = require("./util/ast");
+var conditionalUtil = require("./util/conditional");
 
 var ELEMENTS = {
-  IF: 'If',
-  ELSE: 'Else'
+  IF: "If",
+  ELSE: "Else"
 };
-
 
 function getBlocks(nodes) {
   var result = {
@@ -17,7 +16,8 @@ function getBlocks(nodes) {
   nodes.forEach(function(node) {
     if (astUtil.isTag(node, ELEMENTS.ELSE)) {
       currentBlock = result.elseBlock;
-    } else {
+    }
+    else {
       currentBlock.push(node);
     }
   });
@@ -33,7 +33,7 @@ module.exports = function ifStatement(babel) {
     var elseBlock;
     var errorInfos = {node: node, file: file, element: ELEMENTS.IF};
     var condition = conditionalUtil.getConditionExpression(node, errorInfos);
-    var key = astUtil.getAttributeMap(node)['key'];
+    var key = astUtil.getAttributeMap(node).key;
     var children = astUtil.getChildren(types, node);
     var blocks = getBlocks(children);
 

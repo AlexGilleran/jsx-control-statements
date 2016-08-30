@@ -1,6 +1,6 @@
-var transformFor = require('./forStatement');
-var transformIf = require('./ifStatement');
-var transformChoose = require('./chooseStatement');
+var transformFor = require("./forStatement");
+var transformIf = require("./ifStatement");
+var transformChoose = require("./chooseStatement");
 
 
 module.exports = function jcsPlugin(babel) {
@@ -22,7 +22,7 @@ module.exports = function jcsPlugin(babel) {
   };
 
   return {
-    inherits: require('babel-plugin-syntax-jsx'),
+    inherits: require("babel-plugin-syntax-jsx"),
     visitor: visitor
   };
 };

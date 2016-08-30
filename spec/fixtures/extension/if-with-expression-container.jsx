@@ -1,13 +1,13 @@
-﻿var React = require('react');
+﻿var React = require("react");
 
 module.exports = React.createClass({
   render: function() {
     return (
       <div>
         <If condition={this.props.condition}>
-          {'if rendered'}
+          {"if rendered"}
         <Else />
-          {'else rendered'}
+          {"else rendered"}
         </If>
       </div>
     );

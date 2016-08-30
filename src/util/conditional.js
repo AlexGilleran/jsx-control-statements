@@ -1,9 +1,9 @@
-var astUtil = require('./ast');
-var errorUtil = require('./error');
+var astUtil = require("./ast");
+var errorUtil = require("./error");
 
 
 var ATTRIBUTES = {
-  CONDITION: 'condition'
+  CONDITION: "condition"
 };
 
 exports.getConditionExpression = function(node, errorInfos) {
