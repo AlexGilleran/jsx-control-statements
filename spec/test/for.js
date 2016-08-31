@@ -13,7 +13,7 @@ describe("requiring in component with minimalistic for", function() {
 
   describe("should simply iterate without each", function() {
     var rendered = util.render(FixtureNoEach);
-    expect(rendered).to.match(/<div[^>]*>(<span[^>]*>ABC<\/span>){3}<\/div>/);
+    expect(rendered).to.match(/<div[^>]*>(<!-- react-text: [\d] -->ABC<!-- \/react-text -->){3}<\/div>/);
   });
 });
 

@@ -11,6 +11,10 @@ function getSpan(content) {
   return "<span[^>]*>" + content + "</span>";
 }
 
+function getReactText(content) {
+  return "<!-- react-text: [\\d+] -->" + content + "<!-- /react-text -->";
+}
+
 function getDiv(content) {
   return "<div[^>]*>" + content + "</div>";
 }
@@ -44,6 +48,10 @@ var Builder = function(type) {
   var items = [];
 
   return {
+    addReactText: function(content) {
+      items.push(getReactText(content));
+      return this;
+    },
     addSpan: function(content) {
       items.push(getSpan(content));
       return this;

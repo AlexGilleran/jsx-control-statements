@@ -35,9 +35,9 @@ describe("extension: data type handling", function() {
 
     expect(rendered).to.match(
       util.createDivMatcher()
-        .addSpan("test1")
-        .addSpan("test2")
-        .addSpan("test3")
+        .addReactText("test1")
+        .addReactText("test2")
+        .addReactText("test3")
         .build()
     );
   });
@@ -65,7 +65,7 @@ describe("extension: multiple children", function() {
 
     expect(rendered).to.match(
       util.createDivMatcher()
-        .addSpan("outer1")
+        .addReactText("outer1")
         .addSpan("outer2")
         .addSpan("inner1")
         .addSpan("inner2")
@@ -82,7 +82,7 @@ describe("extension: multiple children", function() {
 
     expect(rendered).to.match(
       util.createDivMatcher()
-        .addSpan("else rendered")
+        .addReactText("else rendered")
         .addSpan("test")
         .build()
     );

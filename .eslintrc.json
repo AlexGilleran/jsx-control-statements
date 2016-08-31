@@ -22,6 +22,7 @@
     "consistent-return": 0,
     "vars-on-top": 0,
     "object-curly-spacing": 0,
+    "global-require": 0,
     "react/display-name": 0,
     "react/prop-types": 0
   },
