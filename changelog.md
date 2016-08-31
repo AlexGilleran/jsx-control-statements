@@ -20,3 +20,4 @@
     - Fixed key warnings for nested statements.
     - Fixed `index` attribute on `<For>` tag only working if `each` was also set.
     - Added basic flowtype definitions.
+- 3.1.4 [2016/08/31]: Fixed key on `<Choose>` definition with a string in `<When>` or `<Otherwise>` causing a compile error.
