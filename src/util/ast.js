@@ -82,7 +82,8 @@ exports.getChildren = function(babelTypes, node) {
  * @param {string} keyValue - Value of the key
  */
 var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyValue) {
-  var keyFound;
+  var keyFound = false;
+
   node.openingElement.attributes.forEach(function(attrib) {
     if (babelTypes.isJSXAttribute(attrib) && attrib.name.name === "key") {
       keyFound = true;
@@ -102,6 +103,7 @@ var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyVa
  *
  * @param babelTypes - Babel lib
  * @param blocks - the content blocks
+ * @param keyPrefix - a prefix to use when automatically generating keys
  * @returns {NullLiteral|Expression|ArrayExpression}
  */
 exports.getSanitizedExpressionForContent = function(babelTypes, blocks, keyPrefix) {
@@ -109,17 +111,20 @@ exports.getSanitizedExpressionForContent = function(babelTypes, blocks, keyPrefi
     return babelTypes.NullLiteral();
   }
   else if (blocks.length === 1) {
-    if (keyPrefix) {
-      addKeyAttribute(babelTypes, blocks[0], keyPrefix);
+    var firstBlock = blocks[0];
+
+    if (keyPrefix && firstBlock.openingElement) {
+      addKeyAttribute(babelTypes, firstBlock, keyPrefix);
     }
-    return blocks[0];
+
+    return firstBlock;
   }
 
   for (var i = 0; i < blocks.length; i++) {
-    var block = blocks[i];
-    if (babelTypes.isJSXElement(block)) {
+    var thisBlock = blocks[i];
+    if (babelTypes.isJSXElement(thisBlock)) {
       var key = keyPrefix ? keyPrefix + "-" + i : i;
-      addKeyAttribute(babelTypes, block, key);
+      addKeyAttribute(babelTypes, thisBlock, key);
     }
   }
 
