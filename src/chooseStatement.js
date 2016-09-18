@@ -61,7 +61,7 @@ module.exports = function(babel) {
   return function(node, file) {
     var errorInfos = { node: node, file: file, element: ELEMENTS.CHOOSE };
     var children = astUtil.getChildren(types, node);
-    var key = astUtil.getAttributeMap(node).key;
+    var key = astUtil.getKey(node);
     var blocks = getBlocks(types, children, errorInfos, key);
     var ternaryExpression = blocks[ELEMENTS.OTHERWISE];
 

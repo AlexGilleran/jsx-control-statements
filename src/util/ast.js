@@ -64,6 +64,17 @@ exports.getAttributeMap = function(node) {
 };
 
 /**
+ * Get the string value of a node's key attribute if present.
+ *
+ * @param {JSXElement} node - Node to get attributes from
+ * @returns {object} The string value of the key attribute of this node if present, otherwise undefined.
+ */
+exports.getKey = function(node) {
+  var key = exports.getAttributeMap(node).key;
+  return key ? key.value.value : undefined;
+};
+
+/**
  * Get all children from given element. Normalizes JSXText and JSXExpressionContainer to expressions.
  *
  * @param {object} babelTypes - Babel lib

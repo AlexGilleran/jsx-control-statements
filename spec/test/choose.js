@@ -95,3 +95,17 @@ describe("requiring in component with nested choose and a key (issue #52)", func
     expect(consoleSpy).to.not.have.been.called();
   });
 });
+
+describe("requiring in component with adjacent chooses within if", function() {
+  var Fixture = require("../fixtures/choose/chooses-within-if.jsx");
+
+  it("a", function() {
+    var rendered = util.render(Fixture, {type: "a"});
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv("Blah A", "Blah C"));
+  });
+
+  it("b", function() {
+    var rendered = util.render(Fixture, {type: "b"});
+    expect(rendered).to.match(util.matchTextWithinSpansWithinDiv("Blah B", "Blah D"));
+  });
+});
