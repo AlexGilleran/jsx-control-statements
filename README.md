@@ -37,11 +37,11 @@ Install via npm:
   npm install --save-dev jsx-control-statements
 ```
 
-Then you only need to specify *JSX-Control-Statements* as Babel plugin, which you would typically do in your `.babelrc`:
+Then you only need to specify *JSX-Control-Statements* as Babel plugin, which you would typically do in your `.babelrc`, if you use this plugin width `transform-react-inline-elements`, place this plugin before it:
 ```
 {
   ...
-  "plugins": ["jsx-control-statements"]
+  "plugins": ["jsx-control-statements", "transform-react-inline-elements"]
 }
 ```
 However, Babel can be used and configured in many different ways, so
