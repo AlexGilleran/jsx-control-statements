@@ -1,13 +1,15 @@
 var transformFor = require("./forStatement");
 var transformIf = require("./ifStatement");
 var transformChoose = require("./chooseStatement");
+var transformWith = require("./withStatement");
 
 
 module.exports = function jcsPlugin(babel) {
   var nodeHandlers = {
     For: transformFor(babel),
     If: transformIf(babel),
-    Choose: transformChoose(babel)
+    Choose: transformChoose(babel),
+    With: transformWith(babel)
   };
 
   var visitor = {
