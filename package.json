@@ -18,6 +18,7 @@
     "react",
     "jsx",
     "if",
+    "ifnot",
     "else",
     "for",
     "each",
