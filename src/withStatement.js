@@ -11,7 +11,7 @@ module.exports = function(babel) {
     var children = astUtil.getChildren(types, node);
 
     Object.keys(attributes).forEach(function(attribute) {
-      params.push(types.Identifier(attribute));
+      params.push(types.identifier(attribute));
       if (astUtil.isExpressionContainer(attributes[attribute])) {
         values.push(attributes[attribute].value.expression);
       }
@@ -20,14 +20,20 @@ module.exports = function(babel) {
       }
     });
 
+    values.unshift(types.identifier("this"));
+
     return types.callExpression(
-      types.arrowFunctionExpression(
-        params,
-        types.blockStatement([
-          types.returnStatement(
-            astUtil.getSanitizedExpressionForContent(types, children, key)
-          )
-        ])
+      types.memberExpression(
+        types.functionExpression(
+          null,
+          params,
+          types.blockStatement([
+            types.returnStatement(
+              astUtil.getSanitizedExpressionForContent(types, children, key)
+            )
+          ])
+        ),
+        types.identifier("call")
       ),
       values
     );
