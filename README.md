@@ -209,6 +209,52 @@ function can be called on the passed object (to the `of` attribute) which has th
 }
 ```
 
+### With Tag
+
+Used to assign values to local variables:
+
+```javascript
+// simple
+<With foo={ 47 } bar={ 'test' }>
+  <span>{ foo }</span>
+  <span>{ bar }</span>
+</With>
+
+// nested
+<With foo={ 47 }>
+  <With bar={ 'test' }>
+    <span>{ foo }</span>
+    <span>{ bar }</span>
+  </With>
+</With>
+```
+
+Prop Name | Prop Type | Required | description
+--------- | --------- | -------- | -----------
+any name | any type | | assign prop value to a local variable named by prop name
+
+You may assign multiple variables with a single `<With>` statement. The defined variable is
+available only within the `<With>` block.
+
+#### Transformation
+
+`<With>` statements transform to immediately-invoked function expressions:
+
+```javascript
+// before transformation
+<With foo={ 47 }>
+  <span>{ foo }</span>
+</With>
+
+
+// after transformation
+{
+  (function(foo) {
+    <span>{ foo }</span>
+  })(47)
+}
+```
+
 ## Linting
 ### ESLint
 Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
