@@ -251,7 +251,7 @@ available only within the `<With>` block.
 {
   (function(foo) {
     return <span>{ foo }</span>
-  }).call(47)
+  }).call(this, 47)
 }
 ```
 
