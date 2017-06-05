@@ -89,6 +89,20 @@ The else element has no properties and demarcates the `else` branch.
 This element is deprecated, since it's bad JSX/XML semantics and breaks auto-formatting.
 Please use `<Choose>` instead.
 
+#### &lt;IfNot&gt;
+
+This tags works the same as the `<If>` tag but the children will be rendered only if the `condition` is false.
+
+```javascript
+// simple
+<IfNot condition={ false }>
+  <span>IfNotBlock</span>
+</IfNot>
+```
+
+The `<Else>` tag is not supported for this tag.
+
+
 #### Transformation
 If statements transform to the *ternary operator*:
 ```javascript

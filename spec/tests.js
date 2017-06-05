@@ -8,6 +8,7 @@ require("babel-core/register")({
 
 require("./test/basic");
 require("./test/if");
+require("./test/ifnot");
 require("./test/choose");
 require("./test/for");
 require("./test/with");
