@@ -11,6 +11,7 @@ require("./test/if");
 require("./test/ifnot");
 require("./test/choose");
 require("./test/for");
+require("./test/with");
 require("./test/mixed");
 require("./test/extension");
 require("./test/error");
