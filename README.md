@@ -250,8 +250,8 @@ available only within the `<With>` block.
 // after transformation
 {
   (function(foo) {
-    <span>{ foo }</span>
-  })(47)
+    return <span>{ foo }</span>
+  }).call(47)
 }
 ```
 
