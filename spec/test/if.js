@@ -52,7 +52,11 @@ describe("requiring in component with if/else", function() {
 
 describe("requiring in component with nested if/else", function() {
   var Fixture = require("../fixtures/if/nested-if.jsx");
-  var consoleSpy = chai.spy.on(console, "error");
+  var consoleSpy;
+
+  beforeEach(function() {
+    consoleSpy = chai.spy.on(console, "error");
+  });
 
   it("should render if-if block when both conditions true", function() {
     var rendered = util.render(Fixture, {ifCondition: true, nestedIfCondition: true});

@@ -55,7 +55,11 @@ describe("requiring in component with choose/otherwise", function() {
 
 describe("requiring in component with nested choose", function() {
   var Fixture = require("../fixtures/choose/nested-choose.jsx");
-  var consoleSpy = chai.spy.on(console, "error");
+  var consoleSpy;
+
+  beforeEach(function() {
+    consoleSpy = chai.spy.on(console, "error");
+  });
 
   it("should render when-when block when both conditions true", function() {
     var rendered = util.render(Fixture, {outerWhen: true, innerWhen: true});
@@ -87,7 +91,11 @@ describe("requiring in component with nested choose and a key (issue #52)", func
   // runs probably means it's OK but we'll do a proper test because why not.
 
   var Fixture = require("../fixtures/choose/nested-choose-no-inner-component.jsx");
-  var consoleSpy = chai.spy.on(console, "error");
+  var consoleSpy;
+
+  beforeEach(function() {
+    consoleSpy = chai.spy.on(console, "error");
+  });
 
   it("should render when-when block when both conditions true", function() {
     var rendered = util.render(Fixture, {outerWhen: true, innerWhen: true});
