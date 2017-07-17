@@ -49,7 +49,11 @@ describe("extension: multiple children", function() {
   var FixtureChoose = require("../fixtures/extension/choose-with-multiple-children.jsx");
   var FixtureFor = require("../fixtures/extension/for-with-multiple-children.jsx");
 
-  var consoleSpy = chai.spy.on(console, "error");
+  var consoleSpy;
+
+  beforeEach(function() {
+    consoleSpy = chai.spy.on(console, "error");
+  });
 
 
   it("should allow for multiple children within <If>", function() {
