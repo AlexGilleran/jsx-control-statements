@@ -266,7 +266,7 @@ to lint your code.
 
 ### FlowType
 There's still not a perfect solution for FlowType given that it doesn't provide a lot of plugin functionality
-(at least not yet). Flow definitions are available in `jsx-control-statements.latest.flow.js` for Flow >= 0.53, or `jsx-control-statements.flow.js` (deprecated) for Flow < 0.53. These will stop the
+(at least not yet). Flow definitions are available in `jsx-control-statements.latest.flow.js` for Flow >= 0.53, or `jsx-control-statements.flow.js` (deprecated) for Flow < 0.53 - you can pick which file to us [like this](https://github.com/AlexGilleran/jsx-control-statements/pull/68#issuecomment-323562980). These will stop the
 type checker complaining about statements being undeclared. As of now there's no neat way to make the Flow checker
 recognise `each` attributes in `<For>` loops as a variable - the best workaround for now is something like:
 
