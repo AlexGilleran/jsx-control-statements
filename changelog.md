@@ -23,3 +23,4 @@
 - 3.1.4 [2016/08/31]: Fixed key on `<Choose>` definition with a string in `<When>` or `<Otherwise>` causing a compile error.
 - 3.1.5 [2016/09/18]: Fixed key generation for control statements inside control statements often generating `[Object]`.
 - 3.2.5 [2017/06/05]: Added `<With>` statement (thanks @martinmacko47!)
+- 3.2.6 [2017/08/20]: Added FlowType 0.53-compatible statements (thanks @mwiencek!)
