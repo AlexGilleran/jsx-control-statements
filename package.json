@@ -1,6 +1,6 @@
 {
   "name": "jsx-control-statements",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "Neater control statements (if/for) for jsx",
   "author": {
     "name": "Alex Gilleran",
