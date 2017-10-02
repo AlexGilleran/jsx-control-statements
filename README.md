@@ -1,7 +1,7 @@
 # JSX Control Statements
 
-** NOTE: **
-This npm repository is deprecated - it's still being developed, but at `babel-plugin-jsx-control-statements` rather than `jsx-control-statements`. Find it [here!](https://www.npmjs.com/package/babel-plugin-jsx-control-statements).
+**NOTE: 
+This npm repository is deprecated - it's still being developed, but at `babel-plugin-jsx-control-statements` rather than `jsx-control-statements`. Find it [here!](https://www.npmjs.com/package/babel-plugin-jsx-control-statements).**
 
 [![Build Status](https://travis-ci.org/AlexGilleran/jsx-control-statements.svg?branch=master)](https://travis-ci.org/AlexGilleran/jsx-control-statements) [![Coverage Status](https://coveralls.io/repos/AlexGilleran/jsx-control-statements/badge.svg?branch=master&service=github)](https://coveralls.io/github/AlexGilleran/jsx-control-statements?branch=master) [![npm version](https://img.shields.io/npm/v/jsx-control-statements.svg?style=flat)](https://www.npmjs.com/package/jsx-control-statements)
 
