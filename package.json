@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-jsx-control-statements",
-  "version": "3.2.7",
+  "version": "3.2.8",
   "description": "Neater control statements (if/for) for jsx",
   "author": {
     "name": "Alex Gilleran",
