@@ -9,6 +9,38 @@ Developers coming to React from using JavaScript templating libraries like Handl
 
 The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compatible with React and React Native.
 
+## Table of Contents
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [JSX Control Statements](#)
+		- [A Note on Transformation and Alternative Solutions](#)
+	- [Installation](#)
+	- [Syntax](#)
+		- [If Tag](#)
+			- [<If>](#)
+			- [<Else ></Else> (deprecated)](#)
+			- [Transformation](#)
+		- [Choose Tag](#)
+			- [<Choose>](#)
+			- [<When>](#)
+			- [<Otherwise>](#)
+			- [Transformation](#)
+		- [For Tag](#)
+			- [Transformation](#)
+		- [With Tag](#)
+			- [Transformation](#)
+	- [Linting](#)
+		- [ESLint](#)
+		- [FlowType](#)
+	- [Alternative Solutions](#)
+		- [Pure JavaScript](#)
+			- [Conditionals](#)
+			- [Loops](#)
+			- [Comparison](#)
+		- [React Components](#)
+	- [Major Versions](#)
+	- [I Want to Contribute!](#)
+
 ### A Note on Transformation and Alternative Solutions
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
 of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
@@ -34,7 +66,7 @@ As a prerequisite you need to have [Babel](https://github.com/babel/babel) insta
 Install via npm:
 
 ```
-  npm install --save-dev jsx-control-statements
+  npm install --save-dev babel-plugin-jsx-control-statements
 ```
 
 Then you only need to specify *JSX-Control-Statements* as Babel plugin, which you would typically do in your `.babelrc`.
