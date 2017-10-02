@@ -13,7 +13,7 @@ The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compa
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - JSX Control Statements
-		- [A Note on Transformation and Alternative Solutions](#note)
+	- [A Note on Transformation and Alternative Solutions](#note)
 	- [Installation](#installation)
 	- [Syntax](#syntax)
 		- [If Tag](#iftag)
