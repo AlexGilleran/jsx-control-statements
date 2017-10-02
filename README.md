@@ -41,7 +41,7 @@ The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compa
 	- [Major Versions](#)
 	- [I Want to Contribute!](#)
 
-### A Note on Transformation and Alternative Solutions
+[### A Note on Transformation and Alternative Solutions](#note)
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
 of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
 will always evaluate all of its properties including the component body. Hence the following example will fail for
@@ -60,7 +60,7 @@ syntactic sugar to write conditionals as component, while it transforms this "co
 
 See [Alternative Solutions](#alternative-solutions) for a more detailed comparison and pure JS solutions.
 
-## Installation
+[## Installation](#installation)
 As a prerequisite you need to have [Babel](https://github.com/babel/babel) installed and configured in your project.
 
 Install via npm:
@@ -89,8 +89,8 @@ Babel can be used and configured in many different ways, so
 [use this guide](https://github.com/AlexGilleran/jsx-control-statements/wiki/Installation) to pick a configuration
 which fits your setup.
 
-## Syntax
-### If Tag
+[## Syntax](#syntax)
+[### If Tag](#iftag)
 
 Used to express the most simple conditional logic.
 
@@ -108,20 +108,20 @@ Used to express the most simple conditional logic.
   <span>four</span>
 </If>
 ```
-#### &lt;If&gt;
+[#### &lt;If&gt;](#if)
 The body of the if statement only gets evaluated if `condition` is true.
 
 Prop Name | Prop Type | Required
 --------- | --------- | --------
 condition | boolean | :white_check_mark:
 
-#### _&lt;Else /&gt; (deprecated)_
+[#### _&lt;Else /&gt; (deprecated)_](#else)
 The else element has no properties and demarcates the `else` branch.
 
 This element is deprecated, since it's bad JSX/XML semantics and breaks auto-formatting.
 Please use `<Choose>` instead.
 
-#### Transformation
+[#### Transformation](#if-transformation)
 If statements transform to the *ternary operator*:
 ```javascript
 // before transformation
@@ -133,8 +133,7 @@ If statements transform to the *ternary operator*:
 { test ? <span>Truth</span> : null }
 ```
 
-### Choose Tag
-
+[### Choose Tag](#choosetag)
 This is an alternative syntax for more complex conditional statements. The syntax itself is XMLish and conforms by and
 large to JSTL or XSLT (the attribute is called `condition` instead of `test`):
 
@@ -161,22 +160,22 @@ large to JSTL or XSLT (the attribute is called `condition` instead of `test`):
 </Choose>
 ```
 
-#### &lt;Choose&gt;
+[#### &lt;Choose&gt;](#choose)
 Acts as a simple container and only allows for `<When>` and `<Otherwise>` as children.
 Each `<Choose>` statement requires at least one `<When>` block but may contain as many as desired.
 The `<Otherwise>` block is optional.
 
-#### &lt;When&gt;
+[#### &lt;When&gt;](#when)
 Analog to `<If>`.
 
 Prop Name | Prop Type | Required
 --------- | --------- | --------
 condition | boolean | :white_check_mark:
 
-#### &lt;Otherwise&gt;
+[#### &lt;Otherwise&gt;](#otherwise)
 `<Otherwise>` has no attributes and demarcates the else branch of the conditional.
 
-#### Transformation
+[#### Transformation](#choose-transformation)
 This syntax desugars into a (sequence of) ternary operator(s).
 
 ```javascript
@@ -197,7 +196,7 @@ This syntax desugars into a (sequence of) ternary operator(s).
 { test1 ? <span>IfBlock1</span> : test2 ? <span>IfBlock2</span> : <span>ElseBlock</span> }
 ```
 
-### For Tag
+[### For Tag](#fortag)
 
 Define `<For>` like so:
 ```javascript
@@ -223,7 +222,7 @@ Note that a `<For>` *cannot* be at the root of a `render()` function in a React 
 potentially have multiple components without a parent to group them which isn't allowed. As with `<If>`, the same rules
 as using `Array.map()` apply - each element inside the loop should have a `key` attribute that uniquely identifies it.
 
-#### Transformation
+[#### Transformation](#for-transformation)
 There is no implementation for the map function within *jsx-control-statements*. We only expect that a
 function can be called on the passed object (to the `of` attribute) which has the same signature as `Array.map`.
 
@@ -241,8 +240,7 @@ function can be called on the passed object (to the `of` attribute) which has th
 }
 ```
 
-### With Tag
-
+[### With Tag](#with)
 Used to assign values to local variables:
 
 ```javascript
@@ -268,8 +266,7 @@ any name | any type | | assign prop value to a local variable named by prop name
 You may assign multiple variables with a single `<With>` statement. The defined variable is
 available only within the `<With>` block.
 
-#### Transformation
-
+[#### Transformation](#with-transformation)
 `<With>` statements transform to immediately-invoked function expressions:
 
 ```javascript
@@ -287,8 +284,8 @@ available only within the `<With>` block.
 }
 ```
 
-## Linting
-### ESLint
+[## Linting](#linting)
+[### ESLint](#eslint)
 Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
 (well, and some more cases) would lead to warnings or errors by ESLint about undefined variables.
 
@@ -296,7 +293,7 @@ But fortunately you can use this
 [ESLint plugin for *JSX-Control-Statements*](https://github.com/vkbansal/eslint-plugin-jsx-control-statements)
 to lint your code.
 
-### FlowType
+[### FlowType](#flowtype)
 There's still not a perfect solution for FlowType given that it doesn't provide a lot of plugin functionality
 (at least not yet). Flow definitions are available in `jsx-control-statements.latest.flow.js` for Flow >= 0.53, or `jsx-control-statements.flow.js` (deprecated) for Flow < 0.53 - you can pick which file to use [like this](https://github.com/AlexGilleran/jsx-control-statements/pull/68#issuecomment-323562980). These will stop the
 type checker complaining about statements being undeclared. As of now there's no neat way to make the Flow checker
@@ -316,12 +313,12 @@ render() {
 
 If you know of a better way to work around this please let us know!
 
-## Alternative Solutions
+[## Alternative Solutions](#alternative-solutions)
 
-### Pure JavaScript
+[### Pure JavaScript](#pure-solutions)
 Since everything will be compiled to JavaScript anyway, you might prefer to stick to pure JavaScript solutions.
 
-#### Conditionals
+[#### Conditionals](#conditionals)
 Probably the most common way for simple conditionals is the use of the && operator:
 ```javascript
 // simple if
@@ -358,7 +355,7 @@ render() {
 }
 ```
 
-#### Loops
+[#### Loops](#loops)
 Not many options here:
 ```javascript
 { items.map(function(item) {
@@ -366,7 +363,7 @@ Not many options here:
 }) }
 ```
 
-#### Comparison
+[#### Comparison](#comparison)
 Arguments pro *JSX-Control-Statements* in comparison to pure JS solutions:
 
 * More intuitive and easier to handle for designers and people with non-heavy JS background
@@ -379,7 +376,7 @@ Cons:
 * Depends on Babel 6
 * Some Babel configuration
 
-### React Components
+[### React Components](#react-components)
 There are a reasonable amount of React components for conditionals (e.g. [react-if](https://github.com/romac/react-if), which inspired this in the first place), *JSX-Control-Statements* is the only approach we know of that avoids execution of all branches (see the [intro section](#a-note-on-transformation-and-alternative-solutions)), and there seems to be no other component-based solution to looping - while it would be possible to make a component that renders everything in `props.children` for every element of an array, you'd have to access the members of the array in that component instead of the one that uses it.
 
 For more discussion on `If` in React by the react team, have a look at https://github.com/reactjs/react-future/issues/35.
@@ -399,7 +396,7 @@ Cons:
 * Slightly longer build times
 * Requires an extra plugin to work with ESLint
 
-## Major Versions
+[## Major Versions](#major-versions)
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
 - 2.x.x was a Babel plugin supporting Babel >= 6, and a set of JSTransform visitors.
 - 1.x.x was a Babel plugin supporting Babel <= 5, and a set of JSTransform visitors.
@@ -407,5 +404,5 @@ Cons:
 This used to support both JSTransform and Babel, but as JSTransform is no longer maintained support was dropped. You can
 find the code for the JSTransform version at https://github.com/AlexGilleran/jsx-control-statements-jstransform.
 
-## I Want to Contribute!
+[## I Want to Contribute!](#contribute)
 Yay! Please read the [Contributor's Guide](https://github.com/AlexGilleran/jsx-control-statements/blob/master/CONTRIBUTING.md).
