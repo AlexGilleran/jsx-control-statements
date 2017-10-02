@@ -41,7 +41,7 @@ The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compa
 	- [Major Versions](#)
 	- [I Want to Contribute!](#)
 
-[### A Note on Transformation and Alternative Solutions](#note)
+### [A Note on Transformation and Alternative Solutions](#note)
 It appears to be pretty easy to implement **conditionals as React component**, which is underlined by the amount
 of libraries which have taken this approach. However, all of them suffer from the same major caveat: A React component
 will always evaluate all of its properties including the component body. Hence the following example will fail for
