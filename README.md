@@ -225,7 +225,7 @@ function can be called on the passed object (to the `of` attribute) which has th
 
 ```javascript
 // before transformation
-<For each="item" index="index" of={ items )}>
+<For each="item" index="index" of={ items }>
   <span key={ item.id }>{ index }. { item.title }</span>
 </For>
 
