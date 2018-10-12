@@ -24,7 +24,6 @@ module.exports = function jcsPlugin(babel) {
   };
 
   return {
-    inherits: require("babel-plugin-syntax-jsx"),
     visitor: visitor
   };
 };
