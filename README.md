@@ -394,6 +394,7 @@ Cons:
 * Requires an extra plugin to work with ESLint
 
 ## Major Versions
+- 4.x.x is a pure Babel plugin supporting Babel >= 7.
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
 - 2.x.x was a Babel plugin supporting Babel >= 6, and a set of JSTransform visitors.
 - 1.x.x was a Babel plugin supporting Babel <= 5, and a set of JSTransform visitors.
