@@ -32,11 +32,11 @@
     "cover": "istanbul cover -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec/*.js"
   },
   "dependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/register": "^7.0.0"
+    "@babel/core": "^7.1.2"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
