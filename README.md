@@ -281,7 +281,7 @@ available only within the `<With>` block.
 }
 ```
 
-## Linting)
+## Linting
 ### ESLint
 Since all control statements are transformed via Babel, no `require` or `import` calls are needed. This in turn
 (well, and some more cases) would lead to warnings or errors by ESLint about undefined variables.
