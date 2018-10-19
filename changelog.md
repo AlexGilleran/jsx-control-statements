@@ -26,3 +26,4 @@
 - 3.2.6 [2017/08/20]: Added FlowType 0.53-compatible statements (thanks @mwiencek!)
 - 3.2.7 [2017/10/02]: Created `babel-plugin-jsx-control-statements`, deprecated `jsx-control-statements` on npm
 - 3.2.8 [2017/10/02]: Added table of contents to readme.
+- 4.0.0 [2018/10/19]: Changed dependencies over to babel 7 (thanks @spoldman!), moved new Flowtype statements into the main flow file.
