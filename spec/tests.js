@@ -1,7 +1,7 @@
 var plugin = require("../src/index");
 
-require("babel-core/register")({
-  presets: ["babel-preset-react"],
+require("@babel/register")({
+  presets: ["@babel/preset-react"],
   plugins: [plugin],
   cache: false
 });
