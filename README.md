@@ -9,6 +9,8 @@ Developers coming to React from using JavaScript templating libraries like Handl
 
 The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compatible with React and React Native.
 
+:skull_and_crossbones: Beware: This is a Babel plugin. It changes your code to other code - this means that some tooling that looks at your code (e.g. static analysis, typescript) is likely to not work. This plugin dates back to when JSX was daring and Javascript was more like playdough than meccano - if you want to stay on the well-trodden path stick with writing `&&` and `map`.
+
 ## Table of Contents
 - [A Note on Transformation and Alternative Solutions](#a-note-on-transformation-and-alternative-solutions)
 - [Installation](#installation)
