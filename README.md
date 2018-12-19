@@ -37,6 +37,7 @@ The only dependency *JSX-Control-Statements* relies upon is *Babel*. It is compa
     - [Loops](#loops)
     - [Comparison](#comparison)
   - [React Components](#react-components)
+- [What about Typescript](#what-about-typescript)
 - [Major Versions](#major-versions)
 - [I Want to Contribute!](#i-want-to-contribute)
 
