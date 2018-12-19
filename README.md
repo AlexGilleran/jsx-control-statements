@@ -395,6 +395,9 @@ Cons:
 * Slightly longer build times
 * Requires an extra plugin to work with ESLint
 
+## What about Typescript?
+[There's a version for that by @KonstantinSimeonov!](https://github.com/KonstantinSimeonov/tsx-control-statements)
+
 ## Major Versions
 - 4.x.x is a pure Babel plugin supporting Babel >= 7.
 - 3.x.x is a pure Babel plugin supporting Babel >= 6.
