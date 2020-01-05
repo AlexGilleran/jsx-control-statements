@@ -14,6 +14,7 @@ module.exports = function jcsPlugin(babel) {
 
   var visitor = {
     JSXElement: function(path) {
+      // console.log(path)
       var nodeName = path.node.openingElement.name.name;
       var handler = nodeHandlers[nodeName];
 

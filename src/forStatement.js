@@ -7,15 +7,15 @@ var ELEMENTS = {
 var ATTRIBUTES = {
   EACH: "each",
   OF: "of",
-  INDEX: "index"
+  INDEX: "index",
+  BODY: "body"
 };
 
 function addMapParam(types, params, attributes, attributeKey) {
   var attribute = attributes[attributeKey];
   if (attribute && attribute.value) {
     params.push(types.Identifier(attribute.value.value));
-  }
-  else {
+  } else {
     params.push(types.Identifier(attributeKey));
   }
 }
@@ -40,24 +40,38 @@ module.exports = function(babel) {
     var errorInfos = { node: node, file: file, element: ELEMENTS.FOR };
     var attributes = astUtil.getAttributeMap(node);
     var children = astUtil.getChildren(types, node);
-    var returnExpression = astUtil.getSanitizedExpressionForContent(types, children);
+    var returnExpression = astUtil.getSanitizedExpressionForContent(
+      types,
+      children
+    );
 
     // required attribute
     if (!attributes[ATTRIBUTES.OF]) {
       errorUtil.throwNoAttribute(ATTRIBUTES.OF, errorInfos);
     }
-    // check for correct data types, as far as possible
-    checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
-    checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
-    checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
 
-    // simply return without any child nodes
-    if (!children.length) {
-      return returnExpression;
+    if (attributes[ATTRIBUTES.BODY]) {
+      return types.callExpression(
+        types.memberExpression(
+          attributes[ATTRIBUTES.OF].value.expression,
+          types.identifier("map")
+        ),
+        [attributes[ATTRIBUTES.BODY].value.expression, types.identifier("this")]
+      );
+    } else {
+      // check for correct data types, as far as possible
+      checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
+      checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
+      checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
+
+      // simply return without any child nodes
+      if (!children.length) {
+        return returnExpression;
+      }
+
+      addMapParam(types, mapParams, attributes, ATTRIBUTES.EACH);
+      addMapParam(types, mapParams, attributes, ATTRIBUTES.INDEX);
     }
-
-    addMapParam(types, mapParams, attributes, ATTRIBUTES.EACH);
-    addMapParam(types, mapParams, attributes, ATTRIBUTES.INDEX);
 
     return types.callExpression(
       types.memberExpression(
@@ -68,9 +82,7 @@ module.exports = function(babel) {
         types.functionExpression(
           null,
           mapParams,
-          types.blockStatement([
-            types.returnStatement(returnExpression)
-          ])
+          types.blockStatement([types.returnStatement(returnExpression)])
         ),
         types.identifier("this")
       ]
