@@ -11,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/AlexGilleran/jsx-control-statements"
   },
+  "types": "index.ts",
   "bugs": {
     "url": "https://github.com/AlexGilleran/jsx-control-statements/issues"
   },

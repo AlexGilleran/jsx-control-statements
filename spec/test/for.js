@@ -1,7 +1,6 @@
 var expect = require("chai").expect;
 var util = require("../testUtil");
 
-
 describe("requiring in component with minimalistic for", function() {
   var FixtureEmpty = require("../fixtures/for/for-empty.jsx");
   var FixtureNoEach = require("../fixtures/for/for-without-each.jsx");
@@ -13,7 +12,9 @@ describe("requiring in component with minimalistic for", function() {
 
   describe("should simply iterate without each", function() {
     var rendered = util.render(FixtureNoEach);
-    expect(rendered).to.match(/<div[^>]*>(<!-- react-text: [\d] -->ABC<!-- \/react-text -->){3}<\/div>/);
+    expect(rendered).to.match(
+      /<div[^>]*>(<!-- react-text: [\d] -->ABC<!-- \/react-text -->){3}<\/div>/
+    );
   });
 });
 
@@ -23,18 +24,47 @@ describe("requiring in component with for", function() {
 
   function runForTests(ComponentDefinition) {
     it("should render list of items", function() {
-      var rendered = util.render(ComponentDefinition, {items: ["item1", "item2", "item3"]});
-      expect(rendered).to.match(/.*span.*item1test..*span.*span.*item2test.*span.*item3test.*span.*/);
+      var rendered = util.render(ComponentDefinition, {
+        items: ["item1", "item2", "item3"]
+      });
+      expect(rendered).to.match(
+        /.*span.*item1test..*span.*span.*item2test.*span.*item3test.*span.*/
+      );
     });
 
     it("should render empty list of items as blank", function() {
-      var rendered = util.render(ComponentDefinition, {items: []});
+      var rendered = util.render(ComponentDefinition, { items: [] });
       expect(rendered).to.match(/<div.*><\/div>/);
     });
   }
 
   describe("when attributes in normal order", runForTests.bind(this, ForView));
-  describe("when attributes in reverse order", runForTests.bind(this, ForViewRevAttrs));
+  describe(
+    "when attributes in reverse order",
+    runForTests.bind(this, ForViewRevAttrs)
+  );
+});
+
+describe("using tsx syntax with for", function() {
+  var ForView = require("../fixtures/for/for-tsx-syntax.jsx");
+
+  function runForTests(ComponentDefinition) {
+    it.only("should render list of items", function() {
+      var rendered = util.render(ComponentDefinition, {
+        items: ["item1", "item2", "item3"]
+      });
+      expect(rendered).to.match(
+        /.*span.*item1test..*span.*span.*item2test.*span.*item3test.*span.*/
+      );
+    });
+
+    it("should render empty list of items as blank", function() {
+      var rendered = util.render(ComponentDefinition, { items: [] });
+      expect(rendered).to.match(/<div.*><\/div>/);
+    });
+  }
+
+  describe("when attributes in normal order", runForTests.bind(this, ForView));
 });
 
 describe("requiring in component with for with index", function() {
@@ -42,17 +72,23 @@ describe("requiring in component with for with index", function() {
   var ForWithIndexWithoutEach = require("../fixtures/for/for-with-index-without-each.jsx");
 
   it("should render list of items", function() {
-    var rendered = util.render(ForWithIndex, {items: ["item1", "item2", "item3"]});
-    expect(rendered).to.match(/.*span.*item1test0..*span.*span.*item2test1.*span.*item3test2.*span.*/);
+    var rendered = util.render(ForWithIndex, {
+      items: ["item1", "item2", "item3"]
+    });
+    expect(rendered).to.match(
+      /.*span.*item1test0..*span.*span.*item2test1.*span.*item3test2.*span.*/
+    );
   });
 
   it("should render empty list of items as blank", function() {
-    var rendered = util.render(ForWithIndex, {items: []});
+    var rendered = util.render(ForWithIndex, { items: [] });
     expect(rendered).to.match(/<div.*><\/div>/);
   });
 
   it("should render indices without values", function() {
-    var rendered = util.render(ForWithIndexWithoutEach, {items: ["one", "two", "three"]});
+    var rendered = util.render(ForWithIndexWithoutEach, {
+      items: ["one", "two", "three"]
+    });
     expect(rendered).to.match(/.*span.*0.*1.*2.*/);
   });
 });
