@@ -15,7 +15,8 @@ function addMapParam(types, params, attributes, attributeKey) {
   var attribute = attributes[attributeKey];
   if (attribute && attribute.value) {
     params.push(types.Identifier(attribute.value.value));
-  } else {
+  }
+  else {
     params.push(types.Identifier(attributeKey));
   }
 }
@@ -58,20 +59,19 @@ module.exports = function(babel) {
         ),
         [attributes[ATTRIBUTES.BODY].value.expression, types.identifier("this")]
       );
-    } else {
-      // check for correct data types, as far as possible
-      checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
-      checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
-      checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
-
-      // simply return without any child nodes
-      if (!children.length) {
-        return returnExpression;
-      }
-
-      addMapParam(types, mapParams, attributes, ATTRIBUTES.EACH);
-      addMapParam(types, mapParams, attributes, ATTRIBUTES.INDEX);
     }
+    // check for correct data types, as far as possible
+    checkForExpression(attributes, ATTRIBUTES.OF, errorInfos);
+    checkForString(attributes, ATTRIBUTES.EACH, errorInfos);
+    checkForString(attributes, ATTRIBUTES.INDEX, errorInfos);
+
+    // simply return without any child nodes
+    if (!children.length) {
+      return returnExpression;
+    }
+
+    addMapParam(types, mapParams, attributes, ATTRIBUTES.EACH);
+    addMapParam(types, mapParams, attributes, ATTRIBUTES.INDEX);
 
     return types.callExpression(
       types.memberExpression(
