@@ -29,7 +29,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src spec",
-    "test": "mocha spec/*.js",
+    "test": "mocha spec/tests.js",
     "cover": "istanbul cover -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec/*.js"
   },
   "dependencies": {

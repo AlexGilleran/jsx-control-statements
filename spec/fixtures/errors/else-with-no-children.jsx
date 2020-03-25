@@ -1,7 +1,7 @@
 var React = require("react");
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class extends React.Component {
+  render() {
     return (
       <If condition={this.props.condition === "blah"}>
         <span>IfBlock</span>
@@ -9,4 +9,4 @@ module.exports = React.createClass({
       </If>
     );
   }
-});
+};

@@ -1,17 +1,17 @@
 var React = require("react");
 
-var Iff = React.createClass({
-  render: function() {
+class Iff extends React.Component {
+  render() {
     return (<span>Test</span>);
   }
-});
+}
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class extends React.Component {
+  render() {
     return (
       <div>
         <Iff />
       </div>
     );
   }
-});
+};

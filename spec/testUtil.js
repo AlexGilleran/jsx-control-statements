@@ -1,7 +1,6 @@
 var React = require("react");
 var ReactDOMServer = require("react-dom/server");
 
-
 exports.render = function(Fixture, args) {
   var fixture = React.createElement(Fixture, args);
   return ReactDOMServer.renderToString(fixture);
@@ -9,10 +8,6 @@ exports.render = function(Fixture, args) {
 
 function getSpan(content) {
   return "<span[^>]*>" + content + "</span>";
-}
-
-function getReactText(content) {
-  return "<!-- react-text: [\\d+] -->" + content + "<!-- /react-text -->";
 }
 
 function getDiv(content) {
@@ -43,25 +38,38 @@ exports.matchEmptyDiv = function() {
   return buildRegExp(getDiv(""));
 };
 
-
 var Builder = function(type) {
   var items = [];
 
   return {
     addReactText: function(content) {
-      items.push(getReactText(content));
+      items.push({ text: content, type: "react-text" });
       return this;
     },
     addSpan: function(content) {
-      items.push(getSpan(content));
+      items.push({ text: getSpan(content) });
       return this;
     },
     addDiv: function(content) {
-      items.push(getDiv(content));
+      items.push({ text: getDiv(content) });
       return this;
     },
     build: function() {
-      var result = items.join("");
+      var result = "";
+
+      for (i = 0; i < items.length; i++) {
+        result += items[i].text;
+        var nextI = i + 1;
+
+        if (
+          nextI < items.length &&
+          items[i].type === "react-text" &&
+          items[nextI].type === "react-text"
+        ) {
+          result += "<!-- -->";
+        }
+      }
+
       return buildRegExp(type === "div" ? getDiv(result) : getSpan(result));
     }
   };

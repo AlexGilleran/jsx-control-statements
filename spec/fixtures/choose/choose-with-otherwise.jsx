@@ -1,7 +1,7 @@
 ﻿var React = require("react");
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class extends React.Component {
+  render() {
     return (
       <Choose>
         <When condition={this.props.when1}>
@@ -13,4 +13,4 @@ module.exports = React.createClass({
       </Choose>
     );
   }
-});
+};

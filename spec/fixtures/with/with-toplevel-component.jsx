@@ -1,11 +1,11 @@
 var React = require("react");
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class extends React.Component {
+  render() {
     return (
       <With attr="value">
         <span>{attr}</span>
       </With>
     );
   }
-});
+};

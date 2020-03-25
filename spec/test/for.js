@@ -13,7 +13,7 @@ describe("requiring in component with minimalistic for", function() {
   describe("should simply iterate without each", function() {
     var rendered = util.render(FixtureNoEach);
     expect(rendered).to.match(
-      /<div[^>]*>(<!-- react-text: [\d] -->ABC<!-- \/react-text -->){3}<\/div>/
+      /<div[^>]*>(ABC(<!-- -->)?){3}<\/div>/
     );
   });
 });
@@ -49,7 +49,7 @@ describe("using tsx syntax with for", function() {
   var ForView = require("../fixtures/for/for-tsx-syntax.jsx");
 
   function runForTests(ComponentDefinition) {
-    it.only("should render list of items", function() {
+    it("should render list of items", function() {
       var rendered = util.render(ComponentDefinition, {
         items: ["item1", "item2", "item3"]
       });

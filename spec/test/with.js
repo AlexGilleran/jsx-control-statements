@@ -94,7 +94,7 @@ describe("With control statement", function() {
   it("should render a text child", function() {
     var Fixture = require("../fixtures/with/with-text-child.jsx");
     var rendered = util.render(Fixture);
-    expect(rendered).to.match(/^<div[^>]*><![^>]*>text child <![^>]*><![^>]*>value<![^>]*><\/div>$/);
+    expect(rendered).to.match(/^<div[^>]*>text child <!-- -->value<\/div>$/);
   });
 
   it("should render a single element child", function() {

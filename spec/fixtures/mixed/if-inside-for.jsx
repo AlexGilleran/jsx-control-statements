@@ -1,7 +1,7 @@
 var React = require("react");
 
-module.exports = React.createClass({
-  render: function() {
+module.exports = class extends React.Component {
+  render() {
     return (
       <div>
         <For each="blah" of={this.props.blahs}>
@@ -12,4 +12,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};

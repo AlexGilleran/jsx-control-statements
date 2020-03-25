@@ -1,7 +1,7 @@
 var React = require("react");
 
-module.exports = React.createClass({
-  render: function () {
+module.exports = class extends React.Component {
+  render() {
     return (
       <div>
         <If condition={true}>
@@ -34,4 +34,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};
