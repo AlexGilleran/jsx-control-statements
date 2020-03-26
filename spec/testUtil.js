@@ -57,7 +57,7 @@ var Builder = function(type) {
     build: function() {
       var result = "";
 
-      for (i = 0; i < items.length; i++) {
+      for (var i = 0; i < items.length; i++) {
         result += items[i].text;
         var nextI = i + 1;
 

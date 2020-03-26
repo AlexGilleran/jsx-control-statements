@@ -69,4 +69,3 @@ exports.throwChooseWithMultipleOtherwise = function(infos) {
 exports.throwChooseWithWrongChildren = function(infos) {
   throwError(ERRORS.CHOOSE_WITH_WRONG_CHILDREN, infos);
 };
-

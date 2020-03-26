@@ -92,7 +92,7 @@ exports.getChildren = function(babelTypes, node) {
  * @param {JSXElement} node - Current node to which the new attribute is added
  * @param {string} keyValue - Value of the key
  */
-var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyValue) {
+var addKeyAttribute = function(babelTypes, node, keyValue) {
   var keyFound = false;
 
   node.openingElement.attributes.forEach(function(attrib) {
@@ -107,6 +107,7 @@ var addKeyAttribute = exports.addKeyAttribute = function(babelTypes, node, keyVa
     node.openingElement.attributes.push(keyAttrib);
   }
 };
+exports.addKeyAttribute = addKeyAttribute;
 
 /**
  * Return either a NullLiteral (if no content is available) or
