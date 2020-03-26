@@ -2,12 +2,14 @@
 
 module.exports = class extends React.Component {
   render() {
+    const {when, ...otherProps} = this.props;
+
     return (
       <div>
         <Choose>
-          <When condition={this.props.when}>
+          <When condition={when}>
             <span>When1</span>
-            <span {...this.props}>When2</span>
+            <span {...otherProps}>When2</span>
           </When>
           <Otherwise>
             <span>Other1</span>

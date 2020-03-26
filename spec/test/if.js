@@ -58,6 +58,10 @@ describe("requiring in component with nested if/else", function() {
     consoleSpy = chai.spy.on(console, "error");
   });
 
+  afterEach(function() {
+    chai.spy.restore(console, "error");
+  });
+
   it("should render if-if block when both conditions true", function() {
     var rendered = util.render(Fixture, {ifCondition: true, nestedIfCondition: true});
     expect(rendered).to.contain(">If-If<");

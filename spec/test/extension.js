@@ -55,6 +55,9 @@ describe("extension: multiple children", function() {
     consoleSpy = chai.spy.on(console, "error");
   });
 
+  afterEach(function() {
+    chai.spy.restore(console, "error");
+  });
 
   it("should allow for multiple children within <If>", function() {
     var rendered = util.render(FixtureIf, {condition: true});

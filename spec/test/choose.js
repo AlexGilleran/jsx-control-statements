@@ -61,6 +61,10 @@ describe("requiring in component with nested choose", function() {
     consoleSpy = chai.spy.on(console, "error");
   });
 
+  afterEach(function() {
+    chai.spy.restore(console, "error");
+  });
+
   it("should render when-when block when both conditions true", function() {
     var rendered = util.render(Fixture, {outerWhen: true, innerWhen: true});
     expect(rendered).to.match(util.matchTextWithinSpansWithinDiv("test", "When-When"));
@@ -95,6 +99,10 @@ describe("requiring in component with nested choose and a key (issue #52)", func
 
   beforeEach(function() {
     consoleSpy = chai.spy.on(console, "error");
+  });
+
+  afterEach(function() {
+    chai.spy.restore(console, "error");
   });
 
   it("should render when-when block when both conditions true", function() {

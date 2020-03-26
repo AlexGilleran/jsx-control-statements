@@ -2,11 +2,13 @@
 
 module.exports = class extends React.Component {
   render() {
+    const {condition, ...passdown} = this.props;
+
     return (
       <div>
-        <If condition={this.props.condition}>
+        <If condition={condition}>
           {"if rendered"}
-          <span {...this.props}>test</span>
+          <span {...passdown}>test</span>
         <Else />
           {"else rendered"}
           <span>test</span>
