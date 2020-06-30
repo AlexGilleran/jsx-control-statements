@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2017",
+      "es2018",
+      "es2019",
+      "esnext"
+    ],
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "disableSizeLimit": false,
+    "preserveConstEnums": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "ES2018",
+    "sourceRoot": "./",
+    "outDir": "lib"
+   
+  },
+  "include": [
+    "components.ts"
+  ],
+  "exclude": [
+    "**/lib/**",
+    "./*/lib",
+    "node_modules",
+    "node_modules/**/*.*",
+    "**/node_modules/**/*.*",
+    "**/node_modules/**",
+    "../node_modules/**/*.*",
+    "../../node_modules/**/*.*",
+    "../node_modules",
+    "**/lib/**/*.d.ts",
+    "**/lib/**/*.ts",
+    "**/lib/**/*.js",
+    "lib/**/*.d.ts",
+    "lib/**/*.ts",
+    "lib/**/*.js"
+  ]
+}

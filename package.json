@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/AlexGilleran/jsx-control-statements"
   },
-  "types": "index.ts",
+  "types": "./lib/components.d.ts",
   "bugs": {
     "url": "https://github.com/AlexGilleran/jsx-control-statements/issues"
   },
@@ -30,6 +30,7 @@
   "scripts": {
     "lint": "eslint src spec",
     "test": "mocha spec/tests.js",
+    "compile": "tsc -p tsconfig.json",
     "cover": "istanbul cover -x \"**/spec/**\" node_modules/mocha/bin/_mocha spec/*.js"
   },
   "dependencies": {
@@ -49,6 +50,7 @@
     "istanbul": "^0.4.1",
     "mocha": "^7.1.0",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-dom": "^16.13.0",
+    "typescript": "3.4.3"
   }
 }
