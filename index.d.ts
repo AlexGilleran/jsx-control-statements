@@ -19,6 +19,7 @@ declare namespace JSX {
     | string
     | number
     | boolean
+    | ((props: any) => TChildren)
     | null
     | typeof undefined;
 
