@@ -148,7 +148,7 @@ If statements transform to the _ternary operator_:
 
 ### Choose Tag
 
-This is an alternative syntax for more complex conditional statements. The syntax itself is XMLish and conforms by and
+This is an alternative syntax for more complex conditional statements. Its a equivalent of `switch` statement for jsx. The syntax itself is XMLish and conforms by and
 large to JSTL or XSLT (the attribute is called `condition` instead of `test`):
 
 ```javascript
@@ -462,9 +462,13 @@ Cons:
 - Slightly longer build times
 - Requires an extra plugin to work with ESLint
 
+## For macros
+If you are looking to use macros with it, take a look at [jsx-control-statements-macros](https://github.com/akilansengottaiyan/jsx-control-statements) which is basically the extension of jsx-control-statements with macros support.
+
 ## What about Typescript?
 
 [There's a version for that by @KonstantinSimeonov!](https://github.com/KonstantinSimeonov/tsx-control-statements)
+
 
 ## Major Versions
 
